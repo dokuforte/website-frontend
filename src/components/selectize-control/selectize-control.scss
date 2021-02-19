@@ -1,0 +1,183 @@
+.selectize-control {
+  position: relative;
+  display: block;
+  text-align: left;
+}
+
+.selectize-control--wide {
+  width: 100%;
+}
+
+.selectize-control.is-hidden {
+  display: none;
+}
+
+.selectize-input {
+  box-sizing: border-box;
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0;
+
+  .theme--light & {
+    background-color: $light-primary;
+    color: $dark-base;
+    box-shadow: 0px 0px 0px 1px rgba($dark-base, 0.08) inset;
+  }
+
+  .theme--dark & {
+    background-color: $dark-primary;
+    color: $light-base;
+    box-shadow: 0px 0px 0px 1px rgba($light-base, 0.08) inset;
+  }
+
+  &:focus {
+    .theme--light & {
+      background-color: $light-base;
+    }
+
+    .theme--dark & {
+      background-color: $dark-base;
+      box-shadow: 0px 0px 0px 1px rgba($light-base, 0) inset;
+    }
+  }
+}
+
+.selectize-control--large .selectize-input {
+  height: 4rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+
+  .theme--light & {
+    background-color: $light-base;
+    color: $dark-base;
+  }
+
+  .theme--dark & {
+    background-color: $dark-base;
+    color: $light-base;
+  }
+}
+
+.selectize-control--search .selectize-input {
+  padding-right: 4rem;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.selectize-control__placeholder {
+  display: block;
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  left: 0.75rem;
+  right: 4rem;
+  top: calc(50% - 2px);
+  transform: translateY(-50%);
+  font-size: rem(13px);
+  line-height: 1rem;
+  color: grey;
+  opacity: 0.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .selectize-control:not(.is-empty) & {
+    opacity: 0;
+  }
+}
+
+.selectize-control--large .selectize-control__placeholder {
+  font-size: rem(18px);
+  line-height: 1.25rem;
+  left: 1rem;
+}
+
+.selectize-control__tag {
+  display: inline-block;
+  font-size: rem(13px);
+  line-height: 1rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: rem(2px);
+  margin-right: 0.25rem;
+  user-select: none;
+
+  .theme--light & {
+    background-color: $light-base;
+    color: $dark-base;
+    box-shadow: 0 1px 3px 0 rgba($dark-base, 0.1), 0 0 0 1px rgba($dark-base, 0.05);
+  }
+
+  .theme--dark & {
+    background-color: $dark-tertiary;
+    color: $light-base;
+    box-shadow: 0 1px 3px 0 rgba($dark-base, 0.1), 0 0 0 1px rgba($dark-base, 0.05);
+  }
+}
+
+.selectize-control--large .selectize-control__tag {
+  font-size: rem(16px);
+  line-height: 1.25rem;
+  font-weight: 400;
+}
+
+.selectize-control__tag__close {
+  border: none !important;
+  outline: none;
+
+  &::after {
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+    margin-left: 0.25rem;
+    margin-right: -0.25rem;
+    background: svg-load("static/images/icons/16/icon-close.svg", fill=none, stroke=#888);
+    vertical-align: text-bottom;
+    transition: opacity 0.2s ease-out;
+  }
+
+  &:hover::after {
+    opacity: 0.6;
+  }
+}
+
+.selectize-control__input {
+  display: inline-block;
+  background: none;
+  border: 0;
+  outline: none;
+  font-size: rem(13px);
+  line-height: 1rem;
+  padding: 0.25rem 0rem;
+  text-indent: 0;
+  position: relative;
+  max-width: 100%;
+  width: 0;
+  margin: 0;
+  min-width: rem(4px);
+
+  .theme--light & {
+    color: $dark-base;
+  }
+
+  .theme--dark & {
+    color: $light-base;
+  }
+
+  &.hide {
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+    width: auto;
+  }
+}
+
+.selectize-control--large .selectize-control__input {
+  font-size: 18px;
+  line-height: 1.25rem;
+}
+
+.selectize-control__save {
+  cursor: pointer;
+}

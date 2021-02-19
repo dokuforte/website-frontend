@@ -1,0 +1,23 @@
+# Dependency directories
+node_modules/
+
+# dotenv environment variables file
+.env
+
+# webpack build output
+_compiled-assets
+
+# eleventy.js build output
+_dist
+src/data/manifest*
+src/static/autocomplete-en.json
+src/static/autocomplete-hu.json
+
+# Local Netlify folder
+.netlify
+
+# Code editor related
+.nova
+
+# OS related
+.DS_Store

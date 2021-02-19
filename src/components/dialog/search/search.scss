@@ -1,0 +1,17 @@
+.dialog-search .dialog__wrapper {
+  max-width: rem(640px);
+}
+
+.dialog-search__form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.dialog-search__button {
+  width: auto;
+  cursor: pointer;
+  min-width: 25%;
+  margin-top: 1rem;
+}

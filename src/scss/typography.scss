@@ -1,0 +1,76 @@
+/* --- Font Families --- */
+@mixin font-body() {
+  font: 400 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+@mixin font-heading-bold() {
+  font-family: "futura-pt-bold", sans-serif;
+  font-weight: 700;
+}
+
+@mixin font-heading-demi() {
+  font-family: "futura-pt", sans-serif;
+  font-weight: 600;
+}
+
+/* --- Font Smoothing --- */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @include font-body();
+  text-rendering: optimizeLegibility;
+  text-size-adjust: 100%;
+}
+
+h1,
+.h1 {
+  font-size: rem(64px);
+  line-height: rem(72px);
+  @include font-heading-bold();
+  letter-spacing: -2px;
+
+  @media screen and (max-width: ($breakpoint-phone - 1px)) {
+    font-size: rem(48px);
+    line-height: rem(56px);
+  }
+}
+
+h3,
+.h3 {
+  font-size: rem(28px);
+  @include font-heading-bold();
+}
+
+h5,
+.h5 {
+  font-size: rem(18px);
+  line-height: rem(24px);
+  @include font-heading-bold();
+}
+
+h6,
+.caption {
+  @include font-heading-demi();
+  font-size: rem(13px);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: rem(20px);
+}
+
+p {
+  font-size: rem(16px);
+  line-height: rem(28px);
+  font-weight: 500;
+}
+
+p a {
+  color: $accent;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.6s $ease-out-expo;
+
+  &:hover {
+    border-bottom: 1px solid $accent;
+  }
+}

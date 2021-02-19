@@ -1,0 +1,69 @@
+button,
+.button {
+  @include font-heading-demi();
+  padding: 1rem;
+  line-height: 1rem;
+  font-size: rem(18px);
+  font-weight: 600;
+  white-space: nowrap;
+  border: 0;
+  border-radius: 0.25rem;
+
+  transition: transform 0.4s $ease-out-expo, background-color 0.4s $ease-out-expo, color 0.4s $ease-out-expo;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transition-duration: 0.15s;
+    transform: translateY(0px);
+  }
+}
+
+.button--primary {
+  color: $light-base;
+  background-color: $accent;
+
+  &:hover,
+  &:active {
+    background-color: darken($accent, 5);
+  }
+}
+
+.button--secondary {
+  .theme--light & {
+    color: $grey;
+    background-color: $light-secondary;
+  }
+
+  .theme--dark & {
+    color: $grey;
+    background-color: $dark-tertiary;
+  }
+
+  &:hover,
+  &:active {
+    .theme--light & {
+      color: darken($grey, 5);
+      background-color: darken($light-secondary, 5);
+    }
+
+    .theme--dark & {
+      color: lighten($grey, 5);
+      background-color: lighten($dark-tertiary, 5);
+    }
+  }
+}
+
+.button--medium {
+  padding: 0.75rem 1rem;
+}
+
+.button--inline {
+  display: inline-block;
+}
+
+.button--wide {
+  width: 100%;
+}

@@ -1,0 +1,145 @@
+.dialog {
+  position: absolute;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  box-sizing: border-box;
+  transition: opacity 0.6s $ease-out-expo, visibility 0s linear 0.6s;
+  background-color: rgba($dark-base, 0.6);
+  padding: 5rem 1.5rem;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  will-change: opacity;
+
+  &.is-visible {
+    transition: opacity 0.6s $ease-out-expo, visibility 0s linear;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: initial;
+  }
+}
+
+.dialog__close {
+  position: absolute;
+  right: rem(8px);
+  top: rem(8px);
+}
+
+.dialog__wrapper {
+  margin: auto;
+  padding: rem(24px);
+  box-shadow: 0 rem(12px) rem(24px) 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  border-radius: rem(8px);
+  max-width: rem(440px);
+  min-height: min-content;
+  max-height: max-content;
+  height: auto;
+  width: 100%;
+  transform: scale(1.04);
+  transition: transform 0.6s $ease-out-expo;
+
+  .dialog.is-visible & {
+    transform: scale(1);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    border-radius: rem(8px);
+    transition: opacity 0.2s ease-out;
+  }
+
+  .dialog.is-disabled &::after {
+    pointer-events: initial;
+    opacity: 1;
+  }
+
+  .theme--light & {
+    background-color: $light-base;
+  }
+
+  .theme--dark & {
+    background-color: $dark-primary;
+  }
+
+  .theme--light &::after {
+    background-color: rgba($light-base, 0.6);
+  }
+
+  .theme--dark &::after {
+    background-color: rgba($dark-primary, 0.6);
+  }
+}
+
+.dialog__title {
+  margin: 0;
+}
+
+.dialog__content {
+  margin: rem(4px) 0 0 0;
+  font-size: rem(14px);
+  font-weight: 400;
+  line-height: rem(24px);
+}
+
+.dialog__content__action {
+  @include font-heading-demi();
+  display: block;
+  margin: 0;
+  padding: rem(8px) 0 rem(8px) rem(28px);
+  position: relative;
+
+  svg {
+    position: absolute;
+    left: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: $grey;
+    font-weight: 500;
+  }
+
+  a:hover {
+    color: inherit;
+  }
+}
+
+.dialog__button {
+  margin-top: 2.5rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dialog__link {
+  display: block;
+  margin-top: 0.5rem;
+  color: $accent;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.6s $ease-out-expo;
+
+  &:hover {
+    color: darken($accent, 10);
+  }
+}
+
+.dialog__link--small {
+  font-size: rem(13px);
+}

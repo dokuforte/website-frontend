@@ -1,0 +1,95 @@
+.footer {
+  padding: rem(64px) 2rem 3rem;
+  overflow: hidden;
+  text-align: center;
+
+  @media screen and (max-width: ($breakpoint-tablet - 1px)) {
+    padding: rem(64px) 2rem 3rem;
+  }
+}
+
+.footer__link {
+  text-decoration: none;
+  transition: color 0.3s $ease-out-expo;
+  color: inherit;
+  @include font-heading-demi();
+  text-transform: uppercase;
+  margin: 0 rem(16px);
+  letter-spacing: 1px;
+  line-height: rem(32px);
+
+  .theme--dark & {
+    color: $grey;
+
+    &:hover {
+      color: $light-base;
+    }
+  }
+
+  .theme--light & {
+    color: $grey;
+
+    &:hover {
+      color: $dark-base;
+    }
+  }
+}
+
+.footer__small {
+  display: block;
+  margin-top: 1.5rem;
+  font-size: rem(12px);
+  line-height: rem(20px);
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    .theme--light &:hover {
+      color: $dark-base;
+    }
+
+    .theme--dark &:hover {
+      color: $light-base;
+    }
+  }
+
+  .theme--dark & {
+    color: $grey;
+  }
+
+  .theme--light & {
+    color: $grey;
+  }
+}
+
+.footer__icons {
+  text-align: center;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer__icons__icon {
+  display: inline-block;
+  text-decoration: none;
+  user-select: none;
+  transition: color 0.3s $ease-out-expo;
+
+  &:hover {
+    color: $accent;
+  }
+
+  & + & {
+    margin-left: 1rem;
+  }
+
+  .theme--light & {
+    color: $dark-base;
+  }
+
+  .theme--dark & {
+    color: $light-base;
+  }
+}

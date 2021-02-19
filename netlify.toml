@@ -1,0 +1,30 @@
+[build]
+  command = "npm run build"
+  publish = "_dist/"
+  functions = "functions/"
+
+[dev]
+  framework = "#custom"
+  command = "npm run dev"
+  targetPort = 8080
+  publish = "_dist/"
+  autoLaunch = false
+
+## This rule redirects to an external API, signing requests with a secret
+[[redirects]]
+  from = "/en/"
+  to = "/"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/en/user/*"
+  to = "/"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/il/user/*"
+  to = "/en/"
+  status = 200
+  force = true

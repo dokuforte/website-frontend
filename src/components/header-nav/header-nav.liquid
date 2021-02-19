@@ -1,0 +1,129 @@
+<div class="header-nav {{ header_class }}" 
+     data-controller="header-nav"
+     data-action="mousemove@document->header-nav#hidePopups
+     headerNav:refreshProfile@document->header-nav#checkIfUserIsSignedIn"
+>
+  <div class="header-nav__logo">
+    <a href="/{{ locale }}/" class="header-nav__logo__link">
+      {% inlineSVG src:"src/static/images/header-logo.svg" class:"header-nav__logo" %}
+      <span>Fortepan Israel</span>
+    </a>
+  </div>
+
+  <div class="header-nav__search">
+  {% unless hide_search %}
+    {% include search/search.liquid class:"header-nav__search__search" %}
+  {% endunless %}
+  </div>
+
+  <div class="header-nav__actions">
+    {% unless hide_search %}
+    <div class="header-nav__actions__group header-nav__actions__group--search">
+      <div class="button-circular button-circular--red"
+           data-action="click->header-nav#showSearchDialog">
+        {% inlineSVG src:"src/static/images/icons/24/icon-search.svg" class:"button-circular__icon" %}
+        <div class="button-circular__label">{{ lang[locale].search }}</div>
+      </div>
+    </div>
+    {% endunless %}
+
+    <div class="header-nav__actions__group header-nav__actions__group--items">
+      <a class="header-nav__link header-nav__link--top header-nav__link--top-action" href="/{{ locale }}/photos/">{{ lang[locale].photos }}</a>
+      <a class="header-nav__link header-nav__link--top header-nav__link--top-action" href="/{{ locale }}/photos/?latest">{{ lang[locale].latest }}</a>
+    </div>
+
+    <div class="header-nav__actions__group header-nav__actions__group--nav">
+      <a href="#" class="button-circular"
+           data-popup="menu"
+           data-action="click->header-nav#togglePopup">
+        {% inlineSVG src:"src/static/images/icons/24/icon-menu.svg" class:"button-circular__icon" %}
+        <div class="button-circular__label">{{ lang[locale].menu }}</div>
+      </a>
+      <a href="#" class="button-circular header-nav__notification-icon"
+           data-popup="notifications"
+           data-header-nav-target="notificationIcon"
+           data-action="click->header-nav#togglePopup click->header-nav#hideNotificationIconBadge">
+        {% inlineSVG src:"src/static/images/icons/24/icon-notification.svg" class:"button-circular__icon" %}
+        <div class="button-circular__label">{{ lang[locale].notifications }}</div>
+      </a>
+
+      <div class="header-nav__profile-icon">
+        <a href="#" class="button-circular is-hidden-when-signed-in"
+            data-popup="profile"
+            data-action="click->header-nav#togglePopup">
+          {% inlineSVG src:"src/static/images/icons/24/icon-profile.svg" class:"button-circular__icon" %}
+          <div class="button-circular__label">{{ lang[locale].profile }}</div>
+        </a>
+        <a href="#" class="button-circular is-visible-when-signed-in"
+            data-popup="profile"
+            data-action="click->header-nav#togglePopup">
+          {% inlineSVG src:"src/static/images/icons/24/icon-profile-signed-in.svg" class:"button-circular__icon" %}
+          <div class="button-circular__label">{{ lang[locale].profile }}</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="header-nav__popup" data-header-nav-target="popup menu">
+    <a class="header-nav__link header-nav__link--top header-nav__link--hide-on-desktop" href="/{{ locale }}/photos/">{{ lang[locale].photos }}</a>
+    <a class="header-nav__link header-nav__link--top header-nav__link--separator-after header-nav__link--hide-on-desktop" href="/{{ locale }}/photos/?latest">{{ lang[locale].latest }}</a>
+    <a class="header-nav__link header-nav__link--top" href="/{{ locale }}/about-us/">{{ lang[locale].about_us }}</a>
+    <a class="header-nav__link header-nav__link--top" href="/{{ locale }}/donors/">{{ lang[locale].donors }}</a>
+    <a class="header-nav__link header-nav__link--top" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fortepan%40fortepan.hu&currency_code=HUF&source=url" target="_blank">{{ lang[locale].donate }}</a>
+    <a class="header-nav__link" href="mailto:fortepanisrael@gmail.com">{{ lang[locale].contact_us }}</a>
+    <a class="header-nav__link" href="/{{ locale }}/privacy/">{{ lang[locale].privacy_policy }}</a>
+  </div>
+
+  <div class="header-nav__popup" data-header-nav-target="popup profile">
+    <a href="#" class="header-nav__link header-nav__link--top is-hidden-when-signed-in" data-action="header-nav#showSigninDialog">{{ lang[locale].signin }}</a>
+    <a href="#" class="header-nav__link header-nav__link--top header-nav__link--separator-after is-hidden-when-signed-in" data-action="header-nav#showSignupDialog">{{ lang[locale].signup }}</a>
+    {% comment %}
+    TODO: Currently this part is not working due to a CORS error
+    <a href="#" class="header-nav__link header-nav__link--top is-visible-when-signed-in">
+      <span data-header-nav-target="profileName"></span>
+      <span class="header-nav__link__small" data-header-nav-target="profileEmail"></span>
+    </a>
+    {% endcomment %}
+    <a href="#" class="header-nav__link header-nav__link--top header-nav__link--separator-after is-visible-when-signed-in" data-action="click->header-nav#signOut">{{ lang[locale].signout }}</a>
+    <h6>{{ lang[locale].settings }}</h6>
+    <a href="#" class="header-nav__link header-nav__link--top header-nav__link--separator-after" data-controller="theme" data-action="click->header-nav#toggleTheme theme:toggleTheme@document->theme#toggleTheme">
+      {{ lang[locale].darkmode }}
+      <span class="header-nav__toggle-switch"></span>
+    </a>
+    <h6>{{ lang[locale].language }}</h6>
+    {% for l in siteConfig.LOCALES %}
+    <a class="header-nav__link header-nav__link--top header-nav__link__lang lang-{{ l[0] }}" 
+       data-lang="{{ l[0] }}"
+       href="/{{ l[0] }}/"
+       data-action="click->header-nav#switchLocale">
+       {{ l[1] }}
+    </a>
+    {% endfor %}
+  </div>
+
+  <div class="header-nav__popup header-nav__notifications" data-header-nav-target="popup notifications">
+    <h3 class="header-nav__popup__heading">{{ lang[locale].notifications }}</h3>
+    <ul class="header-nav__notifications__messages">
+      {% capture now %}{% now %}{% endcapture %}
+      {% assign count = 0 %}
+      {% for notification in notifications.notifications %}
+      {% if notification.date < now and notification.lang == locale and count < 4 %}
+      {% assign count = count | plus: 1 %}
+      <li class="header-nav__notifications__message" 
+          data-header-nav-target="notification" 
+          data-date="{{ notification.date }}"
+      >
+        <header class="header-nav__notifications__message__header">
+          <h5 class="header-nav__notifications__message__title">{{ notification.title }}</h5>
+          <span class="header-nav__notifications__message__date">{% date notification.date, locale %}</span>
+        </header>
+        <p class="header-nav__notifications__message__content">{{ notification.message | markdownify }}</p>
+      </li>
+      {% endif %}
+      {% endfor %}
+      {% if count == 0 %}
+      <li class="header-nav__notifications__message">{{ lang[locale].notifications_empty }}</li>
+      {% endif %}
+    </ul>
+  </div>
+</div>

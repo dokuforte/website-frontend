@@ -1,0 +1,13 @@
+.background-icon {
+  position: absolute;
+  left: rem(-280px);
+  bottom: rem(64px);
+  perspective: 800;
+  pointer-events: none;
+  z-index: -1;
+
+  svg {
+    transform-origin: 33% center;
+    transition: transform 0.1s $ease-out-expo;
+  }
+}

@@ -1,0 +1,20 @@
+<footer class="footer">
+    <a class="footer__link" href="/{{ locale }}/photos/">{{ lang[locale].photos }}</a>
+    <a class="footer__link" href="/{{ locale }}/about-us/">{{ lang[locale].about_us }}</a>
+    <a class="footer__link" href="/{{ locale }}/donors/">{{ lang[locale].donors }}</a>
+    <a class="footer__link" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fortepan%40fortepan.hu&currency_code=HUF&source=url" target="_blank">{{ lang[locale].donate }}</a>
+    <small class="footer__small">
+    FORTEPAN ©2010-2020 · <a href="mailto:fortepan@gmail.com">{{ lang[locale].contact_us }}</a> · <a href="/{{ locale }}/privacy/">{{ lang[locale].privacy_policy }}</a><br/>
+under Creative Commons CC-BY-SA-3.0 licence
+    </small>
+    <div class="footer__icons">
+        <a class="footer__icons__icon footer__icons__icon--netlify-badge" href="https://www.netlify.com" target="_blank">
+            {% inlineSVG src:"src/static/images/icons/netlify/icon-netlify.svg" width:114 height:51 %}
+        </a>
+        <a class="footer__icons__icon footer__icons__icon--cc" href="https://creativecommons.org/licenses/by-sa/3.0/deed.{{ locale }}" target="_blank">
+            {% inlineSVG src:"src/static/images/icons/cc/icon-cc.svg" width:32 height:32 %}
+            {% inlineSVG src:"src/static/images/icons/cc/icon-cc-by.svg" width:32 height:32 %}
+            {% inlineSVG src:"src/static/images/icons/cc/icon-cc-sa.svg" width:32 height:32 %}
+        </a>
+    </div>
+</footer>
