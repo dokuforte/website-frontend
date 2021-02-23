@@ -18,6 +18,7 @@ export default class extends Controller {
     credentials.last_name = this.lastNameTarget.value
     credentials.email = this.emailTarget.value
     credentials.password = this.passwordTarget.value
+    credentials.role = "eca918be-4232-4b66-96f4-3501507f5b97"
 
     trigger("loader:show", { id: "loaderBase" })
     this.element.classList.add("is-disabled")
