@@ -36,14 +36,13 @@ const signout = async () => {
   const body = { refresh_token: authData.refresh_token }
   const resp = await fetch(url, {
     method: "POST",
-    credentials: "include",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
     body: JSON.stringify(body),
   })
 
-  if (resp.status === 204) {
+  if (resp.status === 200) {
     trigger("auth:signedOut")
     setLoginStatus(false)
   }
@@ -60,12 +59,12 @@ const signup = async body => {
     body: JSON.stringify(body),
   })
 
-  const respData = await resp.json()
   if (resp.status === 200) {
-    return respData
+    return resp
   }
 
-  throw respData.message.replace(/(?:\r\n|\r|\n)/g, "<br />")
+  const respData = await resp.json()
+  throw new Error(respData.errors[0].message)
 }
 
 const forgot = async email => {

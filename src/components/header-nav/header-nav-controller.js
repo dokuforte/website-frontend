@@ -8,9 +8,9 @@ export default class extends Controller {
   static get targets() {
     return [
       "notification",
+      "popup",
       "profileName",
       "profileEmail",
-      "popup",
       "menu",
       "notifications",
       "profile",
@@ -116,8 +116,9 @@ export default class extends Controller {
   checkIfUserIsSignedIn() {
     auth.querySignedInUser().then(userData => {
       if (userData) {
-        this.profileNameTarget.textContent = userData.name
-        this.profileEmailTarget.textContent = userData.mail
+        console.log(userData)
+        this.profileNameTarget.textContent = `${userData.data.first_name} ${userData.data.last_name}`
+        this.profileEmailTarget.textContent = userData.data.email
       }
     })
   }
