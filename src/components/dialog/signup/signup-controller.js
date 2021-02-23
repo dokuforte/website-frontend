@@ -4,7 +4,7 @@ import auth from "../../../api/auth"
 
 export default class extends Controller {
   static get targets() {
-    return ["form", "name", "email", "password", "submitButton"]
+    return ["form", "firstName", "lastName", "email", "password", "submitButton"]
   }
 
   connect() {
@@ -14,9 +14,10 @@ export default class extends Controller {
   submit(e) {
     e.preventDefault()
     const credentials = {}
-    credentials.name = { value: this.nameTarget.value }
-    credentials.mail = { value: this.emailTarget.value }
-    credentials.pass = { value: this.passwordTarget.value }
+    credentials.first_name = this.firstNameTarget.value
+    credentials.last_name = this.lastNameTarget.value
+    credentials.email = this.emailTarget.value
+    credentials.pass = this.passwordTarget.value
 
     trigger("loader:show", { id: "loaderBase" })
     this.element.classList.add("is-disabled")
@@ -81,7 +82,7 @@ export default class extends Controller {
 
   show() {
     this.element.classList.add("is-visible")
-    this.nameTarget.focus()
+    this.firstNameTarget.focus()
   }
 
   showSigninDialog(e) {

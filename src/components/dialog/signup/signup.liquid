@@ -17,9 +17,15 @@
       <form class="dialog__form" data-dialog--signup-target="form">
         {% include input/input.liquid 
                    type:"text"
-                   name:"name"
-                   label:lang[locale].username
-                   stimulus_target:'data-dialog--signup-target="name"'
+                   name:"first_name"
+                   label:lang[locale].first_name
+                   stimulus_target:'data-dialog--signup-target="firstName"'
+        %}
+        {% include input/input.liquid 
+                   type:"text"
+                   name:"last_name"
+                   label:lang[locale].last_name
+                   stimulus_target:'data-dialog--signup-target="lastName"'
         %}
         {% include input/input.liquid 
                    type:"email"
