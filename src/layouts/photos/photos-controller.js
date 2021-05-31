@@ -75,9 +75,9 @@ export default class extends Controller {
   generateThumbnailsFromData(data) {
     const thumbnailLoadingPromises = []
 
-    trigger("photosTitle:setTitle", { count: data.total })
+    // trigger("photosTitle:setTitle", { count: data.total })
 
-    data.items.forEach(item => {
+    data.data.forEach(item => {
       // count results
       this.thumbnailsCount += 1
 

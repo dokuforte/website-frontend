@@ -6,7 +6,7 @@ import { lang, trigger, setPageMeta } from "../../../js/utils"
 const THUMBNAIL_HEIGHT = 160
 export default class extends Controller {
   static get targets() {
-    return ["image", "container", "description", "location"]
+    return ["image", "container", "description", "meta"]
   }
 
   connect() {
@@ -31,7 +31,7 @@ export default class extends Controller {
 
     // set html page meta for social sharing
     setPageMeta(
-      `#${data.mid}`,
+      `#${data.id}`,
       `${data.description ? `${data.description} — ` : ""}${lang("donor")}: ${data.donor} (${data.year})`,
       `${config.PHOTO_SOURCE}${data.mid}.jpg`
     )
@@ -57,10 +57,10 @@ export default class extends Controller {
   // set thumbnail meta data
   applyThumbnailData() {
     const data = this.element.itemData
-    const locationArray = [data.year, data.city, data.place]
-    if (!data.city && !data.place && data.country) locationArray.push(data.country)
-    this.locationTarget.textContent = locationArray.filter(Boolean).join(" · ")
-    this.descriptionTarget.textContent = data.description || ""
+    const metaArray = [data.photo_date]
+    console.log(data)
+    this.metaTarget.textContent = metaArray.filter(Boolean).join(" · ")
+    this.descriptionTarget.textContent = data.title || ""
   }
 
   // load thumbnail image
@@ -79,7 +79,6 @@ export default class extends Controller {
       this.element.classList.add("is-failed-loading")
     })
 
-    this.imageTarget.srcset = `${config.PHOTO_SOURCE}240/fortepan_${data.mid}.jpg 1x, ${config.PHOTO_SOURCE}480/fortepan_${data.mid}.jpg 2x`
-    this.imageTarget.src = `${config.PHOTO_SOURCE}240/fortepan_${data.mid}.jpg`
+    this.imageTarget.src = `${config.API_HOST}/assets/${data.photo_full}?key=thumb`
   }
 }
