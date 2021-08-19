@@ -1,6 +1,6 @@
 module.exports = {
   ENV: process.env.ENV,
-  SITE: "https://www.fortepanisrael.com",
+  SITE: "https://www.dokuforte.com",
   SITE_DEV: "http://localhost:8888",
   API_HOST: "https://fidev.andreakerecsen.net",
   ELASTIC_HOST: "https://es.admin.fortepan.hu",

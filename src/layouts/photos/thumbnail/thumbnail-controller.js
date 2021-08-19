@@ -58,7 +58,6 @@ export default class extends Controller {
   applyThumbnailData() {
     const data = this.element.itemData
     const metaArray = [data.photo_date]
-    console.log(data)
     this.metaTarget.textContent = metaArray.filter(Boolean).join(" · ")
     this.descriptionTarget.textContent = data.title || ""
   }

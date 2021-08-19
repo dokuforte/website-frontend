@@ -1,6 +1,6 @@
 ---
 layout: home/home.liquid
-title: Fortepan
+title: Dokuforte
 permalink: "/il/"
 ---
 

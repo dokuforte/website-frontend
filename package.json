@@ -1,7 +1,7 @@
 {
-  "name": "fortepan-israel",
+  "name": "dokuforte",
   "version": "0.1.0",
-  "description": "Fortepan Israel private dev repository",
+  "description": "Dokuforte private dev repository",
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf _dist _compiled-assets",

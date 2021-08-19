@@ -66,13 +66,13 @@ export default class extends Controller {
 
   loadPhoto() {
     const id = selectedThumbnail.itemData.photo_full
-    let photo = this.element.querySelector(`#fortepan-${id}`)
+    let photo = this.element.querySelector(`#dokuforte-${id}`)
     if (!photo) {
       photo = document.createElement("div")
       photo.dataset.controller = "image-loader"
       photo.setAttribute("data-photos--carousel-target", "photo")
       photo.className = "image-loader"
-      photo.id = `fortepan-${id}`
+      photo.id = `dokuforte-${id}`
 
       photo.imageSrc = `${config.API_HOST}/assets/${id}?key=web`
       photo.loadCallback = () => {

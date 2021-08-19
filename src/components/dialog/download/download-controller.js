@@ -21,7 +21,7 @@ export default class extends Controller {
     const data = selectedThumbnail.itemData
 
     this.element.classList.add("is-visible")
-    this.contentTarget.innerHTML = lang("dialog_download").replace("$donor", `<br/><b>Fortepan / ${data.donor}</b>`)
+    this.contentTarget.innerHTML = lang("dialog_download").replace("$donor", `<br/><b>Dokuforte / ${data.donor}</b>`)
 
     const a = document.createElement("a")
     a.href = `${config.PHOTO_SOURCE_LARGE}${data.mid}.jpg`

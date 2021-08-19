@@ -80,7 +80,7 @@ export const slugify = (str, removeSpaces) => {
 
 export const setPageMeta = (title, description, imgSrc) => {
   if (title) {
-    const titleText = `Fortepan — ${title}`
+    const titleText = `Dokuforte — ${title}`
     document.title = titleText
     document.querySelector('meta[property="twitter:title"]').setAttribute("content", titleText)
     document.querySelector('meta[property="og:title"]').setAttribute("content", titleText)
