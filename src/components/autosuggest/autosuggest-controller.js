@@ -3,6 +3,8 @@ import { throttle } from "lodash"
 
 import autoSuggest from "../../api/autosuggest"
 
+const AUTOSUGGEST_ITEM_LIMIT = 9
+
 export default class extends Controller {
   static get targets() {
     return ["input", "autosuggest"]
@@ -74,7 +76,7 @@ export default class extends Controller {
   showAutosuggestPanel() {
     if (this.inputTarget.value.length > 0) {
       // get filtered results based on the autosuggest data attribute of the input field
-      autoSuggest(this.inputTarget.value, this.inputTarget.dataset.autosuggest)
+      autoSuggest(this.inputTarget.value, this.inputTarget.dataset.autosuggest, AUTOSUGGEST_ITEM_LIMIT)
         .then(res => {
           // show autosuggest result container and clear it's content
           this.autosuggestTarget.innerHTML = ""
@@ -84,9 +86,10 @@ export default class extends Controller {
           this.autosuggestTarget.appendChild(this.createAutoSuggestItem(this.inputTarget.value))
 
           // add items from the autosuggest filter results
-          if (res.length > 0) {
-            res.forEach(r => {
-              if (r !== this.inputTarget.value) this.autosuggestTarget.appendChild(this.createAutoSuggestItem(r))
+          if (res.count > 0) {
+            res.data.forEach(label => {
+              if (label.name !== this.inputTarget.value)
+                this.autosuggestTarget.appendChild(this.createAutoSuggestItem(label.name))
             })
           }
 
