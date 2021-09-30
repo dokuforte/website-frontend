@@ -70,26 +70,26 @@ export default class extends Controller {
     this.loadPhotos()
   }
 
-  // this method generates the tumbnails from the data attribute
+  // this method generates the thumbnails from the data attribute
   // and starts loading the thumbnails with Promise.all
   generateThumbnailsFromData(data) {
     const thumbnailLoadingPromises = []
 
     // trigger("photosTitle:setTitle", { count: data.total })
 
-    data.data.forEach(item => {
+    data[0].data.forEach(item => {
       // count results
       this.thumbnailsCount += 1
 
-      // clone thumnail template
+      // clone thumbnail template
       const template = document.getElementById("photos-thumbnail")
       const thumbnail = template.content.firstElementChild.cloneNode(true)
       this.gridTarget.appendChild(thumbnail)
 
-      // set thumnail node element index
+      // set thumbnail node element index
       thumbnail.index = Array.prototype.indexOf.call(thumbnail.parentElement.children, thumbnail) + 1
 
-      // apply thumnail data to node
+      // apply thumbnail data to node
       // eslint-disable-next-line no-underscore-dangle
       thumbnail.itemData = item
 
@@ -118,24 +118,24 @@ export default class extends Controller {
 
   // async function that loads thumbnail data based on the search query
   async loadPhotos() {
-    // get default and seatch query params
+    // get default and search query params
     const params = {}
     const defaultParams = {
       size: config.THUMBNAILS_QUERY_LIMIT,
       from: this.thumbnailsCount,
     }
 
-    if (this.thumbnailsCount > 0) {
+    /* if (this.thumbnailsCount > 0) {
       delete defaultParams.from
       defaultParams.search_after = this.gridTarget.children[this.thumbnailsCount - 1].itemData.searchAfter
-    }
+    } */
 
     const urlParams = getURLParams()
 
     // merge default params with query params
     Object.assign(params, defaultParams, urlParams)
 
-    // init timeline with the reqested url query params
+    // init timeline with the requested url query params
     trigger("timeline:reset")
 
     // if year url query filter is present, the timeline should be hidden
@@ -193,8 +193,8 @@ export default class extends Controller {
       }
     })
 
-    // track pageview when page url changes
-    // but skip tracking when page loads for the first time as GA triggers a pageview when it gets initialized
+    // track page view when page url changes
+    // but skip tracking when page loads for the first time as GA triggers a page view when it gets initialized
     if (e) trigger("analytics:trackPageView")
   }
 

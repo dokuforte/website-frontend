@@ -1,7 +1,8 @@
 import config from "../data/siteConfig"
 
 const search = async params => {
-  const url = `${config.API_HOST}/items/photo/?meta=*&filter[status][_eq]=published&limit=20`
+  const query = params.q || ""
+  const url = `${config.API_HOST}/custom/search/${query}`
   const resp = await fetch(url, {
     method: "GET",
     mode: "cors",

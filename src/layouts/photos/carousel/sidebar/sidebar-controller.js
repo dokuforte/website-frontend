@@ -37,7 +37,10 @@ export default class extends Controller {
       return null
     }
 
-    const locationArray = ["country", "city", "place"].map(val => convertToHref(val)).filter(Boolean)
+    const locationArray = data.addressline
+      .split(", ")
+      .map(val => convertToHref(val))
+      .filter(Boolean)
 
     this.locationTarget.innerHTML = ""
     if (locationArray.length > 0) {
@@ -53,26 +56,40 @@ export default class extends Controller {
       this.descriptionTarget.parentNode.style.display = "none"
     }
 
-    if (data.tags) {
-      this.tagsTarget.innerHTML = data.tags
-        .map(tag => `<a href="?tag=${encodeURIComponent(tag)}">${tag}</a>`)
+    if (data.tag) {
+      this.tagsTarget.innerHTML = data.tag
+        .map(tag => `<a href="?tag=${encodeURIComponent(tag.tag)}">${tag.tag}</a>`)
         .join(", ")
     } else {
       this.tagsTarget.innerHTML = `<span class="carousel-sidebar__tags__empty">–</span>`
     }
 
-    this.midTarget.innerHTML = `<a href="?id=${data.mid}">${data.mid}</a>`
-    this.yearTarget.innerHTML = `<a href="?year=${data.year}">${data.year}</a>`
-    this.donorTarget.innerHTML = `<a href="?donor=${encodeURIComponent(data.donor)}">${data.donor}</a>`
+    this.midTarget.innerHTML = `<a href="?id=${data.id}">${data.id}</a>`
 
-    if (data.author) {
-      this.authorTarget.innerHTML = `<a href="?photographer=${encodeURIComponent(data.author)}">${data.author}</a>`
+    if (data.year) {
+      this.yearTarget.innerHTML = `<a href="?year=${data.year}">${data.year}</a>`
+    } else {
+      this.yearTarget.innerHTML = `<span class="carousel-sidebar__tags__empty">–</span>`
+    }
+
+    if (data.donated_by.length > 0) {
+      this.donorTarget.innerHTML = data.donated_by
+        .map(donator => `<a href="?tag=${encodeURIComponent(donator.name)}">${donator.name}</a>`)
+        .join(", ")
+    } else {
+      this.donorTarget.innerHTML = `<span class="carousel-sidebar__tags__empty">–</span>`
+    }
+
+    if (data.photographer.length > 0) {
+      this.authorTarget.innerHTML = data.photographer
+        .map(photographer => `<a href="?tag=${encodeURIComponent(photographer.name)}">${photographer.name}</a>`)
+        .join(", ")
       this.authorTarget.parentNode.style.display = "block"
     } else {
       this.authorTarget.parentNode.style.display = "none"
     }
 
-    // bind history api calls to sidabar anchors
+    // bind history api calls to sidebar anchors
     this.element.querySelectorAll(".carousel-sidebar a:not([class])").forEach(anchorNode => {
       anchorNode.addEventListener("click", event => {
         event.preventDefault()
