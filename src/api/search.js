@@ -1,7 +1,24 @@
 import config from "../data/siteConfig"
 
 const search = async params => {
-  const query = params.q || ""
+  let query = params.q || ""
+
+  if (params.year && !params.q) {
+    query = `year/${params.year}`
+  }
+
+  if (params.id && !params.q) {
+    query = `id/${params.id}`
+  }
+
+  if (params.donor && !params.q) {
+    query = `donated_by/${params.donor}`
+  }
+
+  if (params.tag && !params.q) {
+    query = `tag/${params.tag}`
+  }
+
   const url = `${config.API_HOST}/custom/search/${query}`
   const resp = await fetch(url, {
     method: "GET",
