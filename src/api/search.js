@@ -1,25 +1,31 @@
 import config from "../data/siteConfig"
 
+const CUSTOM_SEARCH_PREFIX = "/custom/search"
+
 const search = async params => {
-  let query = params.q || ""
+  let query = `${CUSTOM_SEARCH_PREFIX}/${params.q}` || ""
 
   if (params.year && !params.q) {
-    query = `year/${params.year}`
+    query = `${CUSTOM_SEARCH_PREFIX}/year/${params.year}`
   }
 
   if (params.id && !params.q) {
-    query = `id/${params.id}`
+    query = `${CUSTOM_SEARCH_PREFIX}/id/${params.id}`
   }
 
-  if (params.donor && !params.q) {
-    query = `donated_by/${params.donor}`
+  if (params.donatedby && !params.q) {
+    query = `${CUSTOM_SEARCH_PREFIX}/donatedby/${params.donatedby}`
   }
 
   if (params.tag && !params.q) {
-    query = `tag/${params.tag}`
+    query = `${CUSTOM_SEARCH_PREFIX}/tag/${params.tag}`
   }
 
-  const url = `${config.API_HOST}/custom/search/${query}`
+  if (params.source && !params.q) {
+    query = `${CUSTOM_SEARCH_PREFIX}/source/${params.source}`
+  }
+
+  const url = `${config.API_HOST}${query}`
   const resp = await fetch(url, {
     method: "GET",
     mode: "cors",

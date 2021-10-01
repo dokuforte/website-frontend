@@ -74,7 +74,7 @@ export default class extends Controller {
 
     if (data.donated_by.length > 0) {
       this.donorTarget.innerHTML = data.donated_by
-        .map(donator => `<a href="?tag=${encodeURIComponent(donator.name)}">${donator.name}</a>`)
+        .map(donator => `<a href="?donatedby=${encodeURIComponent(donator.name)}">${donator.name}</a>`)
         .join(", ")
     } else {
       this.donorTarget.innerHTML = `<span class="carousel-sidebar__tags__empty">–</span>`
@@ -82,7 +82,7 @@ export default class extends Controller {
 
     if (data.photographer.length > 0) {
       this.authorTarget.innerHTML = data.photographer
-        .map(photographer => `<a href="?tag=${encodeURIComponent(photographer.name)}">${photographer.name}</a>`)
+        .map(photographer => `<a href="?source=${encodeURIComponent(photographer.name)}">${photographer.name}</a>`)
         .join(", ")
       this.authorTarget.parentNode.style.display = "block"
     } else {

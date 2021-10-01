@@ -7,7 +7,7 @@ export default class extends Controller {
   }
 
   setTitle(e) {
-    const photosCount = e.detail.count
+    const photosCount = e.detail.count || 0
     const q = getURLParams()
 
     // set main title
@@ -25,12 +25,12 @@ export default class extends Controller {
     } else if (Object.keys(q).indexOf("advancedSearch") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
       this.searchExpressionTarget.innerHTML = `${lang("advanced_search")}`
-    } else if (Object.keys(q).indexOf("donor") > -1) {
+    } else if (Object.keys(q).indexOf("donatedby") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
-      this.searchExpressionTarget.innerHTML = `${lang("donor")}: <em>${q.donor}</em>`
-    } else if (Object.keys(q).indexOf("photographer") > -1) {
+      this.searchExpressionTarget.innerHTML = `${lang("donor")}: <em>${q.donatedby}</em>`
+    } else if (Object.keys(q).indexOf("source") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
-      this.searchExpressionTarget.innerHTML = `${lang("photographer")}: <em>${q.photographer}</em>`
+      this.searchExpressionTarget.innerHTML = `${lang("photographer")}: <em>${q.source}</em>`
     } else if (Object.keys(q).indexOf("year") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
       this.searchExpressionTarget.innerHTML = `${lang("year")}: <em>${q.year}</em>`
