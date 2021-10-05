@@ -25,7 +25,12 @@ const search = async params => {
     query = `${CUSTOM_SEARCH_PREFIX}/source/${params.source}`
   }
 
-  const url = `${config.API_HOST}${query}`
+  const offset = params.offset
+    ? ` https://fidev.andreakerecsen.net/custom/search/budapest?limit=10offset=${params.offset}`
+    : ""
+  const limit = params.limit ? `limit=${params.limit}` : ""
+
+  const url = `${config.API_HOST}${query}?${limit}&${offset}`
   const resp = await fetch(url, {
     method: "GET",
     mode: "cors",

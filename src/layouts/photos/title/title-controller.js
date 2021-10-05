@@ -7,7 +7,7 @@ export default class extends Controller {
   }
 
   setTitle(e) {
-    const photosCount = e.detail.count || 0
+    const photosCount = e.detail.total || 0
     const q = getURLParams()
 
     // set main title

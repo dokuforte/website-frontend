@@ -75,9 +75,9 @@ export default class extends Controller {
   generateThumbnailsFromData(data) {
     const thumbnailLoadingPromises = []
 
-    trigger("photosTitle:setTitle", { count: data.total })
+    trigger("photosTitle:setTitle", { total: data.total })
 
-    data[0].data.forEach(item => {
+    data.data.forEach(item => {
       // count results
       this.thumbnailsCount += 1
 
@@ -121,14 +121,9 @@ export default class extends Controller {
     // get default and search query params
     const params = {}
     const defaultParams = {
-      size: config.THUMBNAILS_QUERY_LIMIT,
-      from: this.thumbnailsCount,
+      limit: config.THUMBNAILS_QUERY_LIMIT,
+      offset: this.thumbnailsCount,
     }
-
-    /* if (this.thumbnailsCount > 0) {
-      delete defaultParams.from
-      defaultParams.search_after = this.gridTarget.children[this.thumbnailsCount - 1].itemData.searchAfter
-    } */
 
     const urlParams = getURLParams()
 
