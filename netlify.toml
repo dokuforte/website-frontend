@@ -10,6 +10,11 @@
   publish = "_dist/"
   autoLaunch = false
 
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Basic-Auth = "dokuforte:D0kuFort321"
+
 ## This rule redirects to an external API, signing requests with a secret
 [[redirects]]
   from = "/en/"
