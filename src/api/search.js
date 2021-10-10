@@ -3,7 +3,7 @@ import config from "../data/siteConfig"
 const CUSTOM_SEARCH_PREFIX = "/custom/search"
 
 const search = async params => {
-  let query = `${CUSTOM_SEARCH_PREFIX}/${params.q}` || ""
+  let query = `${CUSTOM_SEARCH_PREFIX}/${params.q || ""}`
 
   if (params.year && !params.q) {
     query = `${CUSTOM_SEARCH_PREFIX}/year/${params.year}`
@@ -40,7 +40,7 @@ const search = async params => {
 
 // get the total number of published photos
 const getTotal = async () => {
-  const resp = await fetch(`${config.API_HOST}/items/photo/?meta=*&filter[status][_eq]=published&limit=0`, {
+  const resp = await fetch(`${config.API_HOST}/custom/search?limit=1`, {
     method: "GET",
     mode: "cors",
   })

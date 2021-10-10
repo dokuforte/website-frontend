@@ -79,5 +79,6 @@ export default class extends Controller {
     })
 
     this.imageTarget.src = `${config.API_HOST}/assets/${data.photo_full}?key=thumb`
+    this.imageTarget.src.replace(".tiff", ".png")
   }
 }

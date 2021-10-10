@@ -36,7 +36,7 @@ export default class extends Controller {
    */
   getTotalItemsNumber() {
     searchAPI.getTotal().then(data => {
-      this.totalValTarget.textContent = numberWithCommas(data.meta.filter_count)
+      this.totalValTarget.textContent = numberWithCommas(data.total)
       this.totalTarget.classList.add("is-visible")
     })
   }

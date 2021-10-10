@@ -87,17 +87,6 @@ const forgot = async email => {
 }
 
 const resetPassword = async pass => {
-  // f (window.location.pathname.indexOf("/user/reset/") === -1) throw Error()
-  // const credentialKeys = ["user", "timestamp", "hash"]
-  // const pathArray = window.location.pathname.split("/user/reset/")[1].split("/")
-  // const credentials = credentialKeys.reduce((acc, value, i) => {
-  //  acc[value] = pathArray[i]
-  //  return acc
-  // }, {})
-  // credentials.pass = pass
-  // const url =
-  // delete credentials.user
-
   const body = {
     token: "",
     password: pass,
