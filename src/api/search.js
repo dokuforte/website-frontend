@@ -25,10 +25,18 @@ const search = async params => {
     query = `${CUSTOM_SEARCH_PREFIX}/source/${params.source}`
   }
 
+  if (params.latest !== undefined) {
+    query = `${query}/_latest`
+  }
+
   const offset = params.offset ? `offset=${params.offset}` : ""
   const limit = params.limit ? `limit=${params.limit}` : ""
+  const yearFrom = params.year_from ? `year_from=${params.year_from}` : ""
+  const yearTo = params.year_to ? `year_to=${params.year_to}` : ""
 
-  const url = `${config.API_HOST}${query}?${limit}&${offset}`
+  const queryParams = `${limit}&${offset}&${yearFrom}&${yearTo}`
+
+  const url = `${config.API_HOST}${query}${queryParams.length > 0 ? `?${queryParams}` : ""}`
   const resp = await fetch(url, {
     method: "GET",
     mode: "cors",
