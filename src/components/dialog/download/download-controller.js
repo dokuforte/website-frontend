@@ -20,11 +20,15 @@ export default class extends Controller {
   downloadImage() {
     const data = selectedThumbnail.itemData
 
+    const donatedBy = data.donated_by.map(donator => donator.name).join(",")
+
     this.element.classList.add("is-visible")
-    this.contentTarget.innerHTML = lang("dialog_download").replace("$donor", `<br/><b>Dokuforte / ${data.donor}</b>`)
+
+    this.contentTarget.innerHTML = lang("dialog_download").replace("$donor", `<br/><b>Dokuforte / ${donatedBy}</b>`)
 
     const a = document.createElement("a")
-    a.href = `${config.PHOTO_SOURCE_LARGE}${data.mid}.jpg`
+    a.setAttribute("download", data.id)
+    a.href = `${config.API_HOST}/assets/${data.photo_full}?key=full`
     a.click()
   }
 }
