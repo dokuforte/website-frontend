@@ -84,6 +84,7 @@ module.exports = {
     tags_save_success: "Thank you for your submission, it'll be reviewed soon.",
     tags_save_error: "Unexpected error while saving, please try again later.",
     timeline: "Timeline",
+    terms: "General Terms and Conditions",
     user_profile: "User Profile",
     user_signin_error: "Oops, we couldn’t sign you in.\nPlease check your details and try again.",
     user_signin_success: "Your sign-in was successful.",
