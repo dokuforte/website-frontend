@@ -1,4 +1,4 @@
-import { trigger, validateEmail } from "../js/utils"
+import { trigger } from "../js/utils"
 import config from "../data/siteConfig"
 import { setAppState, removeAppState } from "../js/app"
 

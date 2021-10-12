@@ -39,8 +39,14 @@
                    label:lang[locale].password
                    stimulus_target:'data-dialog--signup-target="password"'
         %}
-        <a href="#" class="dialog__link dialog__link--small" data-action="dialog--signup#showSigninDialog">{{ lang[locale].signin_long }} →</a>
-        <button class="button button--primary dialog__button" data-action="dialog--signup#submit">{{ lang[locale].signup }}</button>
+        <div class="dialog__row">
+          <a href="#" class="dialog__link dialog__link--small" data-dialog--signup-target="checkboxTerms" data-action="dialog--signup#showSigninDialog">{{ lang[locale].signin_long }} →</a>
+        </div>
+        <div class="checkbox-wrapper">
+          <input class="checkbox-wrapper__checkbox" type="checkbox" name="terms" id="signup-confirm-terms" data-action="change->dialog--signup#enable">
+          <label for="signup-confirm-terms" class="checkbox-wrapper__label">{{ lang[locale].signup_read }} <a href="/{{ locale }}/terms/" class="dialog__link dialog__link--small">{{ lang[locale].terms }}</a></label>
+        </div>
+        <button class="button button--primary dialog__button" data-dialog--signup-target="submitButton" data-action="dialog--signup#submit" disabled>{{ lang[locale].signup }}</button>
       </form>
   </div>
 </div>

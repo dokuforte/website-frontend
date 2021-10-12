@@ -1,0 +1,32 @@
+.checkbox-wrapper:not(:first-child) {
+  margin-top: 0.5rem;
+}
+.checkbox-wrapper__checkbox {
+  margin: 0;
+  padding: 0;
+  margin-right: 0.5rem;
+  margin-top: -0.125rem;
+  vertical-align: middle;
+  appearance: none;
+  height: 0.875rem;
+  width: 0.875rem;
+  border: 1px solid rgba($dark-base, 0.2);
+  border-radius: 0.1875rem;
+  background-color: $light-base;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1) 0s;
+}
+
+.checkbox-wrapper__checkbox:checked {
+  border-color: darker($accent, 1.2);
+  background-color: $accent;
+  background-image: url(/images/icons/12/checkmark.svg);
+  background-size: 12px 12px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.checkbox-wrapper__label {
+  font-size: rem(13px);
+}

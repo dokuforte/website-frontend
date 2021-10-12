@@ -127,9 +127,12 @@
   cursor: pointer;
 }
 
-.dialog__link {
+.dialog__row {
   display: block;
   margin-top: 0.5rem;
+}
+
+.dialog__link {
   color: $accent;
   font-weight: 600;
   text-decoration: none;

@@ -11,11 +11,11 @@ button,
 
   transition: transform 0.4s $ease-out-expo, background-color 0.4s $ease-out-expo, color 0.4s $ease-out-expo;
 
-  &:hover {
+  &:not([disabled]):hover {
     transform: translateY(-1px);
   }
 
-  &:active {
+  &:not([disabled]):active {
     transition-duration: 0.15s;
     transform: translateY(0px);
   }
@@ -54,6 +54,20 @@ button,
       background-color: lighten($dark-tertiary, 5);
     }
   }
+}
+
+.button[disabled] {
+  .theme--light & {
+    color: $grey;
+    background-color: $light-secondary;
+  }
+
+  .theme--dark & {
+    color: $grey;
+    background-color: $dark-tertiary;
+  }
+
+  cursor: unset;
 }
 
 .button--medium {

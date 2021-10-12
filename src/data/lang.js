@@ -78,6 +78,7 @@ module.exports = {
     signout: "Sign out",
     signup: "Sign up",
     signup_long: "Don't have an account? Sign up",
+    signup_read: "I have read and agree to the",
     slideshow: "Slideshow",
     tag: "Tag",
     tags: "Tags",
