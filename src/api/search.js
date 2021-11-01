@@ -1,6 +1,6 @@
 import config from "../data/siteConfig"
 
-const CUSTOM_SEARCH_PREFIX = "/custom/search"
+const CUSTOM_SEARCH_PREFIX = "/search"
 
 const search = async params => {
   let query = `${CUSTOM_SEARCH_PREFIX}/${params.q || ""}`
@@ -48,7 +48,7 @@ const search = async params => {
 
 // get the total number of published photos
 const getTotal = async () => {
-  const resp = await fetch(`${config.API_HOST}/custom/search?limit=1`, {
+  const resp = await fetch(`${config.API_HOST}/search?limit=1`, {
     method: "GET",
     mode: "cors",
   })
@@ -58,7 +58,7 @@ const getTotal = async () => {
 
 // get an aggregated list of all donators
 const getDonators = async () => {
-  const resp = await fetch(`${config.API_HOST}/custom/autocomplete/donatedby`, {
+  const resp = await fetch(`${config.API_HOST}/autocomplete/donatedby`, {
     method: "GET",
     mode: "cors",
   })

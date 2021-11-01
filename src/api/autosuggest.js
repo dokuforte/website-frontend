@@ -12,7 +12,7 @@ export default async (prefix, filter, limit = 10) => {
   if (autosuggestCache[expression]) {
     resp = autosuggestCache[expression]
   } else {
-    const respJson = await fetch(`${config.API_HOST}/custom/autocomplete/${expression}`, {
+    const respJson = await fetch(`${config.API_HOST}/autocomplete/${expression}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
