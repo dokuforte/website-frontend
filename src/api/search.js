@@ -17,6 +17,10 @@ const search = async params => {
     query = `${CUSTOM_SEARCH_PREFIX}/donatedby/${params.donatedby}`
   }
 
+  if (params.location && !params.q) {
+    query = `${CUSTOM_SEARCH_PREFIX}/address/${params.location}`
+  }
+
   if (params.tag && !params.q) {
     query = `${CUSTOM_SEARCH_PREFIX}/tag/${params.tag}`
   }

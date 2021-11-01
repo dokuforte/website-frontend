@@ -34,15 +34,9 @@ export default class extends Controller {
     } else if (Object.keys(q).indexOf("year") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
       this.searchExpressionTarget.innerHTML = `${lang("year")}: <em>${q.year}</em>`
-    } else if (Object.keys(q).indexOf("country") > -1) {
+    } else if (Object.keys(q).indexOf("location") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
-      this.searchExpressionTarget.innerHTML = `${lang("country")}: <em>${q.country}</em>`
-    } else if (Object.keys(q).indexOf("city") > -1) {
-      this.searchExpressionTarget.classList.add("is-visible")
-      this.searchExpressionTarget.innerHTML = `${lang("city")}: <em>${q.city}</em>`
-    } else if (Object.keys(q).indexOf("place") > -1) {
-      this.searchExpressionTarget.classList.add("is-visible")
-      this.searchExpressionTarget.innerHTML = `${lang("place")}: <em>${q.place}</em>`
+      this.searchExpressionTarget.innerHTML = `${lang("location")}: <em>${q.location}</em>`
     } else if (Object.keys(q).indexOf("tag") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
       this.searchExpressionTarget.innerHTML = `${lang("tag")}: <em>${q.tag}</em>`

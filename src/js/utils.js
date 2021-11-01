@@ -40,6 +40,12 @@ export const numberWithCommas = x => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
+export const stripTags = str => {
+  const element = document.createElement("div")
+  element.innerHTML = str
+  return element.innerText
+}
+
 export const slugify = (str, removeSpaces) => {
   let s = str.toString()
 

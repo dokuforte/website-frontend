@@ -1,7 +1,7 @@
 import { Controller } from "stimulus"
 
 import throttle from "lodash/throttle"
-import { trigger } from "../../../../js/utils"
+import { trigger, stripTags } from "../../../../js/utils"
 import { setAppState, removeAppState, toggleAppState, appState } from "../../../../js/app"
 
 export default class extends Controller {
@@ -30,7 +30,7 @@ export default class extends Controller {
       if (data[key]) {
         const resp = []
         data[key].forEach(item => {
-          resp.push(`<a href="?${key}=${encodeURIComponent(item)}">${item}</a>`)
+          resp.push(`<a href="?${key}=${encodeURIComponent(item.trim())}">${item.trim()}</a>`)
         })
         return resp.join(",<br/>")
       }
@@ -39,7 +39,7 @@ export default class extends Controller {
 
     const locationArray = data.addressline
       .split(", ")
-      .map(val => convertToHref(val))
+      .map(val => `<a href="?location=${encodeURIComponent(val.trim())}">${val.trim()}</a>`)
       .filter(Boolean)
 
     this.locationTarget.innerHTML = ""
@@ -50,7 +50,7 @@ export default class extends Controller {
 
     this.descriptionTarget.innerHTML = ""
     if (data.description) {
-      this.descriptionTarget.innerHTML = data.description
+      this.descriptionTarget.innerHTML = stripTags(data.description)
       this.descriptionTarget.parentNode.style.display = "block"
     } else if (locationArray.length === 0) {
       this.descriptionTarget.parentNode.style.display = "none"
@@ -58,7 +58,8 @@ export default class extends Controller {
 
     if (data.tag) {
       this.tagsTarget.innerHTML = data.tag
-        .map(tag => `<a href="?tag=${encodeURIComponent(tag.tag)}">${tag.tag}</a>`)
+        .filter(tag => tag.tag.trim().length > 0)
+        .map(tag => `<a href="?tag=${encodeURIComponent(tag.tag.trim())}">${tag.tag.trim()}</a>`)
         .join(", ")
     } else {
       this.tagsTarget.innerHTML = `<span class="carousel-sidebar__tags__empty">–</span>`

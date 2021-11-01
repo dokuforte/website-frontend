@@ -1,7 +1,7 @@
 import { Controller } from "stimulus"
 
 import config from "../../../data/siteConfig"
-import { lang, trigger, setPageMeta } from "../../../js/utils"
+import { lang, trigger, setPageMeta, stripTags } from "../../../js/utils"
 
 const THUMBNAIL_HEIGHT = 160
 export default class extends Controller {
@@ -32,7 +32,7 @@ export default class extends Controller {
     // set html page meta for social sharing
     setPageMeta(
       `#${data.id}`,
-      `${data.description ? `${data.description} — ` : ""}${lang("donor")}: ${data.donor} (${data.year})`,
+      `${data.title ? `${data.title} — ` : ""}${lang("donor")}: ${data.donor} (${data.year})`,
       `${config.PHOTO_SOURCE}${data.mid}.jpg`
     )
   }
@@ -59,7 +59,7 @@ export default class extends Controller {
     const data = this.element.itemData
     const metaArray = [data.year, data.addressline.trim() !== "" ? data.addressline.trim() : null]
     this.metaTarget.textContent = metaArray.filter(Boolean).join(" · ")
-    this.descriptionTarget.textContent = data.title || data.description || ""
+    this.descriptionTarget.innerHTML = stripTags(data.title) || stripTags(data.description) || ""
   }
 
   // load thumbnail image
