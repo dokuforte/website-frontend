@@ -31,7 +31,7 @@ const signin = async body => {
 
 const signout = async () => {
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
-  const url = `${config.API_HOST}/auth/logout?access_token=${authData.access_token}`
+  const url = `${config.API_HOST}/auth/logout`
 
   const body = { refresh_token: authData.refresh_token }
   const resp = await fetch(url, {
@@ -42,7 +42,7 @@ const signout = async () => {
     body: JSON.stringify(body),
   })
 
-  if (resp.status === 200) {
+  if (resp.status === 204) {
     trigger("auth:signedOut")
     setLoginStatus(false)
   }

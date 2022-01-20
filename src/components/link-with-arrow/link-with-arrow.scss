@@ -1,0 +1,20 @@
+.link-with-arrow {
+  display: block;
+  color: $accent;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.6s $ease-out-expo;
+  line-height: 1.5rem;
+
+  &:hover {
+    color: darken($accent, 10);
+  }
+
+  &::after {
+    content: " →";
+  }
+}
+
+.link-with-arrow--small {
+  font-size: rem(13px);
+}

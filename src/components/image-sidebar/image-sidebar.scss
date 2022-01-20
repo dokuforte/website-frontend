@@ -1,0 +1,14 @@
+.image-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: rem(480px);
+  bottom: 0;
+  background-size: cover;
+  background-position: center center;
+  filter: grayscale(100%) brightness(0.6);
+
+  @media screen and (max-width: ($breakpoint-desktop - 1px)) {
+    display: none;
+  }
+}

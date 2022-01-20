@@ -1,67 +1,60 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <meta name="description" content="{{ description }}" />
-    <meta name="apple-mobile-web-app-title" content="Dokuforte">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="fragment" content="!">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta name="description" content="{{ description }}"/>
+    <meta content="Dokuforte" name="apple-mobile-web-app-title"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="yes" name="mobile-web-app-capable"/>
+    <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="!" name="fragment"/>
 
     {% if siteConfig.ENV == 'production' %}
       {% assign site_url = siteConfig.SITE %}
     {% else %}
-      {% assign site_url = siteConfig.SITE_DEV %}
+      {% assign site_url =
+    siteConfig.SITE_DEV %}
     {% endif %}
 
-    <link rel="shortcut icon" href="{{ site_url }}/favicon.ico" />
-    <link rel="apple-touch-icon" href="{{ site_url }}/images/icons/apple-touch-icon.png" />
-    <link rel="mask-icon" href="{{ site_url }}/images/icons/dokuforte-logo.svg" color="#1C9FED">
-    <link rel="icon" type="image/x-icon" href="{{ site_url }}/favicon.ico">
-    <meta name="theme-color" content="#1C9FED">
+    <link rel="shortcut icon" href="{{ site_url }}/favicon.ico"/>
+    <link rel="apple-touch-icon" href="{{ site_url }}/images/icons/apple-touch-icon.png"/>
+    <link rel="mask-icon" href="{{ site_url }}/images/icons/dokuforte-logo.svg" color="#1C9FED"/>
+    <link rel="icon" type="image/x-icon" href="{{ site_url }}/favicon.ico"/>
+    <meta content="#1C9FED" name="theme-color"/>
 
-    <meta property="twitter:image:src" content="{{ site_url }}/images/social/dokuforte-twitter-1.jpg" />
-    <meta property="twitter:site" content="@Dokuforte" />
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content="{{ title }}" />
-    <meta property="twitter:description" content="{{ description }}" />
+    <meta property="twitter:image:src" content="{{ site_url }}/images/social/dokuforte-twitter-1.jpg"/>
+    <meta content="@Dokuforte" property="twitter:site"/>
+    <meta content="summary_large_image" property="twitter:card"/>
+    <meta property="twitter:title" content="{{ title }}"/>
+    <meta property="twitter:description" content="{{ description }}"/>
 
-    <meta property="og:image" content="{{ site_url }}/images/social/dokuforte-facebook-1.jpg" />
-    <meta property="og:site_name" content="Dokuforte" />
-    <meta property="og:type" content="object" />
-    <meta property="og:title" content="{{ title }}" />
-    <meta property="og:description" content="{{ description }}" />
+    <meta property="og:image" content="{{ site_url }}/images/social/dokuforte-facebook-1.jpg"/>
+    <meta content="Dokuforte" property="og:site_name"/>
+    <meta content="object" property="og:type"/>
+    <meta property="og:title" content="{{ title }}"/>
+    <meta property="og:description" content="{{ description }}"/>
 
     <title>{{ title }}</title>
 
-    <link rel="stylesheet" href="https://use.typekit.net/shi7abw.css" />
-    <link
-      rel="stylesheet"
-      href="/main.css?{{ cacheBust.mainCss }}"
-    />
+    <link href="https://use.typekit.net/shi7abw.css" rel="stylesheet"/>
+    <link href="/main.css?{{ cacheBust.mainCss }}" rel="stylesheet"/>
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=URLSearchParams%2CObject.fromEntries"></script>
   </head>
   <body itemscope itemtype="http://schema.org/WebPage" data-lang="{{ locale }}" class="{{ page_class }}">
     <main>
-    {{ content }}
+      {{ content }}
     </main>
-    {% include dialog/signin/signin.liquid %}
-    {% include dialog/signup/signup.liquid %}
-    {% include dialog/reset-password/reset-password.liquid %}
-    {% include dialog/reset-password-request/reset-password-request.liquid %}
     {% include dialog/search/search.liquid %}
-
     {% include cookie-consent/cookie-consent.liquid %}
-
-    {% include loader/loader.liquid id:"loaderBase" %}
+    {% include
+    loader/loader.liquid id:"loaderBase" %}
     {% include snackbar/snackbar.liquid %}
 
     <script>
       {% for param in cmsConfig %}
-      window.{{param[0]}} = "{{param[1]}}";
+        window.{{param[0]}} = "{{param[1]}}";
       {% endfor %}
     </script>
     <script src="/main.js?{{ cacheBust.mainJs }}"></script>

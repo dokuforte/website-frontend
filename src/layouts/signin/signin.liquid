@@ -1,0 +1,21 @@
+---
+layout: auth/auth.liquid
+---
+
+<div class="signin-wrapper scrollview" data-controller="scrollview" data-action="scroll->scrollview#handleScroll">
+  <div class="signin" data-controller="signin">
+    <h2 class="signin__title">{{ lang[locale].signin }}</h2>
+
+    <form class="signin__form" data-signin-target="form">
+      {% include input/input.liquid type:'text' name:'email' label:lang[locale].email stimulus_target:'data-signin-target="email"' %}
+      {% include input/input.liquid type:'password' name:'password' label:lang[locale].password stimulus_target:'data-signin-target="password"' %}
+      <div class="signin__links">
+        <a href="/{{ locale }}/reset-password" class="link-with-arrow link-with-arrow--small">{{ lang[locale].password_forgot }}</a>
+        <a href="/{{ locale }}/signup" class="link-with-arrow link-with-arrow--small">{{ lang[locale].signup_long }}</a>
+      </div>
+      <button class="button button--primary signin__button" data-action="signin#submit">
+        {{ lang[locale].signin }}
+      </button>
+    </form>
+  </div>
+</div>

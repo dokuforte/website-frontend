@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
-import { trigger, lang } from "../../../js/utils"
-import auth from "../../../api/auth"
+import { trigger, lang, getLocale } from "../../js/utils"
+import auth from "../../api/auth"
 
 export default class extends Controller {
   static get targets() {
@@ -9,6 +9,12 @@ export default class extends Controller {
 
   connect() {
     this.formTarget.submit = this.submit.bind(this)
+
+    auth.querySignedInUser().then(userData => {
+      if (userData) {
+        this.success()
+      }
+    })
   }
 
   submit(e) {
@@ -33,6 +39,7 @@ export default class extends Controller {
       "The user has not been activated or is blocked.": lang("user_signin_error"),
       "Invalid user credentials.": lang("user_signin_error"),
       '"email" must be a valid email': lang("user_signin_error"),
+      '"email" is not allowed to be empty': lang("user_signin_error"),
     }
 
     return errorMessages[text]
@@ -42,7 +49,6 @@ export default class extends Controller {
     this.element.classList.remove("is-disabled")
     trigger("loader:hide", { id: "loaderBase" })
 
-    console.log(respData)
     // show snackbar message
     trigger("snackbar:show", {
       message: this.errorMessageHandler(respData.errors[0].message),
@@ -54,11 +60,8 @@ export default class extends Controller {
   success() {
     this.element.classList.remove("is-disabled")
     trigger("loader:hide", { id: "loaderBase" })
-    trigger("dialogSignin:hide")
 
-    // show snackbar message
-    trigger("headerNav:refreshProfile")
-    trigger("snackbar:show", { message: lang("user_signin_success"), status: "success", autoHide: true })
+    document.location.href = `/${getLocale()}/profile/edit/`
   }
 
   hide() {

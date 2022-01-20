@@ -78,7 +78,8 @@ ul {
   font-weight: 500;
 }
 
-p a {
+p a,
+.link {
   color: $accent;
   font-weight: 600;
   text-decoration: none;
@@ -88,6 +89,11 @@ p a {
   &:hover {
     border-bottom: 1px solid $accent;
   }
+}
+
+.small {
+  font-size: rem(13px);
+  line-height: rem(20px);
 }
 
 ul {

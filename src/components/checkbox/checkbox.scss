@@ -10,12 +10,30 @@
   appearance: none;
   height: 0.875rem;
   width: 0.875rem;
-  border: 1px solid rgba($dark-base, 0.2);
+
   border-radius: 0.1875rem;
-  background-color: $light-base;
+
   cursor: pointer;
   outline: none;
   transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1) 0s;
+
+  .theme--light & {
+    border: 1px solid rgba($dark-base, 0.2);
+    background-color: $light-base;
+
+    &:not(:checked):hover {
+      background-color: $light-primary;
+    }
+  }
+
+  .theme--dark & {
+    border: 1px solid rgba($light-base, 0.08);
+    background-color: $dark-primary;
+
+    &:not(:checked):hover {
+      background-color: $dark-base;
+    }
+  }
 }
 
 .checkbox-wrapper__checkbox:checked {

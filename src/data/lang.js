@@ -77,6 +77,7 @@ module.exports = {
     signin_long: "Already have an account? Sign in",
     signout: "Sign out",
     signup: "Sign up",
+    signup_blurb: "Sign up to upload and manage your archive photographs yourself.",
     signup_long: "Don't have an account? Sign up",
     signup_read: "I have read and agree to the",
     slideshow: "Slideshow",
