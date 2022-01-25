@@ -1,0 +1,11 @@
+<div class="textarea-wrapper {{ class }}" data-controller="textarea">
+  <label for="{{ name }}" data-textarea-target="label" class="textarea-wrapper__label">{{ label }}</label>
+  <textarea class="textarea-wrapper__textarea" 
+    name="{{ name }}" 
+    rows="{{ rows | default: 5 }}"
+    placeholder="{{ label }}"
+    data-textarea-target="textarea"
+    {{ stimulus_target }}
+    data-action="keyup->textarea#keyup keypress->textarea#keypress"  
+  ></textarea>
+</div>

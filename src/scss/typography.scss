@@ -73,9 +73,9 @@ h6,
 p,
 ol,
 ul {
-  font-size: rem(16px);
-  line-height: rem(28px);
-  font-weight: 500;
+  font-size: rem(15px);
+  line-height: rem(24px);
+  font-weight: 400;
 }
 
 p a,
@@ -91,7 +91,8 @@ p a,
   }
 }
 
-.small {
+.small,
+.small p {
   font-size: rem(13px);
   line-height: rem(20px);
 }

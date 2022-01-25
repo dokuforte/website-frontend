@@ -30,22 +30,32 @@
     background-color: transparent;
   }
 
-  .theme--light &:not(.button-circular--transparent):hover {
-    background-color: rgba($dark-base, 0.06);
-  }
-
   .theme--light &.button-circular--transparent:hover {
     color: rgba($dark-base, 0.6);
   }
 
-  .theme--light &--red {
+  .theme--light &--blue {
     color: $accent;
     background-color: transparent;
   }
 
-  .theme--light &--red:hover {
+  .theme--light &--blue:hover {
     color: $light-base;
     background-color: $accent;
+  }
+
+  .theme--light &--accent {
+    color: $light-base;
+    background-color: $accent;
+  }
+
+  .theme--light &--accent:hover {
+    color: $light-base;
+    background-color: darken($accent, 10%);
+  }
+
+  .theme--light .header-nav--transparent:not(.has-shadow) &:hover {
+    background-color: rgba($dark-base, 0.06);
   }
 
   .theme--light &--has-background {
@@ -73,10 +83,6 @@
     color: rgba($light-base, 0.6);
   }
 
-  .theme--light .header-nav--transparent:not(.has-shadow) &:hover {
-    background-color: rgba($dark-base, 0.06);
-  }
-
   .theme--dark .header-nav--transparent:not(.has-shadow) &:hover {
     background-color: rgba($light-base, 0.1);
   }
@@ -85,14 +91,24 @@
     background-color: rgba($light-base, 0.1) !important;
   }
 
-  .theme--dark &--red {
+  .theme--dark &--blue {
     color: $accent;
     background-color: transparent;
   }
 
-  .theme--dark &--red:hover {
+  .theme--dark &--blue:hover {
     color: $light-base;
     background-color: $accent;
+  }
+
+  .theme--dark &--accent {
+    color: $light-base;
+    background-color: $accent;
+  }
+
+  .theme--dark &--accent:hover {
+    color: $light-base;
+    background-color: lighten($accent, 10%);
   }
 
   .theme--dark &--has-background {

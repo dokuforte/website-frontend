@@ -1,7 +1,8 @@
+const liquidFilters = require("./plugins/liquid-filters")
 const inlineSVG = require("./plugins/inlineSVG")
 const htmlmin = require("html-minifier")
 
-module.exports = (eleventyConfig) => {
+module.exports = eleventyConfig => {
   // Disable .gitignore and use eleventy's own ignore file instead
   eleventyConfig.setUseGitIgnore(false)
 
@@ -19,14 +20,19 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addLiquidShortcode("now", () => {
     return Date.now()
   })
-  eleventyConfig.addLiquidShortcode("date", (timestamp, locale) => {
-    const dateFormat = new Intl.DateTimeFormat(locale == "hu" ? "hu-HU" : "en-US", {
-      month: "short",
-      day: "2-digit",
-      year: "numeric",
-    })
-    return dateFormat.format(new Date(parseInt(timestamp)))
-  })
+  eleventyConfig.addLiquidShortcode("date", liquidFilters.date)
+  eleventyConfig.addLiquidFilter("imgix_url", liquidFilters.imgixUrl)
+  eleventyConfig.addLiquidFilter("find", liquidFilters.findItem)
+  eleventyConfig.addLiquidFilter("trim", liquidFilters.trim)
+  eleventyConfig.addLiquidFilter("size", liquidFilters.size)
+  eleventyConfig.addLiquidFilter("split", liquidFilters.split)
+  eleventyConfig.addLiquidFilter("join", liquidFilters.join)
+  eleventyConfig.addLiquidFilter("push", liquidFilters.push)
+  eleventyConfig.addLiquidFilter("date", liquidFilters.date)
+  eleventyConfig.addLiquidFilter("sort", liquidFilters.sort)
+  eleventyConfig.addLiquidFilter("markdownify", liquidFilters.markdownify)
+  eleventyConfig.addLiquidFilter("slugify", liquidFilters.slugify)
+  eleventyConfig.addLiquidFilter("format_price", liquidFilters.formatPrice)
 
   // Minify html in production
   if (process.env.ENV === "production") {

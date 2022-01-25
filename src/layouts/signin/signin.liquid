@@ -13,9 +13,11 @@ layout: auth/auth.liquid
         <a href="/{{ locale }}/reset-password" class="link-with-arrow link-with-arrow--small">{{ lang[locale].password_forgot }}</a>
         <a href="/{{ locale }}/signup" class="link-with-arrow link-with-arrow--small">{{ lang[locale].signup_long }}</a>
       </div>
-      <button class="button button--primary signin__button" data-action="signin#submit">
-        {{ lang[locale].signin }}
-      </button>
+      <div class="profile__actions">
+        <button class="button button--primary" data-action="signin#submit">
+          {{ lang[locale].signin }}
+        </button>
+      </div>
     </form>
   </div>
 </div>

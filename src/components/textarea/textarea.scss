@@ -1,9 +1,9 @@
-.input-wrapper {
+.textarea-wrapper {
   display: block;
   position: relative;
 }
 
-.input-wrapper__label {
+.textarea-wrapper__label {
   display: block;
   font-size: rem(13px);
   font-weight: 500;
@@ -22,7 +22,8 @@
   }
 }
 
-.input-wrapper__input {
+.textarea-wrapper__textarea {
+  @include font-body;
   display: block;
   box-sizing: border-box;
   background-color: transparent;
@@ -32,11 +33,11 @@
   width: 100%;
   margin: 0;
   padding: 0.5rem 1rem;
-  height: 3rem;
   -webkit-appearance: none;
   font-size: rem(15px);
-  line-height: 2rem;
+  line-height: 1.5rem;
   border-radius: 0.25rem;
+  resize: vertical;
   transition: transform 0.6s $ease-out-expo, opacity 0.3s $ease-out-expo, background-color 0.3s $ease-out-expo,
     box-shadow 0.3s $ease-out-expo;
 
@@ -44,10 +45,6 @@
     line-height: inherit;
     color: $grey;
     text-indent: 0;
-  }
-
-  &::-webkit-search-decoration {
-    display: none;
   }
 
   .theme--light & {

@@ -12,3 +12,19 @@ $accent: #1c9fed;
 $grey: #8c8c8c;
 $red: #f73f13;
 $green: #1abc58;
+
+.color-grey {
+  color: $grey;
+}
+
+.color-red {
+  color: $red;
+}
+
+.color-green {
+  color: $green;
+}
+
+.color-accent {
+  color: $accent;
+}

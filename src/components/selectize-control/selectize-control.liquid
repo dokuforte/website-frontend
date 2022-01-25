@@ -3,6 +3,9 @@
   data-action="click->selectize-control#focus"
   {{ stimulus_target }}
 >
+    {% if show_label == true %}
+    <label data-selectize-control-target="label" class="selectize-control__label">{{ placeholder }}</label>
+    {% endif %}
     <div class="selectize-input">
         <input class="selectize-control__input" type="text" 
             data-selectize-control-target="input" 
