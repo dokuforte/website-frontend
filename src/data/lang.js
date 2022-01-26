@@ -4,6 +4,7 @@ module.exports = {
     add_tag: "Add new tag",
     advanced_search: "Advanced search",
     allow_cookies: "Allow cookies",
+    appearance: "Appearance",
     back: "Back",
     bookmark: "Bookmark",
     cancel: "Cancel",

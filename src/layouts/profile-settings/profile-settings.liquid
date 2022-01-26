@@ -1,3 +1,14 @@
 ---
 layout: profile/profile.liquid
 ---
+
+<div class="profile-settings" data-controller="profile-settings">
+  <h3>{{ lang[locale].appearance }}</h3>
+  <div class="profile-settings__row">
+    <div class="profile-settings__row-label">{{ lang[locale].darkmode }}</div>
+    <div 
+      data-action="click->profile-settings#toggleTheme theme:toggleTheme@document->theme#toggleTheme"
+      class="toggle-switch profile-settings__dark-mode-switch">
+    </div>
+  </div>
+</div>

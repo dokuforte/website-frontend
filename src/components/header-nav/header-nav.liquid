@@ -121,16 +121,6 @@
       data-action="click->header-nav#signOut"
       >{{ lang[locale].signout }}</a
     >
-    <h6>{{ lang[locale].settings }}</h6>
-    <a
-      href="#"
-      class="header-nav__link header-nav__link--top header-nav__link--separator-after"
-      data-controller="theme"
-      data-action="click->header-nav#toggleTheme theme:toggleTheme@document->theme#toggleTheme"
-    >
-      {{ lang[locale].darkmode }}
-      <span class="header-nav__toggle-switch"></span>
-    </a>
     <h6>{{ lang[locale].language }}</h6>
     {% for l in siteConfig.LOCALES %}
     <a

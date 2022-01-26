@@ -93,30 +93,14 @@ export default class extends Controller {
     auth.signout()
   }
 
-  showSigninDialog(e) {
-    e.preventDefault()
-    trigger("dialogSignin:show")
-  }
-
-  showSignupDialog(e) {
-    e.preventDefault()
-    trigger("dialogSignup:show")
-  }
-
   showSearchDialog(e) {
     e.preventDefault()
     trigger("dialogSearch:show")
   }
 
-  toggleTheme(e) {
-    e.preventDefault()
-    trigger("theme:toggleTheme")
-  }
-
   checkIfUserIsSignedIn() {
     auth.querySignedInUser().then(userData => {
       if (userData) {
-        console.log(userData)
         this.profileNameTarget.textContent = `${userData.data.first_name} ${userData.data.last_name}`
         this.profileEmailTarget.textContent = userData.data.email
       }
