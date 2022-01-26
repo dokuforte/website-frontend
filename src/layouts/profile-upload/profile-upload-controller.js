@@ -73,9 +73,10 @@ export default class extends Controller {
 
     const currentFiles = this.fileSelectorTarget.files
     if (currentFiles.length === 0) {
-      const paragraph = document.createElement("p")
-      paragraph.textContent = "No files currently selected for upload"
-      this.fileSelectorPreviewTarget.appendChild(paragraph)
+      const cancelMessage = document.createElement("div")
+      cancelMessage.className = "cancelled small"
+      cancelMessage.textContent = lang("upload_cancelled")
+      this.fileSelectorPreviewTarget.appendChild(cancelMessage)
     } else {
       Array.from(currentFiles).forEach(file => {
         const template = document.getElementById("profile-upload-file")

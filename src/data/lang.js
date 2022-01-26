@@ -95,6 +95,7 @@ module.exports = {
     upload_additional_info:
       "##### Photo size and quality \n\nYou can scan your old paper photos with a flatbed scanner (600 DPI is recommended to ensure you get all the details in your pictures) Or, you can use [Google’s Photoscan mobile phone app](https://www.google.com/photos/scan/) to get similar results.",
     upload_choose: "Choose files",
+    upload_cancelled: "No files selected for upload.",
     upload_enabled_file_types: "Enabled photo file formats:  JPG, TIFF, PNG",
     upload_select_files: "Select file(s)",
     user_profile: "User Profile",

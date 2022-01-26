@@ -43,6 +43,11 @@
   .theme--light & {
     border: 1px solid $light-secondary;
   }
+
+  .cancelled {
+    padding: 1rem;
+    color: $grey;
+  }
 }
 
 .profile-upload__selected-file {
