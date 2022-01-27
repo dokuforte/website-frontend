@@ -17,7 +17,7 @@ export default class extends Controller {
       this.element.classList.add("snackbar--show")
     }, 50)
 
-    if (e.detail.autoHide) {
+    if (e.detail.autoHide !== false) {
       clearTimeout(this.snackbarTimer)
       this.snackbarTimer = setTimeout(() => {
         this.element.classList.remove("snackbar--show")

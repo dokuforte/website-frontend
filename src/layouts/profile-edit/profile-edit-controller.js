@@ -35,7 +35,7 @@ export default class extends Controller {
 
     this.telTarget.value = this.userData.tel ? this.userData.tel : ""
     this.telTarget.dataset.defaultValue = this.telTarget.value
-    trigger("keyup", {}, this.emailTarget)
+    trigger("keyup", {}, this.telTarget)
   }
 
   onPersonalFieldChange() {
@@ -53,6 +53,7 @@ export default class extends Controller {
   }
 
   updateAuthProfile() {
+    this.savePersonalChangesTarget.setAttribute("disabled", "")
     auth
       .updateAuthProfile(this.userData.id, {
         first_name: this.firstNameTarget.value,
@@ -60,7 +61,14 @@ export default class extends Controller {
         email: this.emailTarget.value,
       })
       .then(resp => {
-        console.log(resp)
+        if (resp.errors) {
+          this.savePersonalChangesTarget.removeAttribute("disabled")
+          trigger("snackbar:show", { message: resp.errors[0].message, status: "error" })
+        } else if (resp.data) {
+          this.userData = resp.data
+          this.initPersonalFields()
+          trigger("snackbar:show", { message: "Saved" })
+        }
       })
   }
 
