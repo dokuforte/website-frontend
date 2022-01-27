@@ -51,6 +51,15 @@ h2,
 h3,
 .h3 {
   font-size: rem(28px);
+  line-height: rem(32px);
+  @include font-heading-bold();
+}
+
+h4,
+.h4 {
+  font-size: rem(22px);
+  line-height: rem(28px);
+  margin-bottom: rem(24px);
   @include font-heading-bold();
 }
 

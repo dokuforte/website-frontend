@@ -67,6 +67,30 @@ const signup = async body => {
   throw new Error(respData.errors[0].message)
 }
 
+const refreshToken = async () => {
+  const authData = JSON.parse(localStorage.getItem("auth")) || {}
+  const url = `${config.API_HOST}/auth/refresh`
+
+  const body = { refresh_token: authData.refresh_token }
+  const resp = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(body),
+  })
+
+  const respData = await resp.json()
+  if (resp.status === 200) {
+    localStorage.setItem("auth", JSON.stringify(respData.data))
+    trigger("auth:refresh")
+  } else {
+    throw respData
+  }
+
+  return respData.data
+}
+
 const forgot = async email => {
   const body = {
     email,
@@ -123,11 +147,29 @@ const querySignedInUser = async () => {
   return signedIn ? resp.json() : resp
 }
 
+const updateAuthProfile = async (userId, body) => {
+  let resp = null
+  const authData = JSON.parse(localStorage.getItem("auth")) || {}
+  if (authData.access_token) {
+    resp = await fetch(`${config.API_HOST}/users/${userId}`, {
+      method: "PATCH",
+      mode: "cors",
+      headers: {
+        Authorization: `Bearer ${authData.access_token}`,
+      },
+      body: JSON.stringify(body),
+    })
+  }
+  return resp ? resp.json() : resp
+}
+
 export default {
   signin,
   signout,
   signup,
+  refreshToken,
   forgot,
   resetPassword,
   querySignedInUser,
+  updateAuthProfile,
 }

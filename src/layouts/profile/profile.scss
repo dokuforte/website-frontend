@@ -80,6 +80,14 @@
   margin: 0;
 }
 
+.profile-content__section + .profile-content__section {
+  margin-top: rem(48px);
+}
+
 .profile-content__actions {
   margin-top: 3rem;
+}
+
+.profile-content__row {
+  display: flex;
 }

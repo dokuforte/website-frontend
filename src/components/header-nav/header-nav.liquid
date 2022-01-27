@@ -110,11 +110,12 @@
       <span class="header-nav__link__small" data-header-nav-target="profileEmail"></span>
     </a>
     <a href="/{{ locale }}/profile/my-photos/" class="header-nav__link header-nav__link--top is-visible-when-signed-in"
-      >My Photos</a
+      >{{ lang[locale].my_photos }}</a
     >
     <a href="/{{ locale }}/profile/upload/" class="header-nav__link header-nav__link--top is-visible-when-signed-in"
-      >Upload</a
+      >{{ lang[locale].upload }}</a
     >
+    <a href="/{{ locale }}/profile/settings/" class="header-nav__link header-nav__link--top">{{ lang[locale].settings }}</a>
     <a
       href="#"
       class="header-nav__link header-nav__link--top header-nav__link--separator-after is-visible-when-signed-in"

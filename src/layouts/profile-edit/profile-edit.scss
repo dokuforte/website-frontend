@@ -1,0 +1,5 @@
+.profile-edit__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: rem(24px);
+}

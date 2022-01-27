@@ -61,7 +61,10 @@ export default class extends Controller {
     this.element.classList.remove("is-disabled")
     trigger("loader:hide", { id: "loaderBase" })
 
-    document.location.href = `/${getLocale()}/profile/edit/`
+    let redirectTo = localStorage.getItem("redirectAfterSignin")
+    localStorage.removeItem("redirectAfterSignin")
+    if (!redirectTo) redirectTo = `/${getLocale()}/profile/edit/`
+    document.location.href = redirectTo
   }
 
   hide() {

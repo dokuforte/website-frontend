@@ -1,3 +1,27 @@
 ---
 layout: profile/profile.liquid
 ---
+<div class="profile-edit" data-controller="profile-edit" data-action="auth:signedOut@document->profile-edit#redirectToHome">
+  <div class="profile-content__section">
+    <h4>{{ lang[locale].personal }}</h4>
+    <div class="profile-edit__grid">
+      {% include input/input.liquid type:'text' name:'first-name' label:lang[locale].first_name stimulus_target:'data-profile-edit-target="personalField firstName"' stimulus_action:"keyup->profile-edit#onPersonalFieldChange" %}
+      {% include input/input.liquid type:'text' name:'last-name' label:lang[locale].last_name stimulus_target:'data-profile-edit-target="personalField lastName"' stimulus_action:"keyup->profile-edit#onPersonalFieldChange" %}
+    </div>
+    {% include input/input.liquid type:'email' name:'email' label:lang[locale].email stimulus_target:'data-profile-edit-target="personalField email"' stimulus_action:"keyup->profile-edit#onPersonalFieldChange" %}
+    {% include input/input.liquid type:'tel' name:'tel' label:lang[locale].phone_number stimulus_target:'data-profile-edit-target="personalField tel"' stimulus_action:"keyup->profile-edit#onPersonalFieldChange" %}
+    <div class="profile-content__actions">
+      <button class="button button--primary" disabled data-profile-edit-target="savePersonalChanges" data-action="profile-edit#updateAuthProfile">Save changes</button>
+    </div>
+  </div>
+
+  <div class="profile-content__section">
+    <h4>{{ lang[locale].change_password }}</h4>
+    <button class="button button--primary" data-profile-edit-target="resetPassword">Request password reset</button>
+  </div>
+
+  <div class="profile-content__section">
+    <h4>{{ lang[locale].other }}</h4>
+    <button class="button button--red" data-profile-edit-target="deleteAccount">Delete account</button>
+  </div>
+</div>
