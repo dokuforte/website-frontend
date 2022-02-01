@@ -1,4 +1,5 @@
 const MarkdownIt = require("markdown-it")
+const moment = require("moment")
 
 exports.findItem = (scope, key, value) => {
   return scope.find(item => {
@@ -40,6 +41,10 @@ exports.date = (timestamp, locale) => {
     year: "numeric",
   })
   return dateFormat.format(new Date(parseInt(timestamp, 10)))
+}
+
+exports.date_format = date => {
+  return moment(date).format()
 }
 
 exports.sort = (arr, sortBy, order = "asc") => {
