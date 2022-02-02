@@ -28,11 +28,11 @@ module.exports = eleventyConfig => {
   eleventyConfig.addLiquidFilter("split", liquidFilters.split)
   eleventyConfig.addLiquidFilter("join", liquidFilters.join)
   eleventyConfig.addLiquidFilter("push", liquidFilters.push)
-  eleventyConfig.addLiquidFilter("date", liquidFilters.date)
   eleventyConfig.addLiquidFilter("sort", liquidFilters.sort)
   eleventyConfig.addLiquidFilter("markdownify", liquidFilters.markdownify)
   eleventyConfig.addLiquidFilter("slugify", liquidFilters.slugify)
   eleventyConfig.addLiquidFilter("format_price", liquidFilters.formatPrice)
+  eleventyConfig.addLiquidFilter("to_timestamp", liquidFilters.toTimestamp)
 
   // Minify html in production
   if (process.env.ENV === "production") {

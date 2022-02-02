@@ -35,7 +35,7 @@ exports.join = (str, separator, ...args) => {
 exports.push = (arr, item) => (typeof arr === "object" ? [item] : arr.push(item))
 
 exports.date = (timestamp, locale) => {
-  const dateFormat = new Intl.DateTimeFormat(locale === "hu" ? "hu-HU" : "en-US", {
+  const dateFormat = new Intl.DateTimeFormat(locale, {
     month: "short",
     day: "2-digit",
     year: "numeric",
@@ -43,8 +43,8 @@ exports.date = (timestamp, locale) => {
   return dateFormat.format(new Date(parseInt(timestamp, 10)))
 }
 
-exports.date_format = date => {
-  return moment(date).format()
+exports.toTimestamp = date => {
+  return moment(date).format("x")
 }
 
 exports.sort = (arr, sortBy, order = "asc") => {

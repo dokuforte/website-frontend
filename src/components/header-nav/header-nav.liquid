@@ -137,10 +137,14 @@
 
   <div class="header-nav__popup header-nav__notifications" data-header-nav-target="popup notifications">
     <h3 class="header-nav__popup__heading">{{ lang[locale].notifications }}</h3>
+    <!-- prettier-ignore -->
     <ul class="header-nav__notifications__messages">
-      {% capture now %}{% now %}{% endcapture %} {% assign count = 0 %} {% for notification in
-      notifications.notifications %} {% if notification.date < now and notification.lang == locale and count < 4 %} {%
-      assign count = count | plus: 1 %}
+      {% capture now %}{% now %}{% endcapture %}
+      {% assign count = 0 %}
+      {% for notification in notifications %}
+      {% assign notifaction_timestamp = notification.date | to_timestamp %}
+      {% if notifaction_timestamp < now and notification.lang == locale and count < 4 %}
+      {% assign count = count | plus: 1 %}
       <li
         class="header-nav__notifications__message"
         data-header-nav-target="notification"
@@ -148,7 +152,7 @@
       >
         <header class="header-nav__notifications__message__header">
           <h5 class="header-nav__notifications__message__title">{{ notification.title }}</h5>
-          <span class="header-nav__notifications__message__date">{% date notification.date, locale %}</span>
+          <span class="header-nav__notifications__message__date">{% date notifaction_timestamp, locale_date %}</span>
         </header>
         <p class="header-nav__notifications__message__content">{{ notification.message | markdownify }}</p>
       </li>

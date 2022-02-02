@@ -9,15 +9,13 @@ layout: base/base.liquid
     <div class="home__hero__background" data-controller="background-loader"></div>
     <div class="home__hero__search-wrapper">
       {% include search/search.liquid class:"home__search__input" type:"large" %}
-      {% if locale == "hu" %}
-      <div class="home__hero__total h3" data-home-target="total">Összesen <a href="/{{ locale }}/photos/"><span data-home-target="totalVal"></span> fénykép</a></div>
-      {% else %}
+      {% if locale == "en" %}
       <div class="home__hero__total h3" data-home-target="total"><a href="/{{ locale }}/photos/"><span data-home-target="totalVal"></span> photos</a> in total</div>
       {% endif %}
     </div>
     <div class="home__hero__content">
-      <h3 class="home__hero__headline">{{ description }}</h3>
-      <div class="home__hero__text">{{ content }}</div>
+      <h3 class="home__hero__headline">{{ lang[locale].home_lead }}</h3>
+      <div class="home__hero__text">{{ lang[locale].home_intro | markdownify }}</div>
     </div>
   </section>
   {% include footer/footer.liquid %}
