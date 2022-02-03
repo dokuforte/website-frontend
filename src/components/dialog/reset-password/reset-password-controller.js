@@ -27,16 +27,16 @@ export default class extends Controller {
 
       auth
         .resetPassword(password)
-        .then(() => {
+        .then(async () => {
           trigger("loader:hide", { id: "loaderBase" })
           this.element.classList.remove("is-disabled")
           trigger("dialogResetPassword:hide")
-          trigger("snackbar:show", { message: lang("password_reset_success"), status: "success", autoHide: true })
+          trigger("snackbar:show", { message: await lang("password_reset_success"), status: "success", autoHide: true })
         })
-        .catch(() => {
+        .catch(async () => {
           trigger("loader:hide", { id: "loaderBase" })
           this.element.classList.remove("is-disabled")
-          trigger("snackbar:show", { message: lang("password_reset_error"), status: "error", autoHide: true })
+          trigger("snackbar:show", { message: await lang("password_reset_error"), status: "error", autoHide: true })
         })
     }
   }

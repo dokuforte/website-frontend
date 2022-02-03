@@ -20,7 +20,7 @@ export default class extends Controller {
     this.loadThumbnailImage()
   }
 
-  clicked() {
+  async clicked() {
     const data = this.element.itemData
 
     // select thumbnail in photos list
@@ -32,7 +32,7 @@ export default class extends Controller {
     // set html page meta for social sharing
     setPageMeta(
       `#${data.id}`,
-      `${data.title ? `${data.title} — ` : ""}${lang("donor")}: ${data.donor} (${data.year})`,
+      `${data.title ? `${data.title} — ` : ""}${await lang("donor")}: ${data.donor} (${data.year})`,
       `${config.PHOTO_SOURCE}${data.mid}.jpg`
     )
   }

@@ -37,12 +37,12 @@ export default class extends Controller {
 
   // the server response returns a string based error message in English
   // so it needs to be localized
-  errorMessageHandler(text) {
+  async errorMessageHandler(text) {
     const errorMessages = {
-      "The user has not been activated or is blocked.": lang("user_signin_error"),
-      "Invalid user credentials.": lang("user_signin_error"),
-      '"email" must be a valid email': lang("user_signin_error"),
-      '"email" is not allowed to be empty': lang("user_signin_error"),
+      "The user has not been activated or is blocked.": await lang("user_signin_error"),
+      "Invalid user credentials.": await lang("user_signin_error"),
+      '"email" must be a valid email': await lang("user_signin_error"),
+      '"email" is not allowed to be empty': await lang("user_signin_error"),
     }
 
     return errorMessages[text]
@@ -65,7 +65,7 @@ export default class extends Controller {
     this.fileSelectorTarget.click()
   }
 
-  updateImageDisplay() {
+  async updateImageDisplay() {
     // remove current items
     while (this.fileSelectorPreviewTarget.firstChild) {
       this.fileSelectorPreviewTarget.removeChild(this.fileSelectorPreviewTarget.firstChild)
@@ -75,7 +75,7 @@ export default class extends Controller {
     if (currentFiles.length === 0) {
       const cancelMessage = document.createElement("div")
       cancelMessage.className = "cancelled small"
-      cancelMessage.textContent = lang("upload_cancelled")
+      cancelMessage.textContent = await lang("upload_cancelled")
       this.fileSelectorPreviewTarget.appendChild(cancelMessage)
     } else {
       Array.from(currentFiles).forEach(file => {

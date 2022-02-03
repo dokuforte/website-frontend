@@ -55,11 +55,11 @@ export default class extends Controller {
     trigger("snackbar:show", { message: statusText, status: "error", autoHide: true })
   }
 
-  success() {
+  async success() {
     trigger("loader:hide", { id: "loaderBase" })
     this.element.classList.remove("is-disabled")
 
-    trigger("snackbar:show", { message: lang("user_signup_success"), status: "success", autoHide: true })
+    trigger("snackbar:show", { message: await lang("user_signup_success"), status: "success", autoHide: true })
   }
 
   hide() {

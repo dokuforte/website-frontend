@@ -17,14 +17,17 @@ export default class extends Controller {
     this.element.classList.remove("is-visible")
   }
 
-  downloadImage() {
+  async downloadImage() {
     const data = selectedThumbnail.itemData
 
     const donatedBy = data.donated_by.map(donator => donator.name).join(",")
 
     this.element.classList.add("is-visible")
 
-    this.contentTarget.innerHTML = lang("dialog_download").replace("$donor", `<br/><b>Dokuforte / ${donatedBy}</b>`)
+    this.contentTarget.innerHTML = await lang("dialog_download").replace(
+      "$donor",
+      `<br/><b>Dokuforte / ${donatedBy}</b>`
+    )
 
     const a = document.createElement("a")
     a.setAttribute("download", data.id)

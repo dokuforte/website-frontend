@@ -21,13 +21,13 @@ export default class extends Controller {
   }
 
   showForm() {
-    auth.getUserStatus().then(userIsSignedIn => {
+    auth.getUserStatus().then(async userIsSignedIn => {
       if (userIsSignedIn) {
         this.addButtonTarget.classList.add("is-hidden")
         this.formTarget.classList.remove("is-hidden")
         this.inputTarget.selectizeControl.focus()
       } else {
-        trigger("snackbar:show", { message: lang("tags_signin_alert"), status: "error", autoHide: true })
+        trigger("snackbar:show", { message: await lang("tags_signin_alert"), status: "error", autoHide: true })
         trigger("dialogSignin:show")
       }
     })
@@ -54,12 +54,12 @@ export default class extends Controller {
     if (tags.length > 0) {
       tagsAPI
         .addTags(tags, data.mid[0])
-        .then(() => {
+        .then(async () => {
           this.inputTarget.selectizeControl.reset()
-          trigger("snackbar:show", { message: lang("tags_save_success"), status: "success", autoHide: true })
+          trigger("snackbar:show", { message: await lang("tags_save_success"), status: "success", autoHide: true })
         })
-        .catch(() => {
-          trigger("snackbar:show", { message: lang("tags_save_error"), status: "error", autoHide: true })
+        .catch(async () => {
+          trigger("snackbar:show", { message: await lang("tags_save_error"), status: "error", autoHide: true })
         })
     }
   }

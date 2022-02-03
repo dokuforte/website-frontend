@@ -161,8 +161,8 @@ export default class extends Controller {
   }
 
   // Custom event to load content and update page meta tag
-  historyPushState(e) {
-    window.history.pushState(null, lang("search"), e.detail.url)
+  async historyPushState(e) {
+    window.history.pushState(null, await lang("search"), e.detail.url)
     this.onPopState(e)
   }
 

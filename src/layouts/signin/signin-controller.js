@@ -34,24 +34,24 @@ export default class extends Controller {
 
   // the server response returns a string based error message in English
   // so it needs to be localized
-  errorMessageHandler(text) {
+  async errorMessageHandler(text) {
     const errorMessages = {
-      "The user has not been activated or is blocked.": lang("user_signin_error"),
-      "Invalid user credentials.": lang("user_signin_error"),
-      '"email" must be a valid email': lang("user_signin_error"),
-      '"email" is not allowed to be empty': lang("user_signin_error"),
+      "The user has not been activated or is blocked.": await lang("user_signin_error"),
+      "Invalid user credentials.": await lang("user_signin_error"),
+      '"email" must be a valid email': await lang("user_signin_error"),
+      '"email" is not allowed to be empty': await lang("user_signin_error"),
     }
 
     return errorMessages[text]
   }
 
-  error(respData) {
+  async error(respData) {
     this.element.classList.remove("is-disabled")
     trigger("loader:hide", { id: "loaderBase" })
 
     // show snackbar message
     trigger("snackbar:show", {
-      message: this.errorMessageHandler(respData.errors[0].message),
+      message: await this.errorMessageHandler(respData.errors[0].message),
       status: "error",
       autoHide: true,
     })

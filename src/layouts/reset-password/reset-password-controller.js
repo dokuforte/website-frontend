@@ -22,11 +22,15 @@ export default class extends Controller {
 
       auth
         .forgot(email)
-        .then(() => {
+        .then(async () => {
           trigger("loader:hide", { id: "loaderBase" })
           this.element.classList.remove("is-disabled")
           trigger("dialogResetPasswordRequest:hide")
-          trigger("snackbar:show", { message: lang("password_forgot_success"), status: "success", autoHide: true })
+          trigger("snackbar:show", {
+            message: await lang("password_forgot_success"),
+            status: "success",
+            autoHide: true,
+          })
         })
         .catch(statusText => {
           trigger("loader:hide", { id: "loaderBase" })
@@ -36,10 +40,10 @@ export default class extends Controller {
     }
   }
 
-  errorMessageHandler(text) {
+  async errorMessageHandler(text) {
     const errorMessages = {
-      "Unrecognized username or email address.": lang("password_forgot_error"),
-      "The user has not been activated or is blocked.": lang("password_forgot_not_activated"),
+      "Unrecognized username or email address.": await lang("password_forgot_error"),
+      "The user has not been activated or is blocked.": await lang("password_forgot_not_activated"),
     }
 
     return errorMessages[text]

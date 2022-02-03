@@ -6,17 +6,19 @@ export default class extends Controller {
     return ["title", "searchExpression", "count", "subtitle"]
   }
 
-  setTitle(e) {
+  async setTitle(e) {
     const photosCount = e.detail.total || 0
     const q = getURLParams()
 
+    console.log(await lang("photos"))
+
     // set main title
     if (typeof q.latest !== "undefined") {
-      this.titleTarget.textContent = lang("latest")
+      this.titleTarget.textContent = await lang("latest")
     } else if (Object.keys(q).length === 0 || !q.q || (q.q === "" && !q.latest === "")) {
-      this.titleTarget.textContent = lang("photos")
+      this.titleTarget.textContent = await lang("photos")
     } else {
-      this.titleTarget.textContent = lang("search")
+      this.titleTarget.textContent = await lang("search")
     }
 
     // set search expression tag content
@@ -24,25 +26,25 @@ export default class extends Controller {
       this.searchExpressionTarget.classList.remove("is-visible")
     } else if (Object.keys(q).indexOf("advancedSearch") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
-      this.searchExpressionTarget.innerHTML = `${lang("advanced_search")}`
+      this.searchExpressionTarget.innerHTML = `${await lang("advanced_search")}`
     } else if (Object.keys(q).indexOf("donatedby") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
-      this.searchExpressionTarget.innerHTML = `${lang("donor")}: <em>${q.donatedby}</em>`
+      this.searchExpressionTarget.innerHTML = `${await lang("donor")}: <em>${q.donatedby}</em>`
     } else if (Object.keys(q).indexOf("source") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
-      this.searchExpressionTarget.innerHTML = `${lang("photographer")}: <em>${q.source}</em>`
+      this.searchExpressionTarget.innerHTML = `${await lang("photographer")}: <em>${q.source}</em>`
     } else if (Object.keys(q).indexOf("year") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
-      this.searchExpressionTarget.innerHTML = `${lang("year")}: <em>${q.year}</em>`
+      this.searchExpressionTarget.innerHTML = `${await lang("year")}: <em>${q.year}</em>`
     } else if (Object.keys(q).indexOf("location") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
-      this.searchExpressionTarget.innerHTML = `${lang("location")}: <em>${q.location}</em>`
+      this.searchExpressionTarget.innerHTML = `${await lang("location")}: <em>${q.location}</em>`
     } else if (Object.keys(q).indexOf("tag") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
-      this.searchExpressionTarget.innerHTML = `${lang("tag")}: <em>${q.tag}</em>`
+      this.searchExpressionTarget.innerHTML = `${await lang("tag")}: <em>${q.tag}</em>`
     } else if (Object.keys(q).indexOf("q") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
-      this.searchExpressionTarget.innerHTML = `${lang("search_phrase")}: <em>${q.q}</em>`
+      this.searchExpressionTarget.innerHTML = `${await lang("search_phrase")}: <em>${q.q}</em>`
     }
 
     // set photo counter

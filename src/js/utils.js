@@ -1,10 +1,28 @@
-import langData from "../data/lang"
+import siteConfig from "../data/siteConfig"
 
 export const getLocale = () => {
   return document.querySelector("body").dataset.lang
 }
 
-export const lang = key => {
+let langData = null
+export const lang = async key => {
+  if (!langData) {
+    await fetch(`${siteConfig.API_HOST}/items/dictionary/?limit=500`)
+      .then(res => res.json())
+      .then(json => {
+        langData = {}
+        const responseData = json.data
+        responseData.forEach(item => {
+          Object.keys(item).forEach(itemKey => {
+            if (siteConfig.LOCALES[itemKey]) {
+              if (!langData[itemKey]) langData[itemKey] = {}
+              langData[itemKey][item.key] = item[itemKey]
+            }
+          })
+        })
+      })
+  }
+  console.log(langData)
   const l = langData[getLocale()]
   const val = l[key] ? l[key] : key
   return val.replace(/(?:\r\n|\r|\n)/g, "<br/>")
@@ -112,7 +130,7 @@ export const onClassChange = (node, callback) => {
   })
 }
 
-export const copyToClipboard = (textToCopy, type) => {
+export const copyToClipboard = async (textToCopy, type) => {
   const input = document.createElement("textarea")
   input.className = "visuallyhidden"
   input.value = textToCopy
@@ -124,13 +142,13 @@ export const copyToClipboard = (textToCopy, type) => {
   const res = document.execCommand("copy")
   if (res) {
     trigger("snackbar:show", {
-      message: type === "link" ? lang("copy_link_clipboard") : lang("copy_text_clipboard"),
+      message: type === "link" ? await lang("copy_link_clipboard") : await lang("copy_text_clipboard"),
       autoHide: true,
       status: "success",
     })
   } else {
     trigger("snackbar:show", {
-      message: type === "link" ? lang("copy_link_clipboard_failed") : lang("copy_text_clipboard_failed"),
+      message: type === "link" ? await lang("copy_link_clipboard_failed") : await lang("copy_text_clipboard_failed"),
       autoHide: true,
       status: "error",
     })
