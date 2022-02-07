@@ -10,8 +10,6 @@ export default class extends Controller {
     const photosCount = e.detail.total || 0
     const q = getURLParams()
 
-    console.log(await lang("photos"))
-
     // set main title
     if (typeof q.latest !== "undefined") {
       this.titleTarget.textContent = await lang("latest")

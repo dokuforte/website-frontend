@@ -8,9 +8,9 @@ export default class extends Controller {
     return ["content"]
   }
 
-  show() {
+  async show() {
     this.element.classList.add("is-visible")
-    this.downloadImage()
+    await this.downloadImage()
   }
 
   hide() {
