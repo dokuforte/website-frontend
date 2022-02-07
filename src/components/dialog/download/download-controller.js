@@ -8,9 +8,9 @@ export default class extends Controller {
     return ["content"]
   }
 
-  async show() {
+  show() {
     this.element.classList.add("is-visible")
-    await this.downloadImage()
+    this.downloadImage()
   }
 
   hide() {
@@ -24,10 +24,9 @@ export default class extends Controller {
 
     this.element.classList.add("is-visible")
 
-    this.contentTarget.innerHTML = await lang("dialog_download").replace(
-      "$donor",
-      `<br/><b>Dokuforte / ${donatedBy}</b>`
-    )
+    const dialogInnerContent = await lang("dialog_download")
+
+    this.contentTarget.innerHTML = dialogInnerContent.replace("$donor", `<br/><b>Dokuforte / ${donatedBy}</b>`)
 
     const a = document.createElement("a")
     a.setAttribute("download", data.id)
