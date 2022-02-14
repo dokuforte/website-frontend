@@ -10,7 +10,7 @@ export default class extends Controller {
   connect() {
     auth.querySignedInUser().then(userData => {
       if (userData) {
-        this.userData = userData.data
+        this.userData = userData.data[0]
         this.initPersonalFields()
       } else {
         // redirect to login

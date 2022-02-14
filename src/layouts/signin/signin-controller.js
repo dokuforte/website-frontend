@@ -11,7 +11,7 @@ export default class extends Controller {
     this.formTarget.submit = this.submit.bind(this)
 
     auth.querySignedInUser().then(userData => {
-      if (userData) {
+      if (userData.count === 1) {
         this.success()
       }
     })

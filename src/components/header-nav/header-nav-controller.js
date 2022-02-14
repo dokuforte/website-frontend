@@ -101,8 +101,8 @@ export default class extends Controller {
   checkIfUserIsSignedIn() {
     auth.querySignedInUser().then(userData => {
       if (userData) {
-        this.profileNameTarget.textContent = `${userData.data.first_name} ${userData.data.last_name}`
-        this.profileEmailTarget.textContent = userData.data.email
+        this.profileNameTarget.textContent = `${userData.data[0].first_name} ${userData.data[0].last_name}`
+        this.profileEmailTarget.textContent = userData.data[0].email
       }
     })
   }

@@ -137,9 +137,12 @@ const querySignedInUser = async () => {
   let resp = null
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
   if (authData.access_token) {
-    resp = await fetch(`${config.API_HOST}/users/me?access_token=${authData.access_token}`, {
+    resp = await fetch(`${config.API_HOST}/mydata/getprofile`, {
       method: "GET",
       mode: "cors",
+      headers: {
+        Authorization: `Bearer ${authData.access_token}`,
+      },
     })
     signedIn = resp.status === 200
   }
@@ -151,8 +154,8 @@ const updateAuthProfile = async (userId, body) => {
   let resp = null
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
   if (authData.access_token) {
-    resp = await fetch(`${config.API_HOST}/users/${userId}`, {
-      method: "PATCH",
+    resp = await fetch(`${config.API_HOST}/mydata/editprofile/`, {
+      method: "POST",
       mode: "cors",
       headers: {
         Authorization: `Bearer ${authData.access_token}`,
