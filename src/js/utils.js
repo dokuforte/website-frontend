@@ -209,3 +209,15 @@ export const globalSettings = {
     delete globalSettingsStorage[key]
   },
 }
+
+export const redirectTo = href => {
+  let redirectToHref = localStorage.getItem("redirectAfterSignin")
+  localStorage.removeItem("redirectAfterSignin")
+  if (!redirectToHref) redirectToHref = href
+  document.location.href = redirectToHref
+}
+
+export const comeBackAfterSignIn = () => {
+  localStorage.setItem("redirectAfterSignin", document.location.href)
+  document.location.href = `/${getLocale()}/signin/`
+}

@@ -15,7 +15,9 @@
     data-autosuggest="{{ autosuggest }}"
     data-autosuggest-target="input"
     {% endunless %}
-    
+    {% if readonly %}
+    readonly
+    {% endif %}
   />
   {% unless autosuggest == null %}
   <div class="autosuggest" data-autosuggest-target="autosuggest"></div>

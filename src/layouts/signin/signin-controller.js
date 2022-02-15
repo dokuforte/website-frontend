@@ -1,5 +1,5 @@
 import { Controller } from "stimulus"
-import { trigger, lang, getLocale } from "../../js/utils"
+import { trigger, lang, redirectTo, getLocale } from "../../js/utils"
 import auth from "../../api/auth"
 
 export default class extends Controller {
@@ -61,30 +61,6 @@ export default class extends Controller {
     this.element.classList.remove("is-disabled")
     trigger("loader:hide", { id: "loaderBase" })
 
-    let redirectTo = localStorage.getItem("redirectAfterSignin")
-    localStorage.removeItem("redirectAfterSignin")
-    if (!redirectTo) redirectTo = `/${getLocale()}/profile/edit/`
-    document.location.href = redirectTo
-  }
-
-  hide() {
-    this.element.classList.remove("is-visible")
-  }
-
-  show() {
-    this.element.classList.add("is-visible")
-    this.emailTarget.focus()
-  }
-
-  showPasswordRequestDialog(e) {
-    e.preventDefault()
-    trigger("dialogs:hide")
-    trigger("dialogResetPasswordRequest:show")
-  }
-
-  showSignupDialog(e) {
-    e.preventDefault()
-    trigger("dialogs:hide")
-    trigger("dialogSignup:show")
+    redirectTo(`/${getLocale()}/profile/edit/`)
   }
 }

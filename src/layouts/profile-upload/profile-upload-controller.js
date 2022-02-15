@@ -1,4 +1,5 @@
 import { Controller } from "stimulus"
+import auth from "../../api/auth"
 import { trigger, lang, getLocale } from "../../js/utils"
 
 const returnFileSize = number => {
@@ -15,7 +16,7 @@ const returnFileSize = number => {
 
 export default class extends Controller {
   static get targets() {
-    return ["form", "fileSelector", "fileSelectorPreview", "submitButton"]
+    return ["form", "fileSelector", "fileSelectorPreview", "tags", "location", "submitButton"]
   }
 
   connect() {
@@ -28,9 +29,21 @@ export default class extends Controller {
     }) */
   }
 
-  submit(e) {
+  async submit(e) {
     if (e) e.preventDefault()
 
+    const createAlbumResp = await auth.createAlbum()
+    const albumId = createAlbumResp.data[0].id
+
+    const formData = new FormData(this.formTarget)
+    formData.append("albumid", albumId)
+    formData.append("album_title", albumId)
+    formData.append("tags", this.tagsTarget.selectizeControl.value.toString())
+    formData.append("location", this.locationTarget.selectizeControl.value.toString())
+
+    auth.editAlbum(Object.fromEntries(formData)).then(resp => {
+      console.log(resp)
+    })
     // trigger("loader:show", { id: "loaderBase" })
     // this.element.classList.add("is-disabled")
   }

@@ -1,5 +1,5 @@
 import { Controller } from "stimulus"
-import { trigger, lang } from "../../js/utils"
+import { trigger, lang, redirectTo, getLocale } from "../../js/utils"
 import auth from "../../api/auth"
 
 export default class extends Controller {
@@ -13,29 +13,29 @@ export default class extends Controller {
 
   async submit(e) {
     e.preventDefault()
-    const credentials = {}
+    this.credentials = {}
     if (this.firstNameTarget.value.length > 0) {
-      credentials.first_name = this.firstNameTarget.value
+      this.credentials.first_name = this.firstNameTarget.value
     }
     if (this.lastNameTarget.value.length > 0) {
-      credentials.last_name = this.lastNameTarget.value
+      this.credentials.last_name = this.lastNameTarget.value
     }
     if (this.emailTarget.value.length > 0) {
-      credentials.email = this.emailTarget.value
+      this.credentials.email = this.emailTarget.value
     }
     if (this.passwordTarget.value.length > 0) {
-      credentials.password = this.passwordTarget.value
+      this.credentials.password = this.passwordTarget.value
     }
-    credentials.role = "eca918be-4232-4b66-96f4-3501507f5b97"
+    this.credentials.role = "eca918be-4232-4b66-96f4-3501507f5b97"
 
     trigger("loader:show", { id: "loaderBase" })
     this.element.classList.add("is-disabled")
 
-    const resp = await auth.signup(credentials).catch(err => {
+    const resp = await auth.signup(this.credentials).catch(err => {
       this.error(err.message)
     })
 
-    if (resp.status === 200) {
+    if (resp.status === 204) {
       this.success()
     }
   }
@@ -60,6 +60,18 @@ export default class extends Controller {
     this.element.classList.remove("is-disabled")
 
     trigger("snackbar:show", { message: await lang("user_signup_success"), status: "success", autoHide: true })
+
+    // sign in and redirect to profile
+    setTimeout(() => {
+      auth
+        .signin(this.credentials)
+        .then(() => {
+          redirectTo(`/${getLocale()}/profile/edit/`)
+        })
+        .catch(err => {
+          this.error(err)
+        })
+    }, 2000)
   }
 
   hide() {

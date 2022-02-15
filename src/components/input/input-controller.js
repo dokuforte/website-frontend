@@ -20,7 +20,7 @@ export default class extends Controller {
     if (e.key === "Enter") {
       e.preventDefault()
       if (this.inputTarget.value.length > 0) {
-        this.inputTarget.form.submit()
+        if (this.inputTarget.form) this.inputTarget.form.submit()
       }
     }
   }

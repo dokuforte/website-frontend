@@ -3,35 +3,35 @@ layout: profile/profile.liquid
 ---
 
 <div data-controller="profile-upload" class="profile-upload">
-  <div>{{ lang[locale].upload_lead }}</div>
-  <form class="profile-upload__form" data-profile-upload-target="form">
-    <div class="profile-content__section">
-      <div class="profile-upload__file-selector">
-        <div class="profile-upload__file-selector__input-wrapper">
-          <div class="button-circular button-circular--accent" data-action="click->profile-upload#chooseFiles">
-            {% inlineSVG src:"src/static/images/icons/24/icon-add.svg" class:"button-circular__icon" %}
-            <div class="button-circular__label">{{ lang[locale].upload_choose }}</div>
-          </div>
-          <input 
-            class="profile-upload__file-selector__input"
-            data-profile-upload-target="fileSelector"
-            type="file"
-            name="image_uploads" 
-            multiple
-            accept="image/png, image/jpeg, image/tiff"
-            data-action="change->profile-upload#updateImageDisplay"
-          />
+  <div>{{ lang[locale].upload_lead | markdownify }}</div>
+  <div class="profile-content__section">
+    <div class="profile-upload__file-selector">
+      <div class="profile-upload__file-selector__input-wrapper">
+        <div class="button-circular button-circular--accent" data-action="click->profile-upload#chooseFiles">
+          {% inlineSVG src:"src/static/images/icons/24/icon-add.svg" class:"button-circular__icon" %}
+          <div class="button-circular__label">{{ lang[locale].upload_choose }}</div>
         </div>
-        <div class="profile-upload__file-selector__label">
-          <h5>{{ lang[locale].upload_select_files }}</h5>
-          <div class="small color-grey">{{ lang[locale].upload_enabled_file_types }}</div>
-          <div class="small">{{ lang[locale].upload_additional_info | markdownify }}</div>
-        </div>
+        <input 
+          class="profile-upload__file-selector__input"
+          data-profile-upload-target="fileSelector"
+          type="file"
+          name="image_uploads" 
+          multiple
+          accept="image/png, image/jpeg, image/tiff"
+          data-action="change->profile-upload#updateImageDisplay"
+        />
       </div>
-      <div class="profile-upload__selected-files" data-profile-upload-target="fileSelectorPreview"></div>
+      <div class="profile-upload__file-selector__label">
+        <h5>{{ lang[locale].upload_select_files }}</h5>
+        <div class="small color-grey">{{ lang[locale].upload_enabled_file_types }}</div>
+        <div class="small">{{ lang[locale].upload_additional_info | markdownify }}</div>
+      </div>
     </div>
+    <div class="profile-upload__selected-files" data-profile-upload-target="fileSelectorPreview"></div>
+  </div>
     
-    <div class="profile-content__section">
+  <div class="profile-content__section">
+    <form class="profile-upload__form" data-profile-upload-target="form">
       <h4>Additional metadata</h4>
       
       {% include input/input.liquid type:'text' name:'title' label:lang[locale].title stimulus_target:'data-profile-upload-target="title"' %}
@@ -67,8 +67,8 @@ layout: profile/profile.liquid
           {{ lang[locale].upload }}
         </button>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 
 <template id="profile-upload-file">

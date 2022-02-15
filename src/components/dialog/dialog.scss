@@ -98,6 +98,12 @@
   line-height: rem(24px);
 }
 
+.dialog__buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1.5rem;
+}
+
 .dialog__content__action {
   @include font-heading-demi();
   display: block;

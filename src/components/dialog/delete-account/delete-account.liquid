@@ -1,0 +1,28 @@
+<div class="dialog dialog-delete-account" 
+     data-controller="dialog--delete-account"
+     data-action="dialogs:hide@document->dialog--delete-account#hide
+                  dialogDeleteAccount:show@document->dialog--delete-account#show
+                  dialogDeleteAccount:hide@document->dialog--delete-account#hide">
+  <div class="dialog__wrapper">
+      <div class="button-circular dialog__close"
+           data-action="click->dialog--delete-account#hide"
+      >
+        {% inlineSVG src:"src/static/images/icons/24/icon-close.svg" class:"button-circular__icon" %}
+        <div class="button-circular__label">{{ lang[locale].close }}</div>
+      </div>
+      <h3 class="dialog__title">{{ lang[locale].account_delete }}</h3>
+      <p class="dialog__content">
+        {{ lang[locale].account_delete_prompt }}
+      </p>
+      <div class="dialog__buttons">
+        <button class="button button--secondary dialog__button" 
+          data-dialog--delete-account-target="cancelButton"
+          data-action="click->dialog--delete-account#hide"
+  >{{ lang[locale].cancel }}</button>
+        <button class="button button--primary dialog__button" 
+          data-dialog--delete-account-target="submitButton"
+          data-action="click->dialog--delete-account#submit"
+  >{{ lang[locale].account_delete_yes }}</button>
+      </div>
+  </div>
+</div>

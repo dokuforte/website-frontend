@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 import auth from "../../api/auth"
-import { trigger, getLocale } from "../../js/utils"
+import { trigger, getLocale, comeBackAfterSignIn, lang } from "../../js/utils"
 
 export default class extends Controller {
   static get targets() {
@@ -8,14 +8,12 @@ export default class extends Controller {
   }
 
   connect() {
-    auth.querySignedInUser().then(userData => {
-      if (userData) {
-        this.userData = userData.data[0]
+    auth.querySignedInUser().then(data => {
+      if (data) {
+        this.userData = data
         this.initPersonalFields()
       } else {
-        // redirect to login
-        localStorage.setItem("redirectAfterSignin", document.location.href)
-        document.location.href = `/${getLocale()}/signin/`
+        comeBackAfterSignIn()
       }
     })
   }
@@ -33,46 +31,54 @@ export default class extends Controller {
     this.emailTarget.dataset.defaultValue = this.emailTarget.value
     trigger("keyup", {}, this.emailTarget)
 
-    this.telTarget.value = this.userData.tel ? this.userData.tel : ""
+    this.telTarget.value = this.userData.phone ? this.userData.phone : ""
     this.telTarget.dataset.defaultValue = this.telTarget.value
     trigger("keyup", {}, this.telTarget)
   }
 
-  onPersonalFieldChange() {
-    let formHasChange = false
+  onPersonalFieldChange(e) {
+    this.changedProfileParams = {}
     this.personalFieldTargets.forEach(field => {
       if (field.dataset.defaultValue !== field.value && field.value !== undefined) {
-        formHasChange = true
+        this.changedProfileParams[field.name] = field.value
       }
     })
-    if (formHasChange) {
+
+    if (Object.keys(this.changedProfileParams).length > 0) {
       this.savePersonalChangesTarget.removeAttribute("disabled")
     } else {
       this.savePersonalChangesTarget.setAttribute("disabled", "")
     }
+
+    if (e.key === "Enter") {
+      this.updateAuthProfile()
+    }
   }
 
-  updateAuthProfile() {
-    this.savePersonalChangesTarget.setAttribute("disabled", "")
-    auth
-      .updateAuthProfile(this.userData.id, {
-        first_name: this.firstNameTarget.value,
-        last_name: this.lastNameTarget.value,
-        email: this.emailTarget.value,
-      })
-      .then(resp => {
+  async updateAuthProfile() {
+    if (!this.savePersonalChangesTarget.hasAttribute("disabled")) {
+      this.savePersonalChangesTarget.setAttribute("disabled", "")
+      auth.updateAuthProfile(this.userData.id, this.changedProfileParams).then(async resp => {
         if (resp.errors) {
           this.savePersonalChangesTarget.removeAttribute("disabled")
           trigger("snackbar:show", { message: resp.errors[0].message, status: "error" })
         } else if (resp.data) {
-          this.userData = resp.data
+          // this.userData = resp.data
+          this.userData = await auth.querySignedInUser()
           this.initPersonalFields()
-          trigger("snackbar:show", { message: "Saved" })
+          trigger("snackbar:show", { message: await lang("profile_updated") })
         }
       })
+    }
   }
 
   redirectToHome() {
     document.location.href = `/${getLocale()}/`
+  }
+
+  showDeleteAccountDialog(e) {
+    e.preventDefault()
+    trigger("dialogs:hide")
+    trigger("dialogDeleteAccount:show")
   }
 }

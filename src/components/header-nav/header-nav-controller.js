@@ -2,7 +2,7 @@ import { Controller } from "stimulus"
 import throttle from "lodash/throttle"
 import auth from "../../api/auth"
 import siteConfig from "../../data/siteConfig"
-import { trigger } from "../../js/utils"
+import { redirectTo, trigger, getLocale } from "../../js/utils"
 
 export default class extends Controller {
   static get targets() {
@@ -90,7 +90,7 @@ export default class extends Controller {
 
   signOut(e) {
     e.preventDefault()
-    auth.signout()
+    auth.signout().then(() => redirectTo(`/${getLocale()}`))
   }
 
   showSearchDialog(e) {
@@ -101,8 +101,8 @@ export default class extends Controller {
   checkIfUserIsSignedIn() {
     auth.querySignedInUser().then(userData => {
       if (userData) {
-        this.profileNameTarget.textContent = `${userData.data[0].first_name} ${userData.data[0].last_name}`
-        this.profileEmailTarget.textContent = userData.data[0].email
+        this.profileNameTarget.textContent = `${userData.first_name} ${userData.last_name}`
+        this.profileEmailTarget.textContent = userData.email
       }
     })
   }
