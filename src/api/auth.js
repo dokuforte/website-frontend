@@ -189,52 +189,6 @@ const deleteAccount = async () => {
   return resp ? resp.json() : resp
 }
 
-const createAlbum = async () => {
-  let resp = null
-  const authData = JSON.parse(localStorage.getItem("auth")) || {}
-  if (authData.access_token) {
-    resp = await fetch(`${config.API_HOST}/mydata/createalbum`, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        Authorization: `Bearer ${authData.access_token}`,
-      },
-    })
-  }
-  return resp ? resp.json() : resp
-}
-
-const editAlbum = async params => {
-  let resp = null
-  const authData = JSON.parse(localStorage.getItem("auth")) || {}
-  if (authData.access_token) {
-    const queryParams = new URLSearchParams(params).toString()
-    resp = await fetch(`${config.API_HOST}/mydata/editalbum?${queryParams}}`, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        Authorization: `Bearer ${authData.access_token}`,
-      },
-    })
-  }
-  return resp ? resp.json() : resp
-}
-
-const submitAlbum = async albumId => {
-  let resp = null
-  const authData = JSON.parse(localStorage.getItem("auth")) || {}
-  if (authData.access_token) {
-    resp = await fetch(`${config.API_HOST}/mydata/submitalbum?id=${albumId}`, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        Authorization: `Bearer ${authData.access_token}`,
-      },
-    })
-  }
-  return resp ? resp.json() : resp
-}
-
 export default {
   signin,
   signout,
@@ -245,7 +199,4 @@ export default {
   querySignedInUser,
   updateAuthProfile,
   deleteAccount,
-  createAlbum,
-  editAlbum,
-  submitAlbum,
 }
