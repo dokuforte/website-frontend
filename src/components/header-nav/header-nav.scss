@@ -253,6 +253,28 @@
   }
 }
 
+.header-nav__link--separator-before {
+  margin-top: 1.5rem;
+  position: relative;
+}
+
+.header-nav__link--separator-before::after {
+  content: "";
+  position: absolute;
+  top: -0.75rem;
+  left: 1.5rem;
+  right: 0;
+  height: 1px;
+
+  .theme--light & {
+    background-color: $light-secondary;
+  }
+
+  .theme--dark & {
+    background-color: $dark-tertiary;
+  }
+}
+
 .header-nav__link--separator-after {
   margin-bottom: 1.5rem;
   position: relative;

@@ -66,7 +66,7 @@ export default class extends Controller {
       auth
         .signin(this.credentials)
         .then(() => {
-          redirectTo(`/${getLocale()}/profile/edit/`)
+          redirectTo(`/${getLocale()}/profile/my-photos/`)
         })
         .catch(err => {
           this.error(err)
