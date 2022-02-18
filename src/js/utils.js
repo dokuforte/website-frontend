@@ -22,7 +22,6 @@ export const lang = async key => {
         })
       })
   }
-  console.log(langData)
   const l = langData[getLocale()]
   const val = l[key] ? l[key] : key
   return val.replace(/(?:\r\n|\r|\n)/g, "<br/>")

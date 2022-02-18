@@ -11,13 +11,15 @@ export default class extends Controller {
   }
 
   connect() {
-    this.formTarget.submit = this.submit.bind(this)
+    if (this.hasFormTarget) {
+      this.formTarget.submit = this.submit.bind(this)
 
-    // reset selectize control
-    setTimeout(() => {
-      this.inputTarget.selectizeControl.reset()
-      this.hideForm()
-    }, 100)
+      // reset selectize control
+      setTimeout(() => {
+        this.inputTarget.selectizeControl.reset()
+        this.hideForm()
+      }, 100)
+    }
   }
 
   showForm() {
@@ -42,8 +44,10 @@ export default class extends Controller {
   }
 
   hideForm() {
-    this.addButtonTarget.classList.remove("is-hidden")
-    this.formTarget.classList.add("is-hidden")
+    if (this.hasFormTarget) {
+      this.addButtonTarget.classList.remove("is-hidden")
+      this.formTarget.classList.add("is-hidden")
+    }
   }
 
   submit(e) {

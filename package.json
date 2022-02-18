@@ -70,6 +70,7 @@
     "md5-file": "^5.0.0",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.7",
+    "object-deep-from-entries": "^0.4.0",
     "object.fromentries": "^2.0.3",
     "stimulus": "^2.0.0",
     "url-search-params-polyfill": "^8.1.0"

@@ -15,6 +15,7 @@ export default class extends Controller {
       "notifications",
       "profile",
       "notificationIcon",
+      "language",
     ]
   }
 

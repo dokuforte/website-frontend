@@ -57,9 +57,9 @@ export default class extends Controller {
   // set thumbnail meta data
   applyThumbnailData() {
     const data = this.element.itemData
-    const metaArray = [data.year, data.addressline.trim() !== "" ? data.addressline.trim() : null]
+    const metaArray = [data.year, data.title.trim() !== "" ? data.title.trim() : null]
     this.metaTarget.textContent = metaArray.filter(Boolean).join(" · ")
-    this.descriptionTarget.innerHTML = stripTags(data.title) || stripTags(data.description) || ""
+    this.descriptionTarget.innerHTML = stripTags(data.description) || stripTags(data.addressline) || ""
   }
 
   // load thumbnail image

@@ -280,6 +280,10 @@
   font-size: rem(18px);
 }
 
+.header-nav__link--uppercase {
+  text-transform: uppercase;
+}
+
 .header-nav__link__small {
   @include font-body;
   font-size: rem(12px);

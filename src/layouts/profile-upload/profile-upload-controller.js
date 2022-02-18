@@ -4,6 +4,8 @@ import { trigger, lang, getLocale } from "../../js/utils"
 
 const SLICE_SIZE = 262144
 
+const delay = ms => new Promise(res => setTimeout(res, ms))
+
 const returnFileSize = number => {
   let n
   if (number < 1024) {
@@ -34,14 +36,19 @@ const createAlbum = async () => {
 const editAlbum = async formData => {
   let resp = null
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
+  const jsonData = JSON.stringify(Object.fromEntries(formData))
+    .replace(/\\"/g, '"')
+    .replace(/:"{"/g, ':{"')
+    .replace(/"}"/g, '"}')
   if (authData.access_token) {
-    const queryParams = new URLSearchParams(formData).toString()
-    resp = await fetch(`${config.API_HOST}/mydata/editalbum?${queryParams}`, {
-      method: "GET",
+    resp = await fetch(`${config.API_HOST}/mydata/editalbum`, {
+      method: "POST",
       mode: "cors",
       headers: {
         Authorization: `Bearer ${authData.access_token}`,
+        "Content-Type": "application/json; charset=utf-8",
       },
+      body: jsonData,
     })
   }
   return resp ? resp.json() : resp
@@ -72,15 +79,26 @@ const uploadFile = (fileNode, albumid) => {
     let uploadId
     let startingByte = 0
     let uploadSize = 0
+    let chunkRetries = 0
 
     const checkUploadProgress = async () => {
-      const statusResp = await fetch(
-        `${config.API_HOST}/multiupload/status/?fileName=${file.name}&uploadid=${uploadId}`
-      )
+      try {
+        const statusResp = await fetch(
+          `${config.API_HOST}/multiupload/status/?filename=${file.name}&uploadid=${uploadId}`,
+          {
+            mode: "cors",
+            headers: {
+              Authorization: `Bearer ${authData.access_token}`,
+            },
+          }
+        )
 
-      const statusRespData = await statusResp.json()
-      console.log("checkUploadSize", statusRespData.uploadSize)
-      return statusRespData.uploadSize
+        const statusRespData = await statusResp.json()
+        console.log("checkUploadSize", statusRespData.uploadSize)
+        return statusRespData.uploadSize
+      } catch (err) {
+        throw new Error(err)
+      }
     }
 
     const onChunkUploadProgress = e => {
@@ -89,50 +107,70 @@ const uploadFile = (fileNode, albumid) => {
     }
 
     const onChunkUploadFinished = async res => {
-      if (res.status === 200) {
-        uploadSize = await checkUploadProgress()
-        if (file.size === uploadSize) {
-          console.log("uploadIsDone")
-          resolve(fileId)
-        } else {
-          startingByte = uploadSize
-          console.log("uploadNextChunk", startingByte)
-          uploadChunk()
-        }
+      if (res.target.status === 200) {
+        chunkRetries = 0
+
+        // const resData = JSON.parse(res.target.responseText)
+        // if (resData.rangeEnd === file.size) {
+        // console.log("uploadIsDone - rangeEnd")
+        // resolve(fileId)
+        // } else {
+        checkUploadProgress()
+          .then(resp => {
+            uploadSize = resp
+
+            if (file.size === uploadSize) {
+              console.log("uploadIsDone")
+              resolve(fileId)
+            } else {
+              startingByte = uploadSize
+              console.log("uploadNextChunk", startingByte)
+              // eslint-disable-next-line no-use-before-define
+              uploadChunk()
+            }
+          })
+          .catch(err => {
+            onChunkUploadError(err)
+          })
+        // }
+      } else {
+        onChunkUploadError()
       }
     }
 
-    const onChunkUploadError = err => {
-      // TODO: retry 2-3 times to upload the chunk then reject
+    const onChunkUploadError = async err => {
       console.log("uploadError", err)
-      reject()
+
+      if (chunkRetries <= 3) {
+        chunkRetries += 1
+        uploadSize = await checkUploadProgress()
+        startingByte = uploadSize
+        console.log("retry uploading chunk", startingByte)
+        setTimeout(uploadChunk, 1500)
+      } else {
+        reject()
+      }
     }
 
     const uploadChunk = () => {
       const formData = new FormData()
-      const chunk = file.slice(startingByte, startingByte + SLICE_SIZE)
+      const chunk = file.slice(startingByte, Math.min(startingByte + SLICE_SIZE, file.size))
       formData.append("uploadid", uploadId)
       formData.append("type", file.type)
       formData.append("chunk", chunk, file.name)
 
-      fetch(`${config.API_HOST}/multiupload/data/`, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Range": `bytes=${startingByte} - ${startingByte + chunk.size} / ${file.size}`,
-          "X-File-Id": uploadId,
-          "X-File-Type": file.type,
-          Authorization: `Bearer ${authData.access_token}`,
-        },
-        body: formData,
-      })
-        .then(resp => {
-          console.log("chunkUploadFinished", resp)
-          onChunkUploadFinished()
-        })
-        .catch(err => {
-          onChunkUploadError(err)
-        })
+      const request = new XMLHttpRequest()
+      request.open("POST", `${config.API_HOST}/multiupload/data/`)
+      request.upload.addEventListener("progress", onChunkUploadProgress)
+      request.addEventListener("load", onChunkUploadFinished)
+      request.addEventListener("error", onChunkUploadError)
+      request.addEventListener("timeout", onChunkUploadError)
+      request.setRequestHeader("Content-Range", `bytes=${startingByte} - ${startingByte + chunk.size} / ${file.size}`)
+      request.setRequestHeader("X-File-Id", uploadId)
+      request.setRequestHeader("X-File-Type", file.type)
+      request.setRequestHeader("Authorization", `Bearer ${authData.access_token}`)
+      request.timeout = 10000
+      request.send(formData)
     }
 
     const uploadParams = {
@@ -141,14 +179,14 @@ const uploadFile = (fileNode, albumid) => {
       filetype: "application/MediaStream",
       filesize: 0,
     }
-    const uploadParamsString = new URLSearchParams(uploadParams).toString()
-    fetch(`${config.API_HOST}/multiupload/request/?${uploadParamsString}`, {
+    fetch(`${config.API_HOST}/multiupload/request/`, {
       method: "POST",
       mode: "cors",
       headers: {
         Authorization: `Bearer ${authData.access_token}`,
+        "Content-Type": "application/json; charset=utf-8",
       },
-      // body: JSON.stringify(),
+      body: JSON.stringify(uploadParams),
     })
       .then(async resp => {
         console.log(resp)
@@ -190,21 +228,22 @@ export default class extends Controller {
     formData.set("tags", this.tagsTarget.selectizeControl.value.join(", "))
     formData.set("addressline", this.locationTarget.selectizeControl.value.join(", "))
 
-    editAlbum(formData)
+    editAlbum(JSON.stringify(Object.fromEntries(formData)))
       .then(resp => {
         console.log(resp)
       })
-      .catch(e => {
-        this.errorMessageHandler(e)
+      .catch(err => {
+        this.errorMessageHandler(err)
       })
 
     // START FILE UPLOAD
     this.fileSelectorPreviewTarget.childNodes.forEach(async fileNode => {
       const fileId = await uploadFile(fileNode, this.albumId)
-      uploadedFiles[fileId] = `²±${fileNode.file.name}`
+      uploadedFiles[fileId] = `${fileNode.file.name}`
 
       console.log(uploadedFiles)
-      formData.set("original_photos", uploadedFiles)
+      formData.set(`original_photos`, JSON.stringify(uploadedFiles))
+      await delay(1200)
       await editAlbum(formData)
     })
   }

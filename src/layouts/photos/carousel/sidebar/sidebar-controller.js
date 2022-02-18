@@ -6,7 +6,7 @@ import { setAppState, removeAppState, toggleAppState, appState } from "../../../
 
 export default class extends Controller {
   static get targets() {
-    return ["location", "description", "year", "donor", "author", "mid", "tags"]
+    return ["title", "location", "description", "year", "donor", "author", "mid", "tags"]
   }
 
   connect() {
@@ -37,6 +37,12 @@ export default class extends Controller {
       return null
     }
 
+    this.titleTarget.innerHTML = ""
+    if (data.title || (!data.title && data.description)) {
+      this.titleTarget.innerHTML = data.title ? stripTags(data.title) : stripTags(data.description)
+      this.titleTarget.parentNode.style.display = "block"
+    }
+
     const locationArray = data.addressline
       .split(", ")
       .map(val => `<a href="?location=${encodeURIComponent(val.trim())}">${val.trim()}</a>`)
@@ -49,7 +55,7 @@ export default class extends Controller {
     }
 
     this.descriptionTarget.innerHTML = ""
-    if (data.description) {
+    if (data.title && data.description) {
       this.descriptionTarget.innerHTML = stripTags(data.description)
       this.descriptionTarget.parentNode.style.display = "block"
     } else if (locationArray.length === 0) {

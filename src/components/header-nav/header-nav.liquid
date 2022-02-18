@@ -37,10 +37,12 @@
     </div>
 
     <div class="header-nav__actions__group header-nav__actions__group--nav">
+      {% comment %}
       <a href="#" class="button-circular header-nav__menu-icon" data-popup="menu" data-action="click->header-nav#togglePopup">
         {% inlineSVG src:"src/static/images/icons/24/icon-menu.svg" class:"button-circular__icon" %}
         <div class="button-circular__label">{{ lang[locale].menu }}</div>
       </a>
+      {% endcomment %}
       <a
         href="#"
         class="button-circular header-nav__notification-icon"
@@ -72,9 +74,15 @@
           <div class="button-circular__label">{{ lang[locale].profile }}</div>
         </a>
       </div>
+      <div class="header-nav__language-selector">
+        <a href="#" class="header-nav__link header-nav__link--uppercase header-nav__link--top header-nav__link--top-action" data-popup="language" data-action="click->header-nav#togglePopup">
+        {{ locale }}
+        </a>
+      </div>
     </div>
   </div>
 
+  {% comment %}
   <div class="header-nav__popup" data-header-nav-target="popup menu">
     <a class="header-nav__link header-nav__link--top header-nav__link--hide-on-desktop" href="/{{ locale }}/photos/">{{
       lang[locale].photos
@@ -95,6 +103,7 @@
     <a class="header-nav__link" href="mailto:{{ siteConfig.EMAIL }}">{{ lang[locale].contact_us }}</a>
     <a class="header-nav__link" href="/{{ locale }}/privacy/">{{ lang[locale].privacy_policy }}</a>
   </div>
+  {% endcomment %}
 
   <div class="header-nav__popup" data-header-nav-target="popup profile">
     <a href="/{{ locale }}/signin/" class="header-nav__link header-nav__link--top is-hidden-when-signed-in">{{
@@ -122,7 +131,9 @@
       data-action="click->header-nav#signOut"
       >{{ lang[locale].signout }}</a
     >
-    <h6>{{ lang[locale].language }}</h6>
+  </div>
+
+  <div class="header-nav__popup" data-header-nav-target="popup language">
     {% for l in siteConfig.LOCALES %}
     <a
       class="header-nav__link header-nav__link--top header-nav__link__lang lang-{{ l[0] }}"
