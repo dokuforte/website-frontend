@@ -216,7 +216,7 @@ export const redirectTo = href => {
   document.location.href = redirectToHref
 }
 
-export const comeBackAfterSignIn = () => {
-  localStorage.setItem("redirectAfterSignin", document.location.href)
+export const comeBackAfterSignIn = targetURL => {
+  localStorage.setItem("redirectAfterSignin", targetURL || document.location.href)
   document.location.href = `/${getLocale()}/signin/`
 }

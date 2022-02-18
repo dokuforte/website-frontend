@@ -7,7 +7,13 @@ module.exports = async function() {
   console.log("Fetching lang data...")
   const lang = {}
 
-  return fetch(`${siteConfig.API_HOST}/items/dictionary/?limit=${REQUEST_LIMIT}`)
+  return fetch(`${siteConfig.API_HOST}/items/dictionary/?limit=${REQUEST_LIMIT}`, {
+    headers: {
+      pragma: "no-cache",
+      "cache-control": "no-cache",
+    },
+    cache: "no-cache",
+  })
     .then(res => res.json())
     .then(json => {
       const responseData = json.data
