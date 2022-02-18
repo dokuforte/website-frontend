@@ -30,7 +30,7 @@ export default class extends Controller {
 
     const a = document.createElement("a")
     a.setAttribute("download", data.id)
-    a.href = `${config.API_HOST}/assets/${data.photo_full}?key=full`
+    a.href = `/download/${data.photo_full}`
     a.click()
   }
 }

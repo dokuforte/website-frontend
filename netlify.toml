@@ -28,3 +28,9 @@
   to = "/en/"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/download/:photoID"
+  to = "https://api.dokuforte.com/assets/:photoID?key=full"
+  status = 200
+  force = true
