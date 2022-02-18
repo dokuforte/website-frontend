@@ -5,4 +5,4 @@ import "./scss/styles.scss"
 import "./js/stimulus"
 
 // Init GA event handling
-// import "./js/google-analytics"
+import "./js/google-analytics"

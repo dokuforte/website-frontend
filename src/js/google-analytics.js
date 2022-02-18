@@ -9,36 +9,37 @@
  *
  */
 
+const GA_MEASUREMENT_ID = "G-66H6LGGJL7"
+
 const GA = {
   init: () => {
     // pollute window
-    window.ga =
-      window.ga ||
-      function(...args) {
-        window.ga.q = window.ga.q || []
-        window.ga.q.push(args)
-      }
-    window.ga.l = +new Date()
-    window.ga("create", "UA-19831966-3", "auto")
-    window.ga("send", "pageview")
+    window.dataLayer = window.dataLayer || []
+    function gtag() {
+      // eslint-disable-next-line prefer-rest-params
+      window.dataLayer.push(arguments)
+    }
+    gtag("js", new Date())
+
+    gtag("config", GA_MEASUREMENT_ID)
 
     // inject GA script to document header
     const a = document.createElement("script")
     a.async = true
-    a.src = "https://www.google-analytics.com/analytics.js"
+    a.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`
     const s = document.getElementsByTagName("script")[0]
     s.parentNode.insertBefore(a, s)
   },
   trackPageView: () => {
-    if (window.ga) window.ga("send", "pageview", document.location.pathname + document.location.search)
+    if (window.dataLayer) {
+      window.gtag("event", "page_view", document.location.pathname + document.location.search)
+    }
   },
   trackEvent: (c, a, l) => {
-    if (window.ga)
-      window.ga("send", {
-        hitType: "event",
-        eventCategory: c,
-        eventAction: a,
-        eventLabel: l,
+    if (window.dataLayer)
+      window.gtag("event", a, {
+        event_category: c,
+        event_label: l,
       })
   },
 }
