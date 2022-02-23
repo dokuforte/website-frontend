@@ -2,8 +2,8 @@ import { Controller } from "stimulus"
 import { trigger, getURLParams } from "../../js/utils"
 import { setAppState, removeAppState } from "../../js/app"
 
-const YEAR_MIN = 1900
-const YEAR_MAX = 1990
+const YEAR_MIN = 1840
+const YEAR_MAX = 1998
 
 export default class extends Controller {
   static get targets() {
