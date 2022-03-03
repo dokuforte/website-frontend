@@ -1,0 +1,41 @@
+<div class="fileuploader {{ class }}" data-controller="fileselector{% unless autosuggest == null %} autosuggest{% endunless %}">
+  <div class="v-button">
+	<label for="{{ name }}" data-input-target="label" class="fileuploader__label">
+	  {{ label }} Select files
+	  <input class="fileuploader__select" 
+		id="{{ name }}" 
+	    name="{{ name }}" 
+	    type="file" 
+	    style="display: none;"
+	  />
+	</label>
+		<!-- fileuploader__input input class="multiupload_edit" :value="value" ref="mainElement" @input="handleChange" v-on:change="handleChange" v-on:load="handleLoad" style="x-display:none;"/ -->
+  </div>
+  <div class="fileuploader__list" id="{{name}}_fileuploader__list" style="border: 1px solid  #AAA; background: #FFF; width: 100%; border-radius: 5px;"> </div>
+
+  <input class="fileuploader__input" 
+	id="{{ name }}" 
+    name="{{ name }}" 
+    type="{{ type }}" 
+    data-input-target="input"
+    {{ stimulus_target }}
+    data-action="keyup->input#keyup keypress->input#keypress {{ stimulus_action }}{% unless autosuggest == null %} keyup->autosuggest#keyup{% endunless %}"
+    {% if readonly %}
+    readonly
+    {% endif %}
+    style="x-display: none;"
+  />
+  <script language="javascript">  
+  	var el = document.getElementById ("{{ name }}");
+
+	setTimeout (function () {
+  	  console.log ("@3@ script loaded - element=", JSON.stringify (el));
+	  var listValues = {};
+
+      el.initialize ();
+      el.initUploader (el, null, el.value);
+	}, 2000);
+  	
+  	// initUploader (el, null, el.value);
+  </script>
+</div>
