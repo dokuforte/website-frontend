@@ -11,6 +11,8 @@ layout: profile/profile.liquid
           {% inlineSVG src:"src/static/images/icons/24/icon-add.svg" class:"button-circular__icon" %}
           <div class="button-circular__label">{{ lang[locale].upload_choose }}</div>
         </div>
+
+
         <input 
           class="profile-upload__file-selector__input"
           data-profile-upload-target="fileSelector"
@@ -18,7 +20,7 @@ layout: profile/profile.liquid
           name="image_uploads" 
           multiple
           accept="image/png, image/jpeg, image/tiff"
-          data-action="change->profile-upload#updateImageDisplay"
+          x-data-action="change->profile-upload#updateImageDisplay"
         />
       </div>
       <div class="profile-upload__file-selector__label">
@@ -27,15 +29,22 @@ layout: profile/profile.liquid
         <div class="small">{{ lang[locale].upload_additional_info | markdownify }}</div>
       </div>
     </div>
-    <div class="profile-upload__selected-files" data-profile-upload-target="fileSelectorPreview"></div>
+    <div name="selected-files" class="profile-upload__selected-files is-visible" data-profile-upload-target="fileSelectorPreview"></div>
+    
+    {% include input/input.liquid type:'text' name:'originalphotos' label:lang[locale].originalphotos stimulus_target:'data-profile-upload-target="originalphotos"' %}
+    
   </div>
     
   <div class="profile-content__section">
     <form class="profile-upload__form" data-profile-upload-target="form">
       <h4>Additional metadata</h4>
       
+      {% include input/input.liquid type:'text' name:'albumtitle' label:lang[locale].albumtitle stimulus_target:'data-profile-upload-target="albumtitle"' %}
       {% include input/input.liquid type:'text' name:'title' label:lang[locale].title stimulus_target:'data-profile-upload-target="title"' %}
       {% include textarea/textarea.liquid name:'description' label:lang[locale].description stimulus_target:'data-profile-upload-target="description"' %}
+
+      {% include input/input.liquid type:'text' name:'hebrewtitle' label:lang[locale].hebrewtitle stimulus_target:'data-profile-upload-target="hebrewtitle"' %}
+      {% include textarea/textarea.liquid name:'hebrewdescription' label:lang[locale].hebrewdescription stimulus_target:'data-profile-upload-target="hebrewdescription"' %}
 
       {% include selectize-control/selectize-control.liquid 
         class:'profile-upload__form__location'
@@ -45,7 +54,6 @@ layout: profile/profile.liquid
         stimulus_target:'data-profile-upload-target="location"' 
       %}
 
-      {% include input/input.liquid type:'text' name:'donatedby' autosuggest:'donatedby' label:lang[locale].donated_by stimulus_target:'data-profile-upload-target="donatedBy"' %}
       {% include input/input.liquid type:'text' name:'photographer' autosuggest:'photographer' label:lang[locale].photographer stimulus_target:'data-profile-upload-target="photographer"' %}
       
       {% include selectize-control/selectize-control.liquid 
