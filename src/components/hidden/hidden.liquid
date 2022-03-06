@@ -1,25 +1,13 @@
-<div class="input-wrapper {{ class }}" data-controller="input{% unless autosuggest == null %} autosuggest{% endunless %}">
-  <label for="{{ name }}" data-input-target="label" class="input-wrapper__label">{{ label }}</label>
-  <input class="input-wrapper__input" 
+<div class="hidden-wrapper {{ class }}" data-controller="input{% unless autosuggest == null %} autosuggest{% endunless %}">
+  <label for="{{ name }}" data-hidden-target="label" class="hidden-wrapper__label">{{ label }}</label>
+  <input class="hidden-wrapper__input" 
     name="{{ name }}" 
     type="{{ type }}" 
-    {% if pattern %}
-    pattern="{{ pattern }}"
-    {% endif %}
     autocomplete="off"
     placeholder="{{ label }}"
-    data-input-target="input"
+    data-hidden-target="hidden"
     {{ stimulus_target }}
-    data-action="keyup->input#keyup keypress->input#keypress {{ stimulus_action }}{% unless autosuggest == null %} keyup->autosuggest#keyup{% endunless %}"
-    {% unless autosuggest == null %}
-    data-autosuggest="{{ autosuggest }}"
-    data-autosuggest-target="input"
-    {% endunless %}
-    {% if readonly %}
+    x-data-action="keyup->hidden#keyup keypress->hidden#keypress {{ stimulus_action }}"
     readonly
-    {% endif %}
   />
-  {% unless autosuggest == null %}
-  <div class="autosuggest" data-autosuggest-target="autosuggest"></div>
-  {% endunless %}
 </div>
