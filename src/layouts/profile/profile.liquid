@@ -8,7 +8,6 @@ hide_search: true
   <nav class="profile-nav">
     <div class="profile-nav__wrapper">
       <a href="/{{locale}}/profile/edit" class="profile-nav__item {% if permalink contains "edit" %}is-selected{% endif %}" data-action="profile#onNavItemClick">{{ lang[locale].account }}</a>
-      <a href="/{{locale}}/profile/my-photos" class="profile-nav__item {% if permalink contains "my-photos" %}is-selected{% endif %}" data-action="profile#onNavItemClick">{{ lang[locale].my_photos }}</a>
       <a href="/{{locale}}/profile/upload" class="profile-nav__item {% if permalink contains "upload" %}is-selected{% endif %}" data-action="profile#onNavItemClick">{{ lang[locale].upload }}</a>
       <a href="/{{locale}}/profile/settings" class="profile-nav__item {% if permalink contains "settings" %}is-selected{% endif %}" data-action="profile#onNavItemClick">{{ lang[locale].settings }}</a>
       <div class="profile-nav__caption caption">{{ lang[locale].browse }}</div>
