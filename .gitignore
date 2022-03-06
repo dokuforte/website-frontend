@@ -23,4 +23,5 @@ src/static/autocomplete-hu.json
 .DS_Store
 
 # Eclipse related
-.settings
+.project
+
