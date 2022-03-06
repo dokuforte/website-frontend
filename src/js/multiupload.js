@@ -44,7 +44,8 @@ export function findElementByName (name) {
  * @param fileControls	JSON: {idListElement, fileSelectorElement, fileListElement} 
  * @param iaxios		directus system API instance for axios calls
  * @param value			inputbox value coming from the database
- * @param albumid		album id to attach files to. Optional, TODO  
+ * @param albumid		album id to attach files to. Optional.
+ *						TODO - implement album handling
  */
 export function initUploader (fileControls, iaxios, value, albumid = 0) {
 	/***
@@ -87,6 +88,7 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 
 	var systemAPI = iaxios;
 
+	// TODO - cleanup
 	// fileElement = findElementByName (fileControls.fileSelectorName);
 	// fileList = findElementByName (fileControls.fileListName);
 	// fileEdit = findElementByName (fileControls.idListName);
@@ -104,6 +106,7 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 
 	console.log ("@@@ InitUploader called");
 
+	console.log ("---", JSON.stringify (fileHandles));
 
 	if (fileHandles != null)
 	Object.entries (fileHandles).forEach (([key, value]) => {
@@ -204,27 +207,13 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 		 * Upload and track files
 		 */
 		const uploadAndTrackFiles = (() => {
-			// const fileList = document.getElementById (uploadList);
-			// const fileList = fileElement;
-			// const file = fileElement.files;
-
 			var uploader = null;
 
 			const setFileElement = (file) => {
 				listAddControl (file, progressButtonClick);
-				// create file element here⏹
 			}
 			
 			function progressButtonClick (filex) {
-		/**  /		
-				var targ;
-
-				if (!e) var e = window.event;
-				if (e.target) targ = e.target;
-				else if (e.srcElement) targ = e.srcElement;
-				if (targ.nodeType == 3) // defeat Safari bug
-				targ = targ.parentNode;
-		/**/		
 				switch (filex.uploadStatus) {
 					case UPLOADSTATUS.PROGRESS:
 					case UPLOADSTATUS.WAITING:
@@ -266,11 +255,9 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 					const fileReq = fileRequests.get (filex);
 					filex.uploadStatus = UPLOADSTATUS.COMPLETED;
 					
+					// TODO - implement a way to check if the thumbnail is ready
 					setTimeout (() => {
-						if ((typeof fileHandles) == "string") fileHandles = {}; // TODO some strange force redefining an already initialized object into string
-						// console.log (typeof fileHandles);
-						// console.log (JSON.stringify (fileReq.options));
-						
+						if ((typeof fileHandles) == "string") fileHandles = {};
 						listSetFinished (filex);
 						fileHandles[filex.uploadID] = filex.name;
 						fileEdit.value = JSON.stringify (fileHandles);
@@ -305,7 +292,6 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 			/** */
 			const uploadFile = (file, options) => {
 				console.log ("###/ - ", JSON.stringify (file.name));
-				// API call with correct credentials
 				console.log ("@@@ iaxios : ", JSON.stringify (iaxios.post));
 				iaxios.post (ENDPOINTS.UPLOAD_REQUEST, {
 					filename: file.name,
@@ -320,7 +306,6 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 				.catch (e => {
 					options.onError ({...e, file})
 				});
-		/**/
 			};
 
 			/** */
@@ -452,9 +437,6 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 					options.onError (res, file);
 				};
 			});
-
-
-	/**/
 
 		};
 
