@@ -1,5 +1,4 @@
-console.log ("$$$ multiupload.js");
-// initUploader (uploadButton, uploadList);
+import config from "../data/siteConfig"
 
 
 
@@ -68,10 +67,10 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 	}
 
 	const ENDPOINTS = {
-		UPLOAD: "https://api.dokuforte.com/multiupload/data/",
-		UPLOAD_STATUS: "https://api.dokuforte.com/multiupload/status/",
-		UPLOAD_REQUEST: "https://api.dokuforte.com/multiupload/request/",
-		ASSETS: "https://api.dokuforte.com/assets/",
+		UPLOAD: `${config.API_HOST}/multiupload/data/`,
+		UPLOAD_STATUS: `${config.API_HOST}/multiupload/status/`,
+		UPLOAD_REQUEST: `${config.API_HOST}/multiupload/request/`,
+		ASSETS: `${config.API_HOST}/assets/`,
 	};
 
 	const defaultOptions = {
