@@ -61,6 +61,7 @@ export default class extends Controller {
     this.element.classList.remove("is-disabled")
     trigger("loader:hide", { id: "loaderBase" })
 
-    redirectTo(`/${getLocale()}/profile/my-photos/`)
+    // redirectTo(`/${getLocale()}/profile/my-photos/`)
+    redirectTo(`/${getLocale()}/profile/edit/`)
   }
 }
