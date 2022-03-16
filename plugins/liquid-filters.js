@@ -1,4 +1,5 @@
 const MarkdownIt = require("markdown-it")
+const markdownItAttrs = require("markdown-it-attrs")
 const moment = require("moment")
 
 exports.findItem = (scope, key, value) => {
@@ -62,6 +63,11 @@ exports.sort = (arr, sortBy, order = "asc") => {
 
 exports.markdownify = (str, options) => {
   const md = new MarkdownIt(options ? JSON.parse(options) : null)
+  md.use(markdownItAttrs, {
+    leftDelimiter: "{",
+    rightDelimiter: "}",
+    allowedAttributes: [],
+  })
   return md.render(str)
 }
 

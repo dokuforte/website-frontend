@@ -87,6 +87,12 @@ ul {
   font-weight: 400;
 }
 
+.lead {
+  font-size: rem(24px);
+  line-height: rem(32px);
+  font-weight: 400;
+}
+
 p a,
 .link {
   color: $accent;
