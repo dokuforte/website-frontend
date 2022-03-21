@@ -5,8 +5,8 @@ pagination:
     size: 1
     alias: p
 permalink: "/{{ p.locale }}/{{ p.permalink }}/"
-title: "{{ p.title }}"
 eleventyComputed:
+  title: "{{ p.title }}"
   date: {{ p.date }}
 ---
 {{ p.content }}
