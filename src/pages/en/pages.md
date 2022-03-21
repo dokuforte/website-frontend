@@ -4,10 +4,9 @@ pagination:
     data: pages
     size: 1
     alias: p
+permalink: "/{{ p.locale }}/{{ p.permalink }}/"
+title: "{{ p.title }}"
 eleventyComputed:
-  title: "{{ p.title }}"
-  page_class: "{{ p.page_class }}"
-  permalink: "/en/{{ p.permalink }}/"
   date: {{ p.date }}
 ---
 {{ p.content }}

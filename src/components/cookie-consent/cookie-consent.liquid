@@ -6,10 +6,7 @@
       data-action="submit->cookie-consent#disableFormSubmit keypress->cookie-consent#disableFormSubmitOnEnter"
     >
       <div class="cookie-consent__blurb styled-links">
-        {% if locale == "hu" %} Ez a weboldal sütiket használ, hogy a lehető legjobb élményt nyújtsa Önnek.
-        <a href="/hu/privacy/">További információ</a> {% elsif locale == "en" %} We use cookies to ensure that we give
-        you the best experience on our website. <a href="/en/privacy/">View Policy</a>
-        {% endif %}
+        {{ lang[locale].cookie_consent }}
       </div>
       <div class="cookie-consent__form__actions">
         <button class="button button--secondary button--medium" data-action="cookie-consent#hide">
