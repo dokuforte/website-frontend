@@ -6,7 +6,7 @@
       data-action="submit->cookie-consent#disableFormSubmit keypress->cookie-consent#disableFormSubmitOnEnter"
     >
       <div class="cookie-consent__blurb styled-links">
-        {{ lang[locale].cookie_consent }}
+        {{ lang[locale].cookie_consent | markdownify }}
       </div>
       <div class="cookie-consent__form__actions">
         <button class="button button--secondary button--medium" data-action="cookie-consent#hide">

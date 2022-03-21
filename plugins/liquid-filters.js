@@ -61,12 +61,10 @@ exports.sort = (arr, sortBy, order = "asc") => {
   return arrSorted
 }
 
-exports.markdownify = (str, options) => {
-  const md = new MarkdownIt(options ? JSON.parse(options) : null)
-  md.use(markdownItAttrs, {
+exports.markdownify = str => {
+  const md = new MarkdownIt().use(markdownItAttrs, {
     leftDelimiter: "{",
     rightDelimiter: "}",
-    allowedAttributes: [],
   })
   return md.render(str)
 }
