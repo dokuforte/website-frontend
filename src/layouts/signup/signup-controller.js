@@ -21,7 +21,7 @@ export default class extends Controller {
     this.formTarget.submit = this.submit.bind(this)
   }
 
-  get formIsValid() {
+  async formIsValid() {
     const formElements = this.formTarget.elements
     let isValid = true
     let i = 0
@@ -29,21 +29,21 @@ export default class extends Controller {
       if (formElements[i].value === "" && formElements[i].hasAttribute("required")) {
         isValid = false
         formElements[i].focus()
-        trigger("snackbar:show", { message: "All fields must be filled out.", status: "error", autoHide: true })
       }
-
-      console.log(isValid, formElements.length)
 
       i += 1
     }
 
+    if (!isValid) {
+      trigger("snackbar:show", { message: await lang("signup_must_filled"), status: "error", autoHide: true })
+    }
     return isValid
   }
 
   async submit(e) {
     e.preventDefault()
 
-    if (this.formIsValid) {
+    if (await this.formIsValid()) {
       this.credentials = {}
       if (this.firstNameTarget.value.length > 0) {
         this.credentials.first_name = this.firstNameTarget.value
