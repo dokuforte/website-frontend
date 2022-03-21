@@ -31,6 +31,6 @@
 
 [[redirects]]
   from = "/download/:photoID"
-  to = "https://api.dokuforte.com/assets/:photoID?key=full"
+  to = "https://api.dokuforte.com/assets/:photoID"
   status = 200
   force = true
