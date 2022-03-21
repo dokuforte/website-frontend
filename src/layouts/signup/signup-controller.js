@@ -4,44 +4,79 @@ import auth from "../../api/auth"
 
 export default class extends Controller {
   static get targets() {
-    return ["form", "firstName", "lastName", "email", "password", "submitButton", "checkboxTerms"]
+    return [
+      "form",
+      "firstName",
+      "lastName",
+      "email",
+      "phone",
+      "password",
+      "submitButton",
+      "checkboxRead",
+      "checkboxAge",
+    ]
   }
 
   connect() {
     this.formTarget.submit = this.submit.bind(this)
   }
 
+  get formIsValid() {
+    const formElements = this.formTarget.elements
+    let isValid = true
+    let i = 0
+    while (isValid && i < formElements.length) {
+      if (formElements[i].value === "" && formElements[i].hasAttribute("required")) {
+        isValid = false
+        formElements[i].focus()
+        trigger("snackbar:show", { message: "All fields must be filled out.", status: "error", autoHide: true })
+      }
+
+      console.log(isValid, formElements.length)
+
+      i += 1
+    }
+
+    return isValid
+  }
+
   async submit(e) {
     e.preventDefault()
-    this.credentials = {}
-    if (this.firstNameTarget.value.length > 0) {
-      this.credentials.first_name = this.firstNameTarget.value
-    }
-    if (this.lastNameTarget.value.length > 0) {
-      this.credentials.last_name = this.lastNameTarget.value
-    }
-    if (this.emailTarget.value.length > 0) {
-      this.credentials.email = this.emailTarget.value
-    }
-    if (this.passwordTarget.value.length > 0) {
-      this.credentials.password = this.passwordTarget.value
-    }
-    this.credentials.role = "eca918be-4232-4b66-96f4-3501507f5b97"
 
-    trigger("loader:show", { id: "loaderBase" })
-    this.element.classList.add("is-disabled")
+    if (this.formIsValid) {
+      this.credentials = {}
+      if (this.firstNameTarget.value.length > 0) {
+        this.credentials.first_name = this.firstNameTarget.value
+      }
+      if (this.lastNameTarget.value.length > 0) {
+        this.credentials.last_name = this.lastNameTarget.value
+      }
+      if (this.emailTarget.value.length > 0) {
+        this.credentials.email = this.emailTarget.value
+      }
+      if (this.phoneTarget.value.length > 0) {
+        this.credentials.phone = this.phoneTarget.value
+      }
+      if (this.passwordTarget.value.length > 0) {
+        this.credentials.password = this.passwordTarget.value
+      }
+      this.credentials.role = "eca918be-4232-4b66-96f4-3501507f5b97"
 
-    const resp = await auth.signup(this.credentials).catch(err => {
-      this.error(err.message)
-    })
+      trigger("loader:show", { id: "loaderBase" })
+      this.element.classList.add("is-disabled")
 
-    if (resp.status === 204) {
-      this.success()
+      const resp = await auth.signup(this.credentials).catch(err => {
+        this.error(err.message)
+      })
+
+      if (resp.status === 204) {
+        this.success()
+      }
     }
   }
 
-  enable(e) {
-    if (e.target.checked) {
+  enable() {
+    if (this.checkboxReadTarget.checked && this.checkboxAgeTarget.checked) {
       this.submitButtonTarget.disabled = false
     } else {
       this.submitButtonTarget.disabled = true

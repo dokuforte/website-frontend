@@ -1,12 +1,16 @@
+.checkbox-wrapper {
+  display: flex;
+}
+
 .checkbox-wrapper:not(:first-child) {
   margin-top: 0.5rem;
 }
+
 .checkbox-wrapper__checkbox {
   margin: 0;
   padding: 0;
-  margin-right: 0.5rem;
-  margin-top: -0.125rem;
-  vertical-align: middle;
+  margin-right: 0.75rem;
+  margin-top: 0.125rem;
   appearance: none;
   height: 0.875rem;
   width: 0.875rem;
@@ -46,5 +50,6 @@
 }
 
 .checkbox-wrapper__label {
+  flex: 1;
   font-size: rem(13px);
 }

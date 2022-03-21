@@ -5,9 +5,7 @@ layout: auth/auth.liquid
 <div class="signup-wrapper scrollview" data-controller="scrollview" data-action="scroll->scrollview#handleScroll">
   <div class="signup" data-controller="signup">
     <h2 class="signup__title">{{ lang[locale].signup }}</h2>
-
-    <p class="small">{{ lang[locale].signup_blurb }}</p>
-
+    <p class="lead">{{ lang[locale].signup_blurb }}</p>
     <div class="signup__links">
       <a href="/{{ locale }}/signin" class="link-with-arrow link-with-arrow--small">{{ lang[locale].signin_long }}</a>
     </div>
@@ -16,30 +14,47 @@ layout: auth/auth.liquid
       {% include input/input.liquid 
                   type:"text"
                   name:"first_name"
+                  required: true
                   label:lang[locale].first_name
                   stimulus_target:'data-signup-target="firstName"'
       %}
       {% include input/input.liquid 
                   type:"text"
                   name:"last_name"
+                  required: true
                   label:lang[locale].last_name
                   stimulus_target:'data-signup-target="lastName"'
       %}
       {% include input/input.liquid 
                   type:"email"
                   name:"email"
+                  required: true
                   label:lang[locale].email 
                   stimulus_target:'data-signup-target="email"'
       %}
       {% include input/input.liquid 
-                  type:"password"
-                  name:"password"
-                  label:lang[locale].password
-                  stimulus_target:'data-signup-target="password"'
+        type:"tel"
+        name:"phone"
+        required: true
+        label:lang[locale].phone_number
+        stimulus_target:'data-signup-target="phone"'
+      %} 
+      {% include input/input.liquid 
+        type:"password"
+        name:"password"
+        required: true
+        label:lang[locale].password
+        stimulus_target:'data-signup-target="password"'
       %}
-      <div class="checkbox-wrapper">
-        <input class="checkbox-wrapper__checkbox" type="checkbox" name="terms" id="signup-confirm-terms" data-action="change->signup#enable">
-        <label for="signup-confirm-terms" class="checkbox-wrapper__label">{{ lang[locale].signup_read }} <a href="/{{ locale }}/terms/" class="link">{{ lang[locale].terms }}</a></label>
+      <div class="signup__checkboxes">
+        <div class="checkbox-wrapper">
+          <input class="checkbox-wrapper__checkbox" type="checkbox" name="age" id="signup-confirm-age" data-signup-target="checkboxAge" data-action="change->signup#enable">
+          <label for="signup-confirm-age" class="checkbox-wrapper__label">{{ lang[locale].signup_confirm_age }}</label>
+        </div>
+        <div class="checkbox-wrapper">
+          <input class="checkbox-wrapper__checkbox" type="checkbox" name="read" id="signup-confirm-read" data-signup-target="checkboxRead" data-action="change->signup#enable">
+          <label for="signup-confirm-read" class="checkbox-wrapper__label styled-links">{{ lang[locale].signup_read }}</label>
+        </div>
       </div>
       <button class="button button--primary signup__submit" data-signup-target="submitButton" data-action="signup#submit" disabled>{{ lang[locale].signup }}</button>
     </form>

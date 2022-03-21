@@ -18,6 +18,9 @@
     {% if readonly %}
     readonly
     {% endif %}
+    {% if required %}
+    required
+    {% endif %}
   />
   {% unless autosuggest == null %}
   <div class="autosuggest" data-autosuggest-target="autosuggest"></div>
