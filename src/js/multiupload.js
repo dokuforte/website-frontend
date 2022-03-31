@@ -1,10 +1,10 @@
-import config from "../data/siteConfig"
+import config from "../data/siteConfig";
 
 
 
 /***
  * Find DOM element by classname, recursively
- * 
+ *
  * @param element		initial DOM element
  * @param className		class name to look for
  * @param depth			search depth. Optional, 10 if not specified
@@ -13,10 +13,12 @@ import config from "../data/siteConfig"
 export function findElementByClassName (element, className, depth = 10) {
 	var e = element;
 	
-	for (var n = depth; n-- > 0; e = e.parentElement) if (e.getElementsByClassName (className).length > 0) return e.getElementsByClassName (className)[0];
-	return null;				 
+	for (var n = depth; n-- > 0; e = e.parentElement)
+		if (e.getElementsByClassName (className).length > 0)
+			return e.getElementsByClassName (className)[0];
+	return null;
 }
-	
+
 
 
 /***
@@ -39,7 +41,7 @@ export function findElementByName (name) {
 
 /***
  * Uploader init function
- * 
+ *
  * @param fileControls	JSON: {idListElement, fileSelectorElement, fileListElement} 
  * @param iaxios		directus system API instance for axios calls
  * @param value			inputbox value coming from the database
@@ -103,10 +105,6 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 	fileHandles = value == null ? {} : value;
 	try { JSON.stringify (fileHandles) } catch (e) { fileHandles = {}; };
 
-	console.log ("@@@ InitUploader called");
-
-	console.log ("---", JSON.stringify (fileHandles));
-
 	if (fileHandles != null)
 	Object.entries (fileHandles).forEach (([key, value]) => {
 		var xfile = {};
@@ -114,7 +112,12 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 		xfile.name = value;
 		xfile.uploadStatus = UPLOADSTATUS.COMPLETED;
 
-		listAddControl (xfile);
+		listAddControl (xfile, (event) => {
+			fileList.removeChild (xfile.progressBar);
+			delete fileHandles[xfile.uploadID];
+			fileEdit.value = JSON.stringify (fileHandles);
+			fileEdit.dispatchEvent (new Event ("change"));
+		});
 		listSetFinished (xfile);
 	});
 
@@ -130,7 +133,7 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 	function listAddControl (file, event) {
 		const progressBar = document.createElement ('div');
 		progressBar.style = "width: *; background: #eee; padding: 10px;";
-		progressBar.style.background = "linear-gradient (to right, #eee 0%, #eee 50%, #557 50%, #557 100% );";
+		// progressBar.style.background = "linear-gradient (to right, #eee 0%, #eee 50%, #557 50%, #557 100% );";
 		fileList.appendChild (progressBar);
 
 		const progressButton = document.createElement ('div');
@@ -151,7 +154,7 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 
 		const progressText = document.createElement ('div');
 		progressText.style = "background: transparent;";
-		progressText.innerText = file.name;
+		progressText.innerText = file.name.replace ("²±", "");
 		progressBar.appendChild (progressText);
 		
 		file.progressBar = progressBar;
@@ -179,6 +182,10 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 	function listSetError (filex) {
 		filex.progressButtonLabel.innerText = " ↺ ";
 		filex.progressErrorSign.style.display = "block";
+		const retryTimer = setTimeout (() => {
+			filex.progressButton.click ();
+			clearTimeout (retryTimer);
+		}, 10000);
 	}
 	function listSetFinished (filex) {
 		// filex.progressErrorSign.style.display = "none";
@@ -187,7 +194,7 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 		filex.progressText.innerHTML = 
 			"<image src='" + ENDPOINTS.ASSETS  + filex.uploadID + "?key=thumb' style='position: relative; float: left; height: 25px; width: 40px; object-fit: contain; padding-left: 5px; padding-right: 5px; width: 64px;'>"
 			+
-			"<a target='_blank' href='" + ENDPOINTS.ASSETS + filex.uploadID + "?key=full'>" + filex.name + "</a>"
+			"<a target='_blank' href='" + ENDPOINTS.ASSETS + filex.uploadID + "?key=full'>" + filex.name.replace ("²±", "") + "</a>"
 		;
 		filex.progressText.style.color = "blue";
 	}
@@ -197,7 +204,7 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 
 	/***
 	 * Start upload process
-	 * 
+	 *
 	 * @param fileElement	file selector element
 	 * @param iaxios		directus system API instance for axios calls
 	 */
@@ -214,6 +221,12 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 			
 			function progressButtonClick (filex) {
 				switch (filex.uploadStatus) {
+					case UPLOADSTATUS.COMPLETED:
+						fileList.removeChild (filex.progressBar);
+						delete fileHandles[filex.uploadID];
+						fileEdit.value = JSON.stringify (fileHandles);
+						fileEdit.dispatchEvent (new Event ("change"));
+						break; 
 					case UPLOADSTATUS.PROGRESS:
 					case UPLOADSTATUS.WAITING:
 						uploader.abortFileUpload (filex);
@@ -287,7 +300,7 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 		 * UploadFiles worker
 		 */
 
-		const uploadFiles = (() => {   	
+		const uploadFiles = (() => {
 			/** */
 			const uploadFile = (file, options) => {
 				console.log ("###/ - ", JSON.stringify (file.name));
@@ -364,7 +377,7 @@ export function initUploader (fileControls, iaxios, value, albumid = 0) {
 					})
 					.catch(e => {
 						fileReq.options.onError (e, file);
-					})
+					});
 				}
 			};
 

@@ -3,80 +3,90 @@ layout: profile/profile.liquid
 ---
 
 <div data-controller="profile-upload" class="profile-upload" data-action="load->profile-upload#onPopState">
-  {% include hidden/hidden.liquid type:'text' name:'albumid' label:lang[locale].albumid stimulus_target:'data-profile-upload-target="albumid"' %}
-  <div>{{ lang[locale].upload_lead | markdownify }}</div>
-  <div class="profile-content__section">
-    <div class="profile-upload__file-selector">
-      <div class="profile-upload__file-selector__input-wrapper">
-        <div class="button-circular button-circular--accent" data-action="click->profile-upload#chooseFiles">
-          {% inlineSVG src:"src/static/images/icons/24/icon-add.svg" class:"button-circular__icon" %}
-          <div class="button-circular__label">{{ lang[locale].upload_choose }}</div>
-        </div>
-
-
-        <input 
-          class="profile-upload__file-selector__input"
-          data-profile-upload-target="fileSelector"
-          type="file"
-          name="image_uploads" 
-          multiple
-          accept="image/png, image/jpeg, image/tiff"
-          x-data-action="change->profile-upload#updateImageDisplay"
-        />
-      </div>
-      <div class="profile-upload__file-selector__label">
-        <h5>{{ lang[locale].upload_select_files }}</h5>
-        <div class="small color-grey">{{ lang[locale].upload_enabled_file_types }}</div>
-        <div class="small">{{ lang[locale].upload_additional_info | markdownify }}</div>
-      </div>
-    </div>
-    <div name="selected-files" class="profile-upload__selected-files is-visible" data-profile-upload-target="fileSelectorPreview"></div>
-    
-    {% include hidden/hidden.liquid type:'text' name:'originalphotos' label:lang[locale].originalphotos stimulus_target:'data-profile-upload-target="originalphotos"' %}
-    
+  <div name="upload-album" class="is-visible" data-profile-upload-target="uploadalbum">
+	  {% include hidden/hidden.liquid type:'text' name:'albumid' label:lang[locale].albumid stimulus_target:'data-profile-upload-target="albumid"' %}
+	  <div>{{ lang[locale].upload_lead | markdownify }}</div>
+	  <div class="profile-content__section">
+	    <div class="profile-upload__file-selector">
+	      <div class="profile-upload__file-selector__input-wrapper">
+	        <div class="button-circular button-circular--accent" data-action="click->profile-upload#chooseFiles">
+	          {% inlineSVG src:"src/static/images/icons/24/icon-add.svg" class:"button-circular__icon" %}
+	          <div class="button-circular__label">{{ lang[locale].upload_choose }}</div>
+	        </div>
+	
+	
+	        <input 
+	          class="profile-upload__file-selector__input"
+	          data-profile-upload-target="fileSelector"
+	          type="file"
+	          name="image_uploads" 
+	          multiple
+	          accept="image/png, image/jpeg, image/tiff"
+	          x-data-action="change->profile-upload#updateImageDisplay"
+	        />
+	      </div>
+	      <div class="profile-upload__file-selector__label">
+	        <h5>{{ lang[locale].upload_select_files }}</h5>
+	        <div class="small color-grey">{{ lang[locale].upload_enabled_file_types }}</div>
+	        <div class="small">{{ lang[locale].upload_additional_info | markdownify }}</div>
+	      </div>
+	    </div>
+	    <div name="selected-files" class="profile-upload__selected-files is-visible" data-profile-upload-target="fileSelectorPreview"></div>
+	    
+	    {% include hidden/hidden.liquid type:'text' name:'originalphotos' label:lang[locale].originalphotos stimulus_target:'data-profile-upload-target="originalphotos"' %}
+	    
+	  </div>
+	    
+	  <div class="profile-content__section">
+	    <form class="profile-upload__form" data-profile-upload-target="form">
+	      <h4>Additional metadata</h4>
+	      
+	      {% include hidden/hidden.liquid type:'text' name:'albumtitle' label:lang[locale].albumtitle stimulus_target:'data-profile-upload-target="albumtitle"' %}
+	      {% include input/input.liquid type:'text' name:'title' label:lang[locale].title stimulus_target:'data-profile-upload-target="title"' %}
+	      {% include textarea/textarea.liquid name:'description' label:lang[locale].description stimulus_target:'data-profile-upload-target="description"' %}
+	
+	      {% include input/input.liquid type:'text' name:'hebrewtitle' label:lang[locale].hebrewtitle stimulus_target:'data-profile-upload-target="hebrewtitle"' %}
+	      {% include textarea/textarea.liquid name:'hebrewdescription' label:lang[locale].hebrewdescription stimulus_target:'data-profile-upload-target="hebrewdescription"' %}
+	
+	      {% include selectize-control/selectize-control.liquid 
+	        class:'profile-upload__form__location'
+	        filter:'addressline'
+	        show_label: true
+	        placeholder: lang[locale].location
+	        stimulus_target:'data-profile-upload-target="location"' 
+	      %}
+	
+	      {% include input/input.liquid type:'text' name:'photographer' autosuggest:'photographer' label:lang[locale].photographer stimulus_target:'data-profile-upload-target="photographer"' %}
+	      
+	      {% include selectize-control/selectize-control.liquid 
+	        class:'profile-upload__form__tags'
+	        filter:'tag'
+	        show_label: true
+	        placeholder: lang[locale].tags
+	        stimulus_target:'data-profile-upload-target="tags"' 
+	      %}
+	
+	      {% include input/input.liquid type:'text' name:'date' label:lang[locale].date stimulus_target:'data-profile-upload-target="date"' %}
+	      <div class="checkbox-wrapper">
+	        <input class="checkbox-wrapper__checkbox" type="checkbox" name="approx" id="profile-upload-date-approx" data-profile-upload-target="date_approx">
+	        <label for="profile-upload-date-approx" class="checkbox-wrapper__label">{{ lang[locale].date_approx }}</label>
+	      </div>
+	
+	      <div class="profile-content__actions">
+	        <button class="button button--primary" data-action="profile-upload#submit">
+	          {{ lang[locale].save }}
+	        </button>
+	        <button class="button button--submitalbum" data-action="profile-upload#submitalbum">
+	          {{ lang[locale].submit }}
+	        </button>
+	      </div>
+	    </form>
+	  </div>
   </div>
-    
-  <div class="profile-content__section">
-    <form class="profile-upload__form" data-profile-upload-target="form">
-      <h4>Additional metadata</h4>
-      
-      {% include hidden/hidden.liquid type:'text' name:'albumtitle' label:lang[locale].albumtitle stimulus_target:'data-profile-upload-target="albumtitle"' %}
-      {% include input/input.liquid type:'text' name:'title' label:lang[locale].title stimulus_target:'data-profile-upload-target="title"' %}
-      {% include textarea/textarea.liquid name:'description' label:lang[locale].description stimulus_target:'data-profile-upload-target="description"' %}
-
-      {% include input/input.liquid type:'text' name:'hebrewtitle' label:lang[locale].hebrewtitle stimulus_target:'data-profile-upload-target="hebrewtitle"' %}
-      {% include textarea/textarea.liquid name:'hebrewdescription' label:lang[locale].hebrewdescription stimulus_target:'data-profile-upload-target="hebrewdescription"' %}
-
-      {% include selectize-control/selectize-control.liquid 
-        class:'profile-upload__form__location'
-        filter:'addressline'
-        show_label: true
-        placeholder: lang[locale].location
-        stimulus_target:'data-profile-upload-target="location"' 
-      %}
-
-      {% include input/input.liquid type:'text' name:'photographer' autosuggest:'photographer' label:lang[locale].photographer stimulus_target:'data-profile-upload-target="photographer"' %}
-      
-      {% include selectize-control/selectize-control.liquid 
-        class:'profile-upload__form__tags'
-        filter:'tag'
-        show_label: true
-        placeholder: lang[locale].tags
-        stimulus_target:'data-profile-upload-target="tags"' 
-      %}
-
-      {% include input/input.liquid type:'text' name:'date' label:lang[locale].date stimulus_target:'data-profile-upload-target="date"' %}
-      <div class="checkbox-wrapper">
-        <input class="checkbox-wrapper__checkbox" type="checkbox" name="approx" id="profile-upload-date-approx">
-        <label for="profile-upload-date-approx" class="checkbox-wrapper__label">{{ lang[locale].date_approx }}</label>
-      </div>
-
-      <div class="profile-content__actions">
-        <button class="button button--primary" data-action="profile-upload#submit">
-          {{ lang[locale].save }}
-        </button>
-      </div>
-    </form>
+  <div name="upload-list" class="profile-upload__album-list" data-profile-upload-target="uploadlist">
+  	<!-- h3> {{ lang[locale].my_uploads }} </h3 -->
+  	<ul data-profile-upload-target="uploadalbumlist">
+  	</ul>
   </div>
 </div>
 
