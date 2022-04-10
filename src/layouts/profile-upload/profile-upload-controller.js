@@ -286,43 +286,25 @@ export default class extends Controller {
 			var saveDelay;
 
 			that.loadindicatorTarget.style.display = "none";
-			that.albumtitleTarget.addEventListener('change', resetSaveDelay);
-			that.titleTarget.addEventListener('change', resetSaveDelay);
-			that.descriptionTarget.addEventListener('change', resetSaveDelay);
-			that.hebrewtitleTarget.addEventListener('change', resetSaveDelay);
-			that.hebrewdescriptionTarget.addEventListener('change', resetSaveDelay);
-			that.tagsTarget.addEventListener('change', resetSaveDelay);
-			that.dateTarget.addEventListener('change', resetSaveDelay);
-			that.date_approxTarget.addEventListener('change', resetSaveDelay);
-			that.originalphotosTarget.addEventListener('change', resetSaveDelay);
-			
-			that.albumtitleTarget.addEventListener('keyup', resetSaveDelay);
-			that.titleTarget.addEventListener('keyup', resetSaveDelay);
-			that.descriptionTarget.addEventListener('keyup', resetSaveDelay);
-			that.hebrewtitleTarget.addEventListener('keyup', resetSaveDelay);
-			that.hebrewdescriptionTarget.addEventListener('keyup', resetSaveDelay);
-			that.tagsTarget.addEventListener('keyup', resetSaveDelay);
-			that.dateTarget.addEventListener('keyup', resetSaveDelay);
-			that.date_approxTarget.addEventListener('keyup', resetSaveDelay);
-			that.originalphotosTarget.addEventListener('keyup', resetSaveDelay);
-/** /
+
 			var formInputs = [
-				"albumtitle",
-				"title",
-				"description",
-				"hebrewtitle",
-				"hebrewdescription",
-				"originalphotos",
-				"tags",
-				"date",
-				"date_approx",
-				"location",
+				that.albumtitleTarget,
+				that.titleTarget,
+				that.descriptionTarget,
+				that.hebrewtitleTarget,
+				that.hebrewdescriptionTarget,
+				that.originalphotosTarget,
+				that.tagsTarget,
+				that.dateTarget,
+				that.date_approxTarget,
+			 	that.locationTarget,
 			];
 
 			formInputs.forEach ((item) => {
-;
+				item.addEventListener('change', resetSaveDelay);
+				item.addEventListener('keyup', resetSaveDelay);
 			});
-/**/
+
 			function startSaveDelay () {
 				saveDelay = setTimeout (saveAll, 5000);
 			}
@@ -432,6 +414,12 @@ export default class extends Controller {
 					this.uploadalbumTarget.style.display = "block";
 					this.uploadlistTarget.style.display = "none";
 					fillData(res);	
+					lang ("upload")
+					.then ((txt) => {
+						var pageTitle = findElementByClassName (this.uploadlistTarget, "profile-content__title");
+						pageTitle.innerHTML = txt + " (" + res.data[0].albumid.toString () + ")"; 				
+				})
+				.catch ((e) => {});
 					pageReady(this);
 				});
 				break;
