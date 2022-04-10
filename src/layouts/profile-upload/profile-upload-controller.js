@@ -189,6 +189,8 @@ const editAlbum = async formData => {
 	return resp ? resp.json() : resp;
 }
 
+
+
 /***
  * Submit uploaded album to moderators
  *
@@ -199,7 +201,7 @@ const submitAlbum = async albumId => {
 	let resp = null
 	const authData = JSON.parse(localStorage.getItem("auth")) || {}
 	if (authData.access_token) {
-		resp = await fetch(`${config.API_HOST}/mydata/submitalbum?id=${albumId}`, {
+		resp = await fetch(`${config.API_HOST}/mydata/submitalbum?albumid=${albumId}`, {
 			method: "GET",
 			mode: "cors",
 			headers: {
@@ -218,7 +220,9 @@ export default class extends Controller {
 			"form",
 			"fileSelector",
 			"fileSelectorPreview",
-			"submitButton",
+			"submitalbum",
+			"submitalbumbutton",
+			"savealbumbutton",
 			"albumid",
 			"albumtitle",
 			"title",
@@ -233,6 +237,9 @@ export default class extends Controller {
 			"uploadalbum",
 			"uploadlist",
 			"uploadalbumlist",
+			"saveindicator",
+			"loadindicator",
+			"thankyou",
 		];
 	}
 
@@ -273,8 +280,66 @@ export default class extends Controller {
 	}
 
 
-
+	
 	onPopState() {
+		function pageReady (that) {
+			var saveDelay;
+
+			that.loadindicatorTarget.style.display = "none";
+			that.albumtitleTarget.addEventListener('change', resetSaveDelay);
+			that.titleTarget.addEventListener('change', resetSaveDelay);
+			that.descriptionTarget.addEventListener('change', resetSaveDelay);
+			that.hebrewtitleTarget.addEventListener('change', resetSaveDelay);
+			that.hebrewdescriptionTarget.addEventListener('change', resetSaveDelay);
+			that.tagsTarget.addEventListener('change', resetSaveDelay);
+			that.dateTarget.addEventListener('change', resetSaveDelay);
+			that.date_approxTarget.addEventListener('change', resetSaveDelay);
+			that.originalphotosTarget.addEventListener('change', resetSaveDelay);
+			
+			that.albumtitleTarget.addEventListener('keyup', resetSaveDelay);
+			that.titleTarget.addEventListener('keyup', resetSaveDelay);
+			that.descriptionTarget.addEventListener('keyup', resetSaveDelay);
+			that.hebrewtitleTarget.addEventListener('keyup', resetSaveDelay);
+			that.hebrewdescriptionTarget.addEventListener('keyup', resetSaveDelay);
+			that.tagsTarget.addEventListener('keyup', resetSaveDelay);
+			that.dateTarget.addEventListener('keyup', resetSaveDelay);
+			that.date_approxTarget.addEventListener('keyup', resetSaveDelay);
+			that.originalphotosTarget.addEventListener('keyup', resetSaveDelay);
+/** /
+			var formInputs = [
+				"albumtitle",
+				"title",
+				"description",
+				"hebrewtitle",
+				"hebrewdescription",
+				"originalphotos",
+				"tags",
+				"date",
+				"date_approx",
+				"location",
+			];
+
+			formInputs.forEach ((item) => {
+;
+			});
+/**/
+			function startSaveDelay () {
+				saveDelay = setTimeout (saveAll, 5000);
+			}
+
+			function resetSaveDelay () {
+				try { clearTimeout (saveDelay); } catch (e) { ; };
+				startSaveDelay ();
+			}
+
+			function saveAll () {
+				// alert ("Changed");
+				clearTimeout (saveDelay);
+				// that.savealbumbuttonTarget.click();
+				that.submit (null);
+			}
+		}
+
 		const fillData = (res) => {
 			const datePicker = datepicker (this.dateTarget, {
 				formatter: (input, date, instance) => {
@@ -317,19 +382,11 @@ export default class extends Controller {
 					.then((res) => {
 						this.uploadalbumTarget.style.display = "block";
 						this.uploadlistTarget.style.display = "none";
-						fillData(res);	
+						fillData(res);
+						pageReady(this);
 					});
 				break;
-			case "new":
-			case "add":
-				createAlbum()
-				.then((res) => {
-					this.uploadalbumTarget.style.display = "block";
-					this.uploadlistTarget.style.display = "none";
-					fillData(res);	
-				});
-				break;
-			default:
+			case "myalbums":
 				lang ("my_uploads")
 				.then ((txt) => {
 					var pageTitle = findElementByClassName (this.uploadlistTarget, "profile-content__title");
@@ -364,13 +421,42 @@ export default class extends Controller {
 						this.uploadlistTarget.appendChild (listElement);
 					// };
 					});
+					pageReady(this);
 				})
+				break;
+			case "new":
+			case "add":
+			default:
+				createAlbum()
+				.then((res) => {
+					this.uploadalbumTarget.style.display = "block";
+					this.uploadlistTarget.style.display = "none";
+					fillData(res);	
+					pageReady(this);
+				});
+				break;
 		};
+	}
+
+
+	async finish(e) {
+		if (e) e.preventDefault();
+
+		this.saveindicatorTarget.style.display = "block";
+		submitAlbum (this.albumidTarget.value)
+		.then ((res) => {
+			console.log (res);
+			this.saveindicatorTarget.style.display = "none";
+			this.uploadalbumTarget.style.display = "none";
+			this.thankyouTarget.style.display = "block";
+		});
 	}
 
 
 	async submit(e) {
 		if (e) e.preventDefault();
+
+		this.saveindicatorTarget.style.display = "block";
 
 		// UPDATE ALBUM DATA
 		var formData = {};
@@ -392,9 +478,11 @@ export default class extends Controller {
 		editAlbum(formData)
 			.then(resp => {
 				console.log(resp)
+				this.saveindicatorTarget.style.display = "none";
 			})
 			.catch(err => {
 				this.errorMessageHandler(err)
+				this.saveindicatorTarget.style.display = "none";
 			});
 	}
 

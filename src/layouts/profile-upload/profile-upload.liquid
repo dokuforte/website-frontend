@@ -41,7 +41,7 @@ layout: profile/profile.liquid
 	    <form class="profile-upload__form" data-profile-upload-target="form">
 	      <h4>Additional metadata</h4>
 	      
-	      {% include hidden/hidden.liquid type:'text' name:'albumtitle' label:lang[locale].albumtitle stimulus_target:'data-profile-upload-target="albumtitle"' %}
+	      {% include input/input.liquid type:'text' name:'albumtitle' label:lang[locale].albumtitle stimulus_target:'data-profile-upload-target="albumtitle"' %}
 	      {% include input/input.liquid type:'text' name:'title' label:lang[locale].title stimulus_target:'data-profile-upload-target="title"' %}
 	      {% include textarea/textarea.liquid name:'description' label:lang[locale].description stimulus_target:'data-profile-upload-target="description"' %}
 	
@@ -73,10 +73,10 @@ layout: profile/profile.liquid
 	      </div>
 	
 	      <div class="profile-content__actions">
-	        <button class="button button--primary" data-action="profile-upload#submit">
+	        <button class="button button--primary" style="display: none;" data-profile-upload-target="savealbumbutton" data-action="profile-upload#submit">
 	          {{ lang[locale].save }}
 	        </button>
-	        <button class="button button--submitalbum" data-action="profile-upload#submitalbum">
+	        <button class="button button--submitalbum" data-profile-upload-target="submitalbumbutton" data-action="profile-upload#finish">
 	          {{ lang[locale].submit }}
 	        </button>
 	      </div>
@@ -87,6 +87,15 @@ layout: profile/profile.liquid
   	<!-- h3> {{ lang[locale].my_uploads }} </h3 -->
   	<ul data-profile-upload-target="uploadalbumlist">
   	</ul>
+  </div>
+  <div class="profile-upload__saveindicator" style="display: none; position: fixed; color: white; font-weight: bold; background: green; top: 100px; right: 25px; padding: 10px; border-radius: 10px; z-index: 99999;" data-profile-upload-target="saveindicator">
+    {{ lang[locale].saveindicator }}
+  </div>
+  <div class="profile-upload__loadindicator" style="display: block; position: fixed; color: white; font-weight: bold; background: green; top: 100px; right: 25px; padding: 10px; border-radius: 10px; z-index: 99999;" data-profile-upload-target="loadindicator">
+    {{ lang[locale].loadindicator }}
+  </div>
+  <div name="thankyou" class="is-visible" data-profile-upload-target="thankyou" style="display: none;">
+    {{ lang[locale].upload_thank_you }}
   </div>
 </div>
 

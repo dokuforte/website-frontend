@@ -151,3 +151,11 @@
     background-color: rgba($light-base, 0.06);
   }
 }
+
+.profile-upload__saveindicator div {
+  display: block;
+  position: absolute;
+  background: green;
+  top: 25px;
+  right: 25px;
+}
