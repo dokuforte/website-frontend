@@ -10,26 +10,6 @@ const axios = require("axios").default;
 
 
 /**
- * Checkbox evaluate
- * 
- * @param value	checkbox value string
- * @returns		[0|1] 
- */
-function checkboxEvaluate (v) {
-	switch (v) {
-		case "1":
-		case "yes":
-		case "on":
-			return 1;
-		default:
-			return 0;
-	};
-}
-
-
-
-
-/**
  * API call wrapper
  *
  * @param endpoint	Endpoint path without hostname
@@ -457,7 +437,7 @@ export default class extends Controller {
 		formData["tags"] = this.tagsTarget.selectizeControl.value.join(", ");
 		formData["addressline"] = this.locationTarget.selectizeControl.value.join(", ");
 		formData["date"] = this.dateTarget.value.length < 6 ? "null" : this.dateTarget.value;
-		formData["approx"] = checkboxEvaluate (this.date_approxTarget.value);
+		formData["approx"] = this.date_approxTarget.checked ? "true" : "false";
 		formData["original_photos"] = JSON.parse(this.originalphotosTarget.value);
 		/**/
 
