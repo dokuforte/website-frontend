@@ -1,9 +1,10 @@
 import { Controller } from "stimulus"
+import moment from "moment"
 import authAPI from "../../api/auth"
 import albumAPI from "../../api/album"
 import { trigger, comeBackAfterSignIn } from "../../js/utils"
 
-const AUTOSAVE_DELAY = 10000
+const AUTOSAVE_DELAY = 5000
 
 export default class extends Controller {
   static get targets() {
@@ -77,7 +78,7 @@ export default class extends Controller {
     this.hebrewDescriptionTarget.value = data.hebrew_description || ""
     this.tagsTarget.selectizeControl.value = data.tags || ""
     this.locationTarget.selectizeControl.value = data.addressline || ""
-    this.dateTarget.value = data.date || ""
+    this.dateTarget.value = moment(data.date, "DD/MM/YYYY").format("YYYY-MM-DD") || ""
     this.dateApproxTarget.checked = data.approx
   }
 
@@ -94,8 +95,8 @@ export default class extends Controller {
       hebrewdescription: this.hebrewDescriptionTarget.value,
       tags: this.tagsTarget.selectizeControl.value.join(", "),
       addressline: this.locationTarget.selectizeControl.value.join(", "),
-      date: this.dateTarget.value.length < 6 ? "null" : this.dateTarget.value,
-      approx: this.dateApproxTarget.checked,
+      date: moment(this.dateTarget.value).format("DD/MM/YYYY"),
+      approx: this.dateApproxTarget.checked ? "true" : "false",
       original_photos: this.fileSelectorTarget.getUploadedFiles(),
     }
 

@@ -1,0 +1,36 @@
+.profile-upload-wrapper {
+  max-width: rem(960px) !important;
+}
+
+.profile-upload__form-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: "aside"
+                       "form";
+  column-gap: 2rem;
+  row-gap: 2rem;
+
+  @media screen and (min-width: ($breakpoint-desktop)) {
+    grid-template-columns: auto rem(240px);
+    grid-template-areas: "form aside";
+  }
+}
+
+.profile-upload__form-wrapper__col--form {
+  grid-area: form;
+}
+
+.profile-upload__form-wrapper__col--aside {
+  grid-area: aside;
+}
+
+.profile-upload__form-wrapper__col--aside *:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.profile-upload__form__title {
+  margin-top: 3rem;
+  margin-bottom: 0;
+}
+

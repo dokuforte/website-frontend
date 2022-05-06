@@ -28,9 +28,15 @@
       <div class="file-selector-item__label-wrapper small">
         <spam class="file-selector-item__label small"></spam><span class="file-selector-item__percentage"></span>
       </div>
-      <div class="button-circular button-circular--small file-selector-item__remove" data-action="click->profile-upload--file-selector#removeFileElement">
-        {% inlineSVG src:"src/static/images/icons/16/icon-close.svg" class:"button-circular__icon" %}
-        <div class="button-circular__label">{{ lang[locale].delete }}</div>
+      <div class="file-selector-item__actions">
+        <div class="button-circular button-circular--small file-selector-item__remove" data-action="click->profile-upload--file-selector#removeFileElement">
+          {% inlineSVG src:"src/static/images/icons/16/icon-close.svg" class:"button-circular__icon" %}
+          <div class="button-circular__label">{{ lang[locale].upload_remove }}</div>
+        </div>
+        <div class="button-circular button-circular--small file-selector-item__retry" data-action="click->profile-upload--file-selector#resumeFileUpload">
+          {% inlineSVG src:"src/static/images/icons/16/icon-refresh.svg" class:"button-circular__icon" %}
+          <div class="button-circular__label">{{ lang[locale].upload_resume }}</div>
+        </div>
       </div>
     </div>
     <div class="file-selector-item__progress"></div>

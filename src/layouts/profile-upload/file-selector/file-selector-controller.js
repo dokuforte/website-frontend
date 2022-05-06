@@ -82,12 +82,16 @@ export default class extends Controller {
       // ?key=full
     }
     fileElement.querySelector(".file-selector-item__label").innerText = fileName
-    // fileElement.querySelector()
+
+    // init delete and retry buttons
+    fileElement.querySelector(".file-selector-item__remove").parentFileElement = fileElement
+    fileElement.querySelector(".file-selector-item__retry").parentFileElement = fileElement
+
     return fileElement
   }
 
   removeFileElement(e) {
-    console.log(e.currentTarget.parentFileElement)
+    e.currentTarget.parentFileElement.remove()
   }
 
   startUpload(e) {
@@ -151,7 +155,9 @@ export default class extends Controller {
     fileElement.dataset.status = UPLOADSTATUS.STOPPED
   }
 
-  resumeFileUpload(fileElement) {
+  resumeFileUpload(el) {
+    const fileElement = el.currentTarget ? el.currentTarget.parentFileElement : el
+
     fileElement.dataset.status = UPLOADSTATUS.WAITING
     // try to get the status just in case it failed mid upload
     fetch(

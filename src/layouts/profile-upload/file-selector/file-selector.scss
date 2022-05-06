@@ -20,10 +20,13 @@
 .file-selector__selected-files {
   margin-top: 2rem;
   border-radius: rem(4px);
-  overflow: auto;
 
   .theme--light & {
     border: 1px solid $light-secondary;
+  }
+
+  .theme--dark & {
+    border: 1px solid $dark-secondary;
   }
 }
 
@@ -92,11 +95,22 @@
   width: 0;
 }
 
-.file-selector-item__remove {
-  
+.file-selector-item__actions > * {
+  display: none;
 }
 
+// if upload is completed, hide progress bar
 [data-status="4"] .file-selector-item__progress {
   display: none;
+}
+
+// if upload is completed, show delete
+[data-status="4"] .file-selector-item__remove {
+  display: block;
+}
+
+// if error
+[data-status="3"] .file-selector-item__retry {
+  display: block;
 }
 
