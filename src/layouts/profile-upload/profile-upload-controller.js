@@ -128,8 +128,8 @@ export default class extends Controller {
     await albumAPI.submitAlbum(this.albumId)
     trigger("loader:hide", { id: "loaderUpload" })
 
-    this.formTarget.add("is-hidden")
-    this.thankyouTarget.remove("is-hidden")
+    this.formTarget.classList.add("is-hidden")
+    this.thankyouTarget.classList.remove("is-hidden")
 
     localStorage.removeItem("albumId")
   }
