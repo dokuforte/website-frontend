@@ -49,14 +49,16 @@ export default class extends Controller {
   // Populate fileElements based on existing uploaded files data
   // this can be called externally
   addFiles(uploadedFiles) {
-    this.fileSelectorPreviewTarget.classList.remove("is-hidden")
-
     Object.entries(uploadedFiles).forEach(([key, value]) => {
       const fileElement = this.createFileElement(key, value)
       fileElement.uploadParams = { uploadID: key }
       fileElement.file = { name: value }
       fileElement.dataset.status = UPLOADSTATUS.COMPLETED
     })
+
+    if (this.fileTargets.length > 0) {
+      this.fileSelectorPreviewTarget.classList.remove("is-hidden")
+    }
   }
 
   // returns a list of already uploaded files in an object
