@@ -95,6 +95,11 @@
   width: 0;
 }
 
+.file-selector-item__actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
 .file-selector-item__actions > * {
   display: none;
 }
@@ -109,8 +114,16 @@
   display: block;
 }
 
-// if error
+// if error, show retry and delete buttons too
+[data-status="3"] .file-selector-item__remove {
+  display: block;
+}
 [data-status="3"] .file-selector-item__retry {
   display: block;
+}
+[data-status="3"] .file-selector-item__progress {
+  display: block;
+  width: 100%;
+  background-color: $red;
 }
 

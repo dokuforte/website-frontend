@@ -14,36 +14,42 @@ layout: auth/auth.liquid
       {% include input/input.liquid 
                   type:"text"
                   name:"first_name"
+                  placeholder: lang[locale].first_name_placeholder
                   required: true
-                  label:lang[locale].first_name
+                  label: lang[locale].first_name
                   stimulus_target:'data-signup-target="firstName"'
       %}
       {% include input/input.liquid 
                   type:"text"
                   name:"last_name"
+                  placeholder: lang[locale].last_name_placeholder
                   required: true
-                  label:lang[locale].last_name
+                  label: lang[locale].last_name
                   stimulus_target:'data-signup-target="lastName"'
       %}
       {% include input/input.liquid 
                   type:"email"
                   name:"email"
+                  placeholder: lang[locale].email_placeholder
                   required: true
-                  label:lang[locale].email 
+                  label: lang[locale].email 
                   stimulus_target:'data-signup-target="email"'
       %}
       {% include input/input.liquid 
         type:"tel"
         name:"phone"
         required: true
-        label:lang[locale].phone_number
+        placeholder: lang[locale].phone_number_placeholder
+        hint: lang[locale].phone_number_hint
+        label: lang[locale].phone_number
         stimulus_target:'data-signup-target="phone"'
       %} 
       {% include input/input.liquid 
         type:"password"
         name:"password"
         required: true
-        label:lang[locale].password
+        placeholder: lang[locale].password_placeholder
+        label: lang[locale].password
         stimulus_target:'data-signup-target="password"'
       %}
       <div class="signup__checkboxes">

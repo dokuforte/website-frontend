@@ -3,27 +3,17 @@
   position: relative;
 }
 
+* + .input-wrapper {
+  margin-top: 2rem;
+}
+
 .input-wrapper__label {
   display: block;
   font-size: rem(13px);
   font-weight: 500;
   line-height: 1rem;
   color: $grey;
-  margin-bottom: 0.5rem;
-  margin-top: 1rem;
-}
-
-.input-wrapper--auto-hide-label {
-  .input-wrapper__label {
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.3s $ease-out-expo, transform 0.3s $ease-out-expo;
-
-    &.is-visible {
-      opacity: 1;
-      transform: translateY(0px);
-    }
-  }
+  margin-bottom: 0.75rem;
 }
 
 .input-wrapper__input {
@@ -105,4 +95,8 @@
     color: $light-base;
     outline: none;
   }
+}
+
+.input-wrapper__hint {
+  color: $grey;
 }

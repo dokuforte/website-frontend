@@ -1,4 +1,4 @@
-<div class="input-wrapper {{ class }} {% unless auto_hide_label == false %}input-wrapper--auto-hide-label{% endunless %}" data-controller="input{% unless autosuggest == null %} autosuggest{% endunless %}">
+<div class="input-wrapper {{ class }} {% if auto_hide_label == true %}input-wrapper--auto-hide-label{% endif %}" data-controller="input{% unless autosuggest == null %} autosuggest{% endunless %}">
   <label for="{{ name }}" data-input-target="label" class="input-wrapper__label">{{ label }}</label>
   <input class="input-wrapper__input" 
     name="{{ name }}" 
@@ -13,7 +13,7 @@
     max="{{ max }}"
     {% endif %}
     autocomplete="off"
-    placeholder="{{ placeholder | default: label }}"
+    placeholder="{{ placeholder }}"
     data-input-target="input"
     {{ stimulus_target }}
     data-action="change->input#keyup keyup->input#keyup keypress->input#keypress {{ stimulus_action }}{% unless autosuggest == null %} keyup->autosuggest#keyup{% endunless %}"
@@ -28,6 +28,7 @@
     required
     {% endif %}
   />
+  {% if hint %}<p class="input-wrapper__hint small">{{ hint }}</p>{% endif %}
   {% unless autosuggest == null %}
   <div class="autosuggest" data-autosuggest-target="autosuggest"></div>
   {% endunless %}

@@ -3,6 +3,7 @@ layout: profile/profile.liquid
 profile_wrapper_class: profile-upload-wrapper
 ---
 
+<h2 class="profile-content__title">{{ upload_title }}</h2>
 <div data-controller="profile-upload" class="profile-upload" data-action="load->profile-upload#onPopState">
 	<div class="profile-upload__lead">{{ lang[locale].upload_lead | markdownify }}</div>
 	  
@@ -24,7 +25,7 @@ profile_wrapper_class: profile-upload-wrapper
 					class:'profile-upload__form__location'
 					filter:'addressline'
 					show_label: true
-					placeholder: lang[locale].location
+					label: lang[locale].location
 					stimulus_target:'data-profile-upload-target="location"' 
 				%}
 
@@ -34,7 +35,7 @@ profile_wrapper_class: profile-upload-wrapper
 					class:'profile-upload__form__tags'
 					filter:'tag'
 					show_label: true
-					placeholder: lang[locale].tags
+					label: lang[locale].tags
 					stimulus_target:'data-profile-upload-target="tags"' 
 				%}
 

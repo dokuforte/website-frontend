@@ -118,6 +118,10 @@ export default class extends Controller {
 
   onUploadError(err, fileElement) {
     fileElement.dataset.status = UPLOADSTATUS.ERROR
+    if (err.response && err.response.data && err.response.data.errors) {
+      if (err.response.data.errors[0].message === "Invalid filename") {
+      }
+    }
     console.log("onError ", fileElement.file.name, " - ", JSON.stringify(err))
   }
 
