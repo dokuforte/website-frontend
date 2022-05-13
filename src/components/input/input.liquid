@@ -16,7 +16,7 @@
     placeholder="{{ placeholder }}"
     data-input-target="input"
     {{ stimulus_target }}
-    data-action="change->input#keyup keyup->input#keyup keypress->input#keypress {{ stimulus_action }}{% unless autosuggest == null %} keyup->autosuggest#keyup{% endunless %}"
+    data-action="keypress->input#keypress {{ stimulus_action }}{% unless autosuggest == null %} keyup->autosuggest#keyup{% endunless %}"
     {% unless autosuggest == null %}
     data-autosuggest="{{ autosuggest }}"
     data-autosuggest-target="input"
