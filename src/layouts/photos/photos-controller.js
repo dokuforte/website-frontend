@@ -7,14 +7,13 @@ import searchAPI from "../../api/search"
 
 export default class extends Controller {
   static get targets() {
-    return ["grid", "bottomActions"]
+    return ["grid", "bottomActions", "thumbnail"]
   }
 
   connect() {
     this.selectedThumbnail = null
 
     this.thumbnailsCount = 0
-    this.thumbnailsLoading = false
 
     // Throttle resize and scroll functions
     this.onScroll = throttle(this.onScroll, 200)
@@ -26,7 +25,7 @@ export default class extends Controller {
 
   // resize thumbnails when window gets resized
   resizeThumbnails() {
-    this.element.querySelectorAll(".photos-thumbnail").forEach(thumbnail => {
+    this.thumbnailTargets.forEach(thumbnail => {
       thumbnail.photosThumbnail.resize()
     })
     this.toggleLoadMoreButton()
@@ -36,20 +35,21 @@ export default class extends Controller {
   onScroll() {
     if (
       this.element.scrollTop + this.element.offsetHeight >= this.element.scrollHeight - 150 &&
-      !this.thumbnailsLoading &&
       this.thumbnailsCount % config.THUMBNAILS_QUERY_LIMIT === 0 &&
       this.thumbnailsCount > 0
     ) {
-      this.thumbnailsLoading = true
       this.loadPhotos()
     }
+
+    this.loadThumbnails()
   }
 
-  // show all loaded thumbnails at once
-  showAllLoadedThumbnails() {
-    this.element.querySelectorAll(".photos-thumbnail.is-loaded:not(.is-visible)").forEach(thumbnail => {
-      thumbnail.photosThumbnail.show()
-    })
+  loadThumbnails() {
+    this.thumbnailTargets
+      .filter(thumbnail => !thumbnail.classList.contains("is-loaded"))
+      .forEach(thumbnail => {
+        thumbnail.photosThumbnail.loadThumbnailImage()
+      })
   }
 
   toggleLoadMoreButton() {
@@ -66,15 +66,12 @@ export default class extends Controller {
 
   loadMorePhotos(e) {
     e.currentTarget.classList.add("is-hidden")
-    this.thumbnailsLoading = true
     this.loadPhotos()
   }
 
   // this method generates the thumbnails from the data attribute
   // and starts loading the thumbnails with Promise.all
   generateThumbnailsFromData(data) {
-    const thumbnailLoadingPromises = []
-
     trigger("photosTitle:setTitle", { total: data.total })
 
     data.data.forEach(item => {
@@ -92,28 +89,10 @@ export default class extends Controller {
       // apply thumbnail data to node
       // eslint-disable-next-line no-underscore-dangle
       thumbnail.itemData = item
-
-      // observe when the thumbnail class attribute changes and contains 'is-loaded'
-      const thumbnailLoadingPromise = new Promise(res => {
-        const classObserver = new window.MutationObserver(() => {
-          if (thumbnail.classList.contains("is-loaded") || thumbnail.classList.contains("is-failed-loading")) res()
-        })
-        classObserver.observe(thumbnail, {
-          attributes: true,
-          attributeFilter: ["class"],
-        })
-      })
-      thumbnailLoadingPromises.push(thumbnailLoadingPromise)
     })
 
-    // load all thumbnail images
-    Promise.all(thumbnailLoadingPromises).then(() => {
-      this.thumbnailsLoading = false
-
-      trigger("loader:hide", { id: "loaderBase" })
-      this.showAllLoadedThumbnails()
-      this.toggleLoadMoreButton()
-    })
+    trigger("loader:hide", { id: "loaderBase" })
+    this.toggleLoadMoreButton()
   }
 
   // async function that loads thumbnail data based on the search query
@@ -182,7 +161,7 @@ export default class extends Controller {
       // open carousel if @id parameter is present in the url's query string
       if (getURLParams().id > 0) {
         // show carousel with an image
-        if (document.querySelector(".photos-thumbnail")) document.querySelector(".photos-thumbnail").click()
+        if (this.thumbnailTarget) this.thumbnailTarget.click()
       } else {
         trigger("photosCarousel:hide")
       }
