@@ -85,3 +85,77 @@
 .profile-upload__selected-files.is-visible {
   display: block;
 }
+
+.profile-upload__album-list div {
+
+}
+
+.profile-upload__album-list li a{
+  display: block;
+  font-size: rem(13px);
+  font-weight: 500;
+  text-decoration: none;
+  line-height: rem(16px);
+  padding: rem(8px) rem(24px);
+  transition: color 0.3s $ease-out-expo, background-color 0.3s $ease-out-expo;
+
+  > * {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .theme--light & {
+    color: $dark-base;
+  }
+
+  .theme--dark & {
+    color: $light-base;
+  }
+
+  .theme--light &:hover {
+    background-color: rgba($dark-base, 0.06);
+  }
+
+  .theme--dark &:hover {
+    background-color: rgba($light-base, 0.06);
+  }
+}
+
+.profile-upload__selected_files div a {
+  display: block;
+  font-size: rem(13px);
+  font-weight: 500;
+  text-decoration: none;
+  line-height: rem(16px);
+  padding: rem(8px) rem(24px);
+  transition: color 0.3s $ease-out-expo, background-color 0.3s $ease-out-expo;
+
+  > * {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .theme--light & {
+    color: $dark-base;
+  }
+
+  .theme--dark & {
+    color: $light-base;
+  }
+
+  .theme--light &:hover {
+    background-color: rgba($dark-base, 0.06);
+  }
+
+  .theme--dark &:hover {
+    background-color: rgba($light-base, 0.06);
+  }
+}
+
+.profile-upload__saveindicator div {
+  display: block;
+  position: absolute;
+  background: green;
+  top: 25px;
+  right: 25px;
+}

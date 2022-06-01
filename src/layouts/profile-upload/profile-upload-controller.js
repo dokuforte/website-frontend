@@ -1,13 +1,15 @@
-import { Controller } from "stimulus"
-import config from "../../data/siteConfig"
-import { trigger, lang, getLocale, getURLParams } from "../../js/utils"
-import { initUploader } from "../../js/multiupload"
+import config from "../../data/siteConfig";
+import { Controller } from "stimulus";
+import { trigger, lang, getLocale, getURLParams } from "../../js/utils";
+import { initUploader, findElementByClassName } from "../../js/multiupload";
+import { datepicker } from "../../js/datepicker";
 
 const axios = require("axios").default;
+// const datepicker = require("js-datepicker").default;
 
 
 
-/***
+/**
  * API call wrapper
  *
  * @param endpoint	Endpoint path without hostname
@@ -116,6 +118,30 @@ const getAlbum = async id => {
 
 
 /***
+ * Load album list
+ *
+ * @returns		JSON album record
+ */
+const getAlbumList = async id => {
+	let resp = null
+	console.log(`${config.API_HOST}/mydata/getalbumlist`);
+	const authData = JSON.parse(localStorage.getItem("auth")) || {}
+	if (authData.access_token) {
+		resp = await fetch(`${config.API_HOST}/mydata/getalbumlist`, {
+			method: "GET",
+			mode: "cors",
+			headers: {
+				Authorization: `Bearer ${authData.access_token}`,
+			},
+		})
+	}
+	return resp ? resp.json() : resp
+	/**/
+}
+
+
+
+/***
  * Edit unsubmitted album data
  *
  * @param formData	Form data object
@@ -143,6 +169,8 @@ const editAlbum = async formData => {
 	return resp ? resp.json() : resp;
 }
 
+
+
 /***
  * Submit uploaded album to moderators
  *
@@ -153,7 +181,7 @@ const submitAlbum = async albumId => {
 	let resp = null
 	const authData = JSON.parse(localStorage.getItem("auth")) || {}
 	if (authData.access_token) {
-		resp = await fetch(`${config.API_HOST}/mydata/submitalbum?id=${albumId}`, {
+		resp = await fetch(`${config.API_HOST}/mydata/submitalbum?albumid=${albumId}`, {
 			method: "GET",
 			mode: "cors",
 			headers: {
@@ -172,7 +200,9 @@ export default class extends Controller {
 			"form",
 			"fileSelector",
 			"fileSelectorPreview",
-			"submitButton",
+			"submitalbum",
+			"submitalbumbutton",
+			"savealbumbutton",
 			"albumid",
 			"albumtitle",
 			"title",
@@ -181,7 +211,15 @@ export default class extends Controller {
 			"hebrewdescription",
 			"originalphotos",
 			"tags",
+			"date",
+			"date_approx",
 			"location",
+			"uploadalbum",
+			"uploadlist",
+			"uploadalbumlist",
+			"saveindicator",
+			"loadindicator",
+			"thankyou",
 		];
 	}
 
@@ -222,9 +260,55 @@ export default class extends Controller {
 	}
 
 
-
+	
 	onPopState() {
+		function pageReady (that) {
+			var saveDelay;
+
+			that.loadindicatorTarget.style.display = "none";
+
+			var formInputs = [
+				that.albumtitleTarget,
+				that.titleTarget,
+				that.descriptionTarget,
+				that.hebrewtitleTarget,
+				that.hebrewdescriptionTarget,
+				that.originalphotosTarget,
+				that.tagsTarget,
+				that.dateTarget,
+				that.date_approxTarget,
+			 	that.locationTarget,
+			];
+
+			formInputs.forEach ((item) => {
+				item.addEventListener('change', resetSaveDelay);
+				item.addEventListener('keyup', resetSaveDelay);
+			});
+
+			function startSaveDelay () {
+				saveDelay = setTimeout (saveAll, 5000);
+			}
+
+			function resetSaveDelay () {
+				try { clearTimeout (saveDelay); } catch (e) { ; };
+				startSaveDelay ();
+			}
+
+			function saveAll () {
+				// alert ("Changed");
+				clearTimeout (saveDelay);
+				// that.savealbumbuttonTarget.click();
+				that.submit (null);
+			}
+		}
+
 		const fillData = (res) => {
+			const datePicker = datepicker (this.dateTarget, {
+				formatter: (input, date, instance) => {
+    				const value = date.toLocaleDateString ("en-GB");
+    				input.value = value; // => '1/1/2099';
+				}
+			});
 			console.log(JSON.stringify(res));
 
 			if (res.count > 0) {
@@ -239,45 +323,109 @@ export default class extends Controller {
 				this.originalphotosTarget.value = JSON.stringify(res.data[0].original_photos) || "";
 				this.tagsTarget.value = res.data[0].tags || "";
 				this.locationTarget.value = res.data[0].addressline || "";
-
+				this.dateTarget.value = res.data[0].date || "";
+				this.date_approxTarget.checked = res.data[0].approx ? 1 : 0;
+				
 				this.initUploaderComponent(res.data[0].original_photos, res.data[0].albumid);
 			};
 		};
 
 		var id = getURLParams().id;
-		if (id > 0) {
-			getAlbum(id)
-				.then((res) => fillData(res));
-		} else /* if (id == "new") */ {
-			createAlbum()
-				.then((res) => fillData(res));
-		} /* else {
-			// TODO - Implement Album list here
-		}*/;
+		switch (id) {
+			case (id > 0 ? id : 0):
+				lang ("upload")
+				.then ((txt) => {
+					var pageTitle = findElementByClassName (this.uploadlistTarget, "profile-content__title");
+					pageTitle.innerHTML = txt + " (" + id.toString () + ")"; 				
+				})
+				.catch ((e) => {});
+				
+				getAlbum(id)
+					.then((res) => {
+						this.uploadalbumTarget.style.display = "block";
+						this.uploadlistTarget.style.display = "none";
+						fillData(res);
+						pageReady(this);
+					});
+				break;
+			case "myalbums":
+				lang ("my_uploads")
+				.then ((txt) => {
+					var pageTitle = findElementByClassName (this.uploadlistTarget, "profile-content__title");
+					pageTitle.innerHTML = txt; 				
+				})
+				.catch ((e) => {});
+				
+				this.uploadlistTarget.style.display = "block";
+				this.uploadalbumTarget.style.display = "none";
+				
+				{
+					const listElement = document.createElement ("li");
+					listElement.className = "profile-upload__album-list";
+					const listLink = document.createElement ("a");
+					listLink.href = "/en/profile/upload?id=add";
+					lang ("new_topic").then ((res) => {	listLink.text = "New"; });
+					listElement.appendChild (listLink);
+					this.uploadlistTarget.appendChild (listElement);
+				}
+
+				getAlbumList ()
+				.then ((res) => {
+					res.data.forEach (n => {findElementByClassName
+						console.log (JSON.stringify (n));
+						const listElement = document.createElement ("li");
+						listElement.className = "profile-upload__album-list";
+						const listLink = document.createElement ("a");
+						listLink.href = "/en/profile/upload?id=" + n.albumid;
+						// listLink.className = "profile-upload__album-list";
+						listLink.text = n.date + " - " + n.album_title;
+						listElement.appendChild (listLink);
+						this.uploadlistTarget.appendChild (listElement);
+					// };
+					});
+					pageReady(this);
+				})
+				break;
+			case "new":
+			case "add":
+			default:
+				createAlbum()
+				.then((res) => {
+					this.uploadalbumTarget.style.display = "block";
+					this.uploadlistTarget.style.display = "none";
+					fillData(res);	
+					lang ("upload")
+					.then ((txt) => {
+						var pageTitle = findElementByClassName (this.uploadlistTarget, "profile-content__title");
+						pageTitle.innerHTML = txt + " (" + res.data[0].albumid.toString () + ")"; 				
+				})
+				.catch ((e) => {});
+					pageReady(this);
+				});
+				break;
+		};
+	}
+
+
+	async finish(e) {
+		if (e) e.preventDefault();
+
+		this.saveindicatorTarget.style.display = "block";
+		submitAlbum (this.albumidTarget.value)
+		.then ((res) => {
+			console.log (res);
+			this.saveindicatorTarget.style.display = "none";
+			this.uploadalbumTarget.style.display = "none";
+			this.thankyouTarget.style.display = "block";
+		});
 	}
 
 
 	async submit(e) {
 		if (e) e.preventDefault();
 
-		// CREATE ALBUM
+		this.saveindicatorTarget.style.display = "block";
 
-		// const createAlbumResp = await createAlbum()
-		// const albumId = createAlbumResp.data[0].albumid
-
-		/** /
-				// UPDATE ALBUM DATA
-				const formData = new FormData(this.formTarget);
-				formData.set("albumid", this.albumidTarget.value);
-				formData.set("album_title", this.albumtitleTarget.value);
-				formData.set("title", this.titleTarget.value);
-				formData.set("description", this.descriptionTarget.value);
-				formData.set("hebrewtitle", this.hebrewtitleTarget.value);
-				formData.set("hebrewdescription", this.hebrewdescriptionTarget.value);
-				formData.set("tags", this.tagsTarget.selectizeControl.value.join(", "));
-				formData.set("addressline", this.locationTarget.selectizeControl.value.join(", "));
-				formData.set("original_photos", this.originalphotosTarget.value);
-		/**/
 		// UPDATE ALBUM DATA
 		var formData = {};
 		formData["albumid"] = this.albumidTarget.value;
@@ -288,6 +436,8 @@ export default class extends Controller {
 		formData["hebrewdescription"] = this.hebrewdescriptionTarget.value;
 		formData["tags"] = this.tagsTarget.selectizeControl.value.join(", ");
 		formData["addressline"] = this.locationTarget.selectizeControl.value.join(", ");
+		formData["date"] = this.dateTarget.value.length < 6 ? "null" : this.dateTarget.value;
+		formData["approx"] = this.date_approxTarget.checked ? "true" : "false";
 		formData["original_photos"] = JSON.parse(this.originalphotosTarget.value);
 		/**/
 
@@ -296,9 +446,11 @@ export default class extends Controller {
 		editAlbum(formData)
 			.then(resp => {
 				console.log(resp)
+				this.saveindicatorTarget.style.display = "none";
 			})
 			.catch(err => {
 				this.errorMessageHandler(err)
+				this.saveindicatorTarget.style.display = "none";
 			});
 	}
 
