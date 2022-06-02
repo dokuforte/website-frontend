@@ -12,7 +12,7 @@ export default class extends Controller {
 
   connect() {
     this.selectedThumbnail = null
-
+    this.photosLoading = true
     this.thumbnailsCount = 0
 
     // Throttle resize and scroll functions
@@ -36,8 +36,10 @@ export default class extends Controller {
     if (
       this.element.scrollTop + this.element.offsetHeight >= this.element.scrollHeight - 150 &&
       this.thumbnailsCount % config.THUMBNAILS_QUERY_LIMIT === 0 &&
-      this.thumbnailsCount > 0
+      this.thumbnailsCount > 0 &&
+      this.photosLoading === false
     ) {
+      this.photosLoading = true
       this.loadPhotos()
     }
 
@@ -56,7 +58,7 @@ export default class extends Controller {
     if (
       this.thumbnailsCount % config.THUMBNAILS_QUERY_LIMIT === 0 &&
       this.thumbnailsCount > 0 &&
-      this.offsetHeight - this.scrollHeight >= 0
+      this.element.offsetHeight - this.element.scrollHeight >= 0
     ) {
       this.bottomActionsTarget.classList.remove("is-hidden")
     } else {
@@ -92,6 +94,7 @@ export default class extends Controller {
     })
 
     trigger("loader:hide", { id: "loaderBase" })
+    this.photosLoading = false
     this.toggleLoadMoreButton()
   }
 
@@ -182,7 +185,7 @@ export default class extends Controller {
       trigger("photosCarousel:hidePhotos")
       next.click()
     } else if (this.thumbnailsCount % config.THUMBNAILS_QUERY_LIMIT === 0 && this.thumbnailsCount > 0) {
-      this.thumbnailsLoading = true
+      this.photosLoading = true
       this.loadPhotos().then(() => {
         next = this.selectedThumbnail.nextElementSibling
         if (next) {
