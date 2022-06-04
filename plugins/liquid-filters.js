@@ -62,11 +62,14 @@ exports.sort = (arr, sortBy, order = "asc") => {
 }
 
 exports.markdownify = str => {
-  const md = new MarkdownIt().use(markdownItAttrs, {
-    leftDelimiter: "{",
-    rightDelimiter: "}",
-  })
-  return md.render(str)
+  if (str) {
+    const md = new MarkdownIt().use(markdownItAttrs, {
+      leftDelimiter: "{",
+      rightDelimiter: "}",
+    })
+    return md.render(str)
+  }
+  return str
 }
 
 exports.slugify = (str, removeSpaces = true) => {
