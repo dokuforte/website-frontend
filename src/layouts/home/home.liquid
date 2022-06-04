@@ -14,8 +14,8 @@ layout: base/base.liquid
       {% endif %}
     </div>
     <div class="home__hero__content">
-      <h3 class="home__hero__headline">{{ lang[locale].home_lead }}</h3>
-      <div class="home__hero__text">{{ lang[locale].home_intro | markdownify }}</div>
+      <h3 class="home__hero__headline">{{ lang[locale].home_lead | default: 'home_lead' }}</h3>
+      <div class="home__hero__text">{{ lang[locale].home_intro | default: 'home_intro' | markdownify }}</div>
     </div>
   </section>
   {% include footer/footer.liquid %}
