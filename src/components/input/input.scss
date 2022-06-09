@@ -3,23 +3,17 @@
   position: relative;
 }
 
+* + .input-wrapper {
+  margin-top: 2rem;
+}
+
 .input-wrapper__label {
   display: block;
   font-size: rem(13px);
   font-weight: 500;
   line-height: 1rem;
   color: $grey;
-  margin-bottom: 0.5rem;
-  margin-top: 1rem;
-
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.3s $ease-out-expo, transform 0.3s $ease-out-expo;
-
-  &.is-visible {
-    opacity: 1;
-    transform: translateY(0px);
-  }
+  margin-bottom: 0.75rem;
 }
 
 .input-wrapper__input {
@@ -76,4 +70,33 @@
   &[readonly] {
     color: $grey;
   }
+
+  &::-webkit-datetime-edit-text {
+    opacity: 0.24;
+    padding: 0 0.25rem;
+  }
+
+  &::-webkit-datetime-edit {
+    padding: 0;
+  }
+
+  .theme--light &::-webkit-datetime-edit-day-field:focus,
+  .theme--light &::-webkit-datetime-edit-month-field:focus,
+  .theme--light &::-webkit-datetime-edit-year-field:focus {
+    background-color: $light-primary;
+    color: $dark-primary;
+    outline: none;
+  }
+
+  .theme--dark &::-webkit-datetime-edit-day-field:focus,
+  .theme--dark &::-webkit-datetime-edit-month-field:focus,
+  .theme--dark &::-webkit-datetime-edit-year-field:focus {
+    background-color: $dark-secondary;
+    color: $light-base;
+    outline: none;
+  }
+}
+
+.input-wrapper__hint {
+  color: $grey;
 }

@@ -4,6 +4,10 @@
   text-align: left;
 }
 
+* + .selectize-control {
+  margin-top: 2rem;
+}
+
 .selectize-control--wide {
   width: 100%;
 }
@@ -19,15 +23,6 @@
   line-height: 1rem;
   color: $grey;
   margin-bottom: 0.5rem;
-  margin-top: 1rem;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.3s $ease-out-expo, transform 0.3s $ease-out-expo;
-
-  .selectize-control:not(.is-empty) & {
-    opacity: 1;
-    transform: translateY(0px);
-  }
 }
 
 .selectize-input {
@@ -202,4 +197,9 @@
 
 .selectize-control__save {
   cursor: pointer;
+}
+
+.selectize-control-hint {
+  margin: 0.5rem 0 0;
+  color: $grey;
 }

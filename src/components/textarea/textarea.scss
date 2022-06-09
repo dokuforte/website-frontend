@@ -3,6 +3,10 @@
   position: relative;
 }
 
+* + .textarea-wrapper {
+  margin-top: 2rem;
+}
+
 .textarea-wrapper__label {
   display: block;
   font-size: rem(13px);
@@ -10,16 +14,6 @@
   line-height: 1rem;
   color: $grey;
   margin-bottom: 0.5rem;
-  margin-top: 1rem;
-
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.3s $ease-out-expo, transform 0.3s $ease-out-expo;
-
-  &.is-visible {
-    opacity: 1;
-    transform: translateY(0px);
-  }
 }
 
 .textarea-wrapper__textarea {

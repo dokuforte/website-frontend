@@ -4,10 +4,11 @@
   {{ stimulus_target }}
 >
     {% if show_label == true %}
-    <label data-selectize-control-target="label" class="selectize-control__label">{{ placeholder }}</label>
+    <label data-selectize-control-target="label" class="selectize-control__label">{{ label }}</label>
     {% endif %}
     <div class="selectize-input">
         <input class="selectize-control__input" type="text" 
+            autocomplete="false"
             data-selectize-control-target="input" 
             data-autosuggest="{{ filter }}"
             data-autosuggest-target="input"
@@ -24,3 +25,4 @@
     <div class="autosuggest" data-autosuggest-target="autosuggest"></div>
     <div class="selectize-control__input hide" data-selectize-control-target="fakeInput"></div>
 </div>
+{% if hint %}<p class="selectize-control-hint small">{{ hint }}</p>{% endif %}

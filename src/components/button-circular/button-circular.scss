@@ -126,6 +126,11 @@
   }
 }
 
+.button-circular--small {
+  width: rem(24px);
+  height: rem(24px);
+}
+
 .button-circular--separator-before {
   .button-circular + & {
     margin-left: 1rem;
