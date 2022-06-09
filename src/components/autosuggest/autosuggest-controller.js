@@ -63,10 +63,9 @@ export default class extends Controller {
       e.currentTarget.classList.add("is-selected")
       this.autosuggestTarget.classList.remove("is-visible")
 
+      this.inputTarget.value = e.currentTarget.textContent
       if (this.element.selectizeControl) {
-        this.element.selectizeControl.value = e.currentTarget.textContent
-      } else {
-        this.inputTarget.value = e.currentTarget.textContent
+        this.element.selectizeControl.addTagNode(this.inputTarget.value)
       }
     })
 

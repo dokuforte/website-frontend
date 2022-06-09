@@ -128,10 +128,12 @@ export default class extends Controller {
   // set value
   set value(string) {
     this.reset()
-    const tags = string.split(",")
-    tags.forEach(tag => {
-      this.addTagNode(tag)
-    })
+    if (string.trim().length > 0) {
+      const tags = string.split(",")
+      tags.forEach(tag => {
+        this.addTagNode(tag)
+      })
+    }
 
     this.togglePlaceholder()
   }

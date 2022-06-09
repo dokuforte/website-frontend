@@ -9,6 +9,8 @@ const AUTOSAVE_DELAY = 5000
 export default class extends Controller {
   static get targets() {
     return [
+      "lead",
+      "formWrapper",
       "fileSelector",
       "form",
       "albumTitle",
@@ -77,8 +79,11 @@ export default class extends Controller {
     this.hebrewTitleTarget.value = data.hebrew_title || ""
     this.hebrewDescriptionTarget.value = data.hebrew_description || ""
     this.tagsTarget.selectizeControl.value = data.tags || ""
-    this.locationTarget.selectizeControl.value = data.addressline || ""
+    this.locationTarget.value = data.addressline || ""
     this.dateTarget.value = moment(data.date, "DD/MM/YYYY").format("YYYY-MM-DD") || ""
+    if (!data.date) {
+      this.dateTarget.valueAsDate = new Date()
+    }
     this.dateApproxTarget.checked = data.approx
   }
 
@@ -94,7 +99,7 @@ export default class extends Controller {
       hebrewtitle: this.hebrewTitleTarget.value,
       hebrewdescription: this.hebrewDescriptionTarget.value,
       tags: this.tagsTarget.selectizeControl.value.join(", "),
-      addressline: this.locationTarget.selectizeControl.value.join(", "),
+      addressline: this.locationTarget.value,
       date: moment(this.dateTarget.value).format("DD/MM/YYYY"),
       approx: this.dateApproxTarget.checked ? "true" : "false",
       original_photos: this.fileSelectorTarget.getUploadedFiles(),
@@ -128,7 +133,8 @@ export default class extends Controller {
     await albumAPI.submitAlbum(this.albumId)
     trigger("loader:hide", { id: "loaderUpload" })
 
-    this.formTarget.classList.add("is-hidden")
+    this.leadTarget.classList.add("is-hidden")
+    this.formWrapperTarget.classList.add("is-hidden")
     this.thankyouTarget.classList.remove("is-hidden")
 
     localStorage.removeItem("albumId")

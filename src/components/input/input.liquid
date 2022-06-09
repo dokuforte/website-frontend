@@ -27,6 +27,9 @@
     {% if required %}
     required
     {% endif %}
+    {% if dir %}
+    dir="{{ dir }}"
+    {% endif %}
   />
   {% if hint %}<p class="input-wrapper__hint small">{{ hint }}</p>{% endif %}
   {% unless autosuggest == null %}
