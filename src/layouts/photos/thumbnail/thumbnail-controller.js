@@ -1,7 +1,7 @@
 import { Controller } from "stimulus"
 
 import config from "../../../data/siteConfig"
-import { lang, trigger, setPageMeta, stripTags } from "../../../js/utils"
+import { lang, trigger, setPageMeta, stripTags, isElementInViewport } from "../../../js/utils"
 
 const THUMBNAIL_HEIGHT = 160
 export default class extends Controller {
@@ -13,8 +13,8 @@ export default class extends Controller {
     // add stimulus class reference to node
     this.element.photosThumbnail = this
 
-    // apply element data
-    this.applyThumbnailData()
+    // init thumbnail
+    this.initThumbnail()
 
     // load thumbnail image
     this.loadThumbnailImage()
@@ -45,40 +45,55 @@ export default class extends Controller {
     const w = Math.min(240, (this.naturalWidth / this.naturalHeight) * h)
     this.element.style.flex = `${w}`
     this.element.style.minWidth = `${w}px`
-  }
 
-  show() {
-    this.element.classList.remove("is-hidden")
-    setTimeout(() => {
-      this.element.classList.add("is-visible")
-    }, 100)
+    this.element.classList.toggle(
+      "img-fit-contain",
+      h > this.naturalHeight && this.naturalWidth / this.naturalHeight > 16 / 9
+    )
   }
 
   // set thumbnail meta data
-  applyThumbnailData() {
+  initThumbnail() {
     const data = this.element.itemData
     const metaArray = [data.year, data.title.trim() !== "" ? data.title.trim() : null]
     this.metaTarget.textContent = metaArray.filter(Boolean).join(" · ")
     this.descriptionTarget.innerHTML = stripTags(data.description) || stripTags(data.addressline) || ""
-  }
 
-  // load thumbnail image
-  loadThumbnailImage() {
-    const data = this.element.itemData
+    this.element.classList.add("is-visible")
 
     this.imageTarget.addEventListener("load", () => {
       this.naturalWidth = this.imageTarget.naturalWidth
       this.naturalHeight = this.imageTarget.naturalHeight
       this.resize()
 
+      this.element.classList.remove("is-loading")
       this.element.classList.add("is-loaded")
+
+      trigger("thumbnail:loaded")
     })
 
     this.imageTarget.addEventListener("error", () => {
+      this.element.classList.remove("is-loading")
       this.element.classList.add("is-failed-loading")
-    })
 
-    this.imageTarget.src = `${config.API_HOST}/assets/${data.photo_full}?key=thumb`
-    this.imageTarget.src.replace(".tiff", ".png")
+      trigger("thumbnail:loaded")
+    })
+  }
+
+  // load thumbnail image
+  loadThumbnailImage() {
+    if (
+      !this.element.classList.contains("is-loaded") &&
+      !this.loadInitiated &&
+      isElementInViewport(this.element, false)
+    ) {
+      const data = this.element.itemData
+
+      this.imageTarget.src = `${config.API_HOST}/assets/${data.photo_full}?key=thumb`
+      this.imageTarget.src.replace(".tiff", ".png")
+
+      this.element.classList.add("is-loading")
+      this.loadInitiated = true
+    }
   }
 }

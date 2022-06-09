@@ -3,6 +3,10 @@ body {
   margin: 0;
   overflow: hidden;
 
+  &[data-lang="he"] {
+    direction: rtl;
+  }
+
   main {
     display: block;
     position: absolute;

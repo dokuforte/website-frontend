@@ -3,7 +3,7 @@ layout: profile/profile.liquid
 profile_wrapper_class: profile-upload-wrapper
 ---
 
-<h2 class="profile-content__title">{{ upload_title }}</h2>
+<h2 class="profile-content__title">{{ lang[locale].upload_title }}</h2>
 <div data-controller="profile-upload" class="profile-upload" data-action="load->profile-upload#onPopState">
 	<div class="profile-upload__lead">{{ lang[locale].upload_lead | markdownify }}</div>
 	  
