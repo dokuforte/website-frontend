@@ -20,7 +20,7 @@ layout: profile/profile.liquid
 			{% include input/input.liquid type:'text' dir:'rtl' name:'hebrewtitle' label:lang[locale].hebrewtitle stimulus_target:'data-profile-upload-target="hebrewTitle"' %}
 			{% include textarea/textarea.liquid dir:'rtl' name:'hebrewdescription' label:lang[locale].hebrewdescription stimulus_target:'data-profile-upload-target="hebrewDescription"' %}
 
-			{% include input/input.liquid type:'text' name:'addressline' label:lang[locale].location stimulus_target:'data-profile-upload-target="location"' hint: lang[locale].upload_location_hint %}
+			{% include input/input.liquid type:'text' name:'addressline' autosuggest:'addressline' label:lang[locale].location stimulus_target:'data-profile-upload-target="location"' hint: lang[locale].upload_location_hint %}
 
 			{% include input/input.liquid type:'text' name:'photographer' autosuggest:'photographer' label:lang[locale].photographer stimulus_target:'data-profile-upload-target="photographer"' %}
 			
