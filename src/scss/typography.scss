@@ -24,8 +24,8 @@ html {
 
 h1,
 .h1 {
-  font-size: rem(64px);
-  line-height: rem(72px);
+  font-size: rem(56px);
+  line-height: rem(64px);
   @include font-heading-bold();
   letter-spacing: -2px;
 
@@ -37,14 +37,15 @@ h1,
 
 h2,
 .h2 {
-  font-size: rem(48px);
-  line-height: rem(56px);
+  font-size: rem(40px);
+  line-height: rem(48px);
   @include font-heading-bold();
-  letter-spacing: -2px;
+  letter-spacing: -1px;
+  margin-bottom: rem(20px);
 
   @media screen and (max-width: ($breakpoint-phone - 1px)) {
     font-size: rem(36px);
-    line-height: rem(44px);
+    line-height: rem(40px);
   }
 }
 
@@ -52,6 +53,7 @@ h3,
 .h3 {
   font-size: rem(28px);
   line-height: rem(32px);
+  margin-bottom: rem(12px);
   @include font-heading-bold();
 }
 
@@ -59,7 +61,7 @@ h4,
 .h4 {
   font-size: rem(22px);
   line-height: rem(28px);
-  margin-bottom: rem(24px);
+  margin-bottom: rem(12px);
   @include font-heading-bold();
 }
 
@@ -67,6 +69,7 @@ h5,
 .h5 {
   font-size: rem(18px);
   line-height: rem(24px);
+  margin-bottom: rem(12px);
   @include font-heading-bold();
 }
 
@@ -85,11 +88,18 @@ ul {
   font-size: rem(15px);
   line-height: rem(24px);
   font-weight: 400;
+  margin: rem(12px) 0;
 }
 
 .lead {
   font-size: rem(24px);
   line-height: rem(32px);
+  font-weight: 400;
+}
+
+.lead-medium {
+  font-size: rem(18px);
+  line-height: rem(26px);
   font-weight: 400;
 }
 

@@ -1,10 +1,10 @@
 ---
 layout: profile/profile.liquid
 ---
-<h2 class="profile-content__title">{{ title }}</h2>
+<h1 class="profile-content__title">{{ title }}</h1>
 <div class="profile-edit" data-controller="profile-edit" data-action="auth:signedOut@document->profile-edit#redirectToHome">
   <div class="profile-content__section">
-    <h4>{{ lang[locale].personal }}</h4>
+    <h3>{{ lang[locale].personal }}</h3>
     <div class="profile-edit__grid">
       {% include input/input.liquid type:'text' name:'first_name' label:lang[locale].first_name placeholder:lang[locale].first_name_placeholder stimulus_target:'data-profile-edit-target="personalField firstName"' stimulus_action:"keyup->profile-edit#onPersonalFieldChange" %}
       {% include input/input.liquid type:'text' name:'last_name' label:lang[locale].last_name placeholder:lang[locale].last_name_placeholder stimulus_target:'data-profile-edit-target="personalField lastName"' stimulus_action:"keyup->profile-edit#onPersonalFieldChange" %}
@@ -17,7 +17,7 @@ layout: profile/profile.liquid
   </div>
 
   <div class="profile-content__section">
-    <h4>{{ lang[locale].password_change }}</h4>
+    <h3>{{ lang[locale].password_change }}</h3>
     <form>
       {% include input/input.liquid type:'password' name:'password' label:lang[locale].password stimulus_target:'data-profile-edit-target="passwordField password"' %}
       {% include input/input.liquid type:'password' name:'password_new' label:lang[locale].password_new stimulus_target:'data-profile-edit-target="passwordField newPassword"' %}

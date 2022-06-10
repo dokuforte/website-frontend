@@ -18,6 +18,7 @@ export default class extends Controller {
       "description",
       "hebrewTitle",
       "hebrewDescription",
+      "photographer",
       "tags",
       "date",
       "dateApprox",
@@ -78,6 +79,7 @@ export default class extends Controller {
     this.descriptionTarget.value = data.description || ""
     this.hebrewTitleTarget.value = data.hebrew_title || ""
     this.hebrewDescriptionTarget.value = data.hebrew_description || ""
+    this.photographerTarget.value = data.photographer || ""
     this.tagsTarget.selectizeControl.value = data.tags || ""
     this.locationTarget.value = data.addressline || ""
     this.dateTarget.value = moment(data.date, "DD/MM/YYYY").format("YYYY-MM-DD") || ""
@@ -98,6 +100,7 @@ export default class extends Controller {
       description: this.descriptionTarget.value,
       hebrewtitle: this.hebrewTitleTarget.value,
       hebrewdescription: this.hebrewDescriptionTarget.value,
+      photographer: this.photographerTarget.value,
       tags: this.tagsTarget.selectizeControl.value.join(", "),
       addressline: this.locationTarget.value,
       date: moment(this.dateTarget.value).format("DD/MM/YYYY"),
