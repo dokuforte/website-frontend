@@ -30,7 +30,7 @@ export default class extends Controller {
 
     const a = document.createElement("a")
     a.setAttribute("download", data.id)
-    a.href = `/download/${data.photo_full}`
+    a.href = `/download/${data.photo_url_full_path}`
     a.click()
   }
 }

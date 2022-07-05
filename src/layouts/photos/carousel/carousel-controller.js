@@ -74,7 +74,7 @@ export default class extends Controller {
       photo.className = "image-loader"
       photo.id = `dokuforte-${id}`
 
-      photo.imageSrc = `${config.API_HOST}/assets/${id}?key=web`
+      photo.imageSrc = `${config.API_HOST}/photos/${selectedThumbnail.itemData.photo_url_web_path}`
       photo.loadCallback = () => {
         trigger("loader:hide", { id: "loaderCarousel" })
         this.stepSlideshow()

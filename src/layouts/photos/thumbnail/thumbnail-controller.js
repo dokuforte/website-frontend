@@ -89,8 +89,7 @@ export default class extends Controller {
     ) {
       const data = this.element.itemData
 
-      this.imageTarget.src = `${config.API_HOST}/assets/${data.photo_full}?key=thumb`
-      this.imageTarget.src.replace(".tiff", ".png")
+      this.imageTarget.src = `${config.API_HOST}/photos/${data.photo_url_thumb_path}`
 
       this.element.classList.add("is-loading")
       this.loadInitiated = true
