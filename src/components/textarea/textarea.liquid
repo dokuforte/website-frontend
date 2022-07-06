@@ -11,4 +11,5 @@
     dir="{{ dir }}"
     {% endif %}
   ></textarea>
+  {% if hint %}<div class="textarea-wrapper__hint small">{{ hint | markdownify }}</div>{% endif %}
 </div>
