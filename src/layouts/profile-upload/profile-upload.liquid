@@ -15,7 +15,7 @@ layout: profile/profile.liquid
 			
 			{% include input/input.liquid type:'text' name:'albumtitle' label:lang[locale].albumtitle stimulus_target:'data-profile-upload-target="albumTitle"' %}
 			{% include input/input.liquid type:'text' name:'title' label:lang[locale].title stimulus_target:'data-profile-upload-target="title"' %}
-			{% include textarea/textarea.liquid name:'description' label:lang[locale].description stimulus_target:'data-profile-upload-target="description"' %}
+			{% include textarea/textarea.liquid name:'description' label:lang[locale].description stimulus_target:'data-profile-upload-target="description"' hint: lang[locale].upload_description_hint %}
 
 			{% include input/input.liquid type:'text' dir:'rtl' name:'hebrewtitle' label:lang[locale].hebrewtitle stimulus_target:'data-profile-upload-target="hebrewTitle"' %}
 			{% include textarea/textarea.liquid dir:'rtl' name:'hebrewdescription' label:lang[locale].hebrewdescription stimulus_target:'data-profile-upload-target="hebrewDescription"' %}
