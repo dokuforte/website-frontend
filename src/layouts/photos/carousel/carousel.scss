@@ -64,6 +64,7 @@
   top: 0;
   bottom: 0;
   filter: blur(30px);
+  will-change: filter;
   overflow: hidden;
 }
 
