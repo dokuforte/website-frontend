@@ -13,10 +13,7 @@ export default class extends Controller {
       "formWrapper",
       "fileSelector",
       "form",
-      "albumTitle",
-      "title",
       "description",
-      "hebrewTitle",
       "hebrewDescription",
       "photographer",
       "tags",
@@ -73,11 +70,7 @@ export default class extends Controller {
     if (data.original_photos) {
       this.fileSelectorTarget.addFiles(data.original_photos)
     }
-
-    this.albumTitleTarget.value = data.album_title || ""
-    this.titleTarget.value = data.title || ""
     this.descriptionTarget.value = data.description || ""
-    this.hebrewTitleTarget.value = data.hebrew_title || ""
     this.hebrewDescriptionTarget.value = data.hebrew_description || ""
     this.photographerTarget.value = data.photographer || ""
     this.tagsTarget.selectizeControl.value = data.tags || ""
@@ -95,10 +88,7 @@ export default class extends Controller {
     // UPDATE ALBUM DATA
     const formData = {
       albumid: this.albumId,
-      album_title: this.albumTitleTarget.value,
-      title: this.titleTarget.value,
       description: this.descriptionTarget.value,
-      hebrewtitle: this.hebrewTitleTarget.value,
       hebrewdescription: this.hebrewDescriptionTarget.value,
       photographer: this.photographerTarget.value,
       tags: this.tagsTarget.selectizeControl.value.join(", "),
