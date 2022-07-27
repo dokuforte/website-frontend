@@ -17,6 +17,7 @@ export default class extends Controller {
   loadImage() {
     if (!this.img) {
       this.img = new Image()
+      this.img.draggable = false
       this.img.addEventListener("load", () => {
         this.element.imageLoaded = true
         this.img.classList.add("is-loaded")

@@ -30,6 +30,7 @@
   bottom: rem(0px);
   transition: top 0.4s $ease-out-expo, right 0.4s $ease-out-expo, bottom 0.4s $ease-out-expo;
   background-color: $dark-base;
+  user-select: none;
 
   @media screen and (max-width: ($breakpoint-desktop - 1px)) {
     top: rem(64px);
