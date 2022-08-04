@@ -1,15 +1,56 @@
 ---
-layout: profile/profile.liquid
+layout: article/article.liquid
 ---
 
-<h1 class="profile-content__title">{{ title }}</h1>
+<h1 class="article__content__title" data-controller="page-title">{{ lang[locale].settings }}</h1>
 <div class="profile-settings" data-controller="profile-settings">
-  <h3>{{ lang[locale].appearance }}</h3>
-  <div class="profile-settings__row">
-    <div class="profile-settings__row-label">{{ lang[locale].darkmode }}</div>
-    <div 
-      data-action="click->profile-settings#toggleTheme theme:toggleTheme@document->theme#toggleTheme"
-      class="toggle-switch profile-settings__dark-mode-switch">
+  <div class="article__content__section">
+    <h3 id="dark-mode">{{ lang[locale].appearance }}</h3>
+    <div class="profile-settings__row">
+      <div class="profile-settings__row-label">{{ lang[locale].darkmode }}</div>
+      <div
+        data-action="click->profile-settings#toggleTheme"
+        data-profile-settings-target="toggleDarkTheme"
+        class="toggle-switch">
+      </div>
     </div>
   </div>
+
+  <div class="article__content__section">
+    <h3 id="privacy">{{ lang[locale].privacy }}</h3>
+    <div class="profile-settings__row">
+      <div class="profile-settings__row-label">{{ lang[locale].cookie_technically_required }}</div>
+      <div 
+        class="toggle-switch is-on is-disabled">
+      </div>
+    </div>
+    <div class="profile-settings__hint">
+      {{ lang[locale].cookie_technically_required_hint }}
+    </div>
+
+    <div class="profile-settings__row">
+      <div class="profile-settings__row-label">{{ lang[locale].cookie_convenience }}</div>
+      <div 
+        data-action="click->profile-settings#toggleConvenienceCookies"
+        data-profile-settings-target="toggleConvenienceCookies"
+        class="toggle-switch">
+      </div>
+    </div>
+    <div class="profile-settings__hint">
+      {{ lang[locale].cookie_convenience_hint }}
+    </div>
+
+    <div class="profile-settings__row">
+      <div class="profile-settings__row-label">{{ lang[locale].cookie_marketing }}</div>
+      <div 
+        data-action="click->profile-settings#toggleMarketingCookies"
+        data-profile-settings-target="toggleMarketingCookies"
+        class="toggle-switch">
+      </div>
+    </div>
+    <div class="profile-settings__hint">
+      {{ lang[locale].cookie_marketing_hint }}
+    </div>
+  </div>
+
 </div>

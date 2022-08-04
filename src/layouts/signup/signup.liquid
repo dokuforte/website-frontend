@@ -4,7 +4,7 @@ layout: auth/auth.liquid
 
 <div class="signup-wrapper scrollview" data-controller="scrollview" data-action="scroll->scrollview#handleScroll">
   <div class="signup" data-controller="signup">
-    <h2 class="signup__title">{{ lang[locale].signup }}</h2>
+    <h1 class="signup__title" data-controller="page-title">{{ lang[locale].signup }}</h1>
     <p class="lead">{{ lang[locale].signup_blurb }}</p>
     <div class="signup__links">
       <a href="/{{ locale }}/signin" class="link-with-arrow link-with-arrow--small">{{ lang[locale].signin_long }}</a>

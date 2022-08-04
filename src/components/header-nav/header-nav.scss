@@ -374,7 +374,9 @@ body[data-lang="en"] .header-nav__link.lang-en {
   }
 }
 
-.header-nav--minimal .header-nav__menu-icon {
+.header-nav--minimal .header-nav__menu-icon,
+.header-nav--minimal .header-nav__notification-icon,
+.header-nav--minimal .header-nav__profile-icon {
   display: none;
 }
 

@@ -1,5 +1,5 @@
 .footer {
-  padding: rem(64px) 2rem 3rem;
+  padding: rem(120px) 2rem 3rem;
   overflow: hidden;
   text-align: center;
 
@@ -22,7 +22,7 @@
     color: $grey;
 
     &:hover {
-      color: $light-base;
+      color: $dark-base;
     }
   }
 
@@ -30,7 +30,7 @@
     color: $grey;
 
     &:hover {
-      color: $dark-base;
+      color: $light-base;
     }
   }
 }

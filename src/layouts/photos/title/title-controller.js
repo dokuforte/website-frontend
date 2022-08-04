@@ -1,5 +1,5 @@
 import { Controller } from "stimulus"
-import { lang, getURLParams, numberWithCommas } from "../../../js/utils"
+import { lang, getURLParams, numberWithCommas, setPageMeta } from "../../../js/utils"
 
 export default class extends Controller {
   static get targets() {
@@ -18,6 +18,8 @@ export default class extends Controller {
     } else {
       this.titleTarget.textContent = await lang("search")
     }
+
+    setPageMeta(this.titleTarget.textContent)
 
     // set search expression tag content
     if (Object.keys(q).length === 0 || q.q === "" || Object.keys(q).indexOf("latest") > -1) {

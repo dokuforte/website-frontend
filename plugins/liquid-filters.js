@@ -1,6 +1,7 @@
-const MarkdownIt = require("markdown-it")
-const markdownItAttrs = require("markdown-it-attrs")
 const moment = require("moment")
+const md = require("markdown-it")()
+const markdownItAttrs = require("markdown-it-attrs")
+const markdownItAnchor = require("markdown-it-anchor")
 
 exports.findItem = (scope, key, value) => {
   return scope.find(item => {
@@ -63,10 +64,7 @@ exports.sort = (arr, sortBy, order = "asc") => {
 
 exports.markdownify = str => {
   if (str) {
-    const md = new MarkdownIt().use(markdownItAttrs, {
-      leftDelimiter: "{",
-      rightDelimiter: "}",
-    })
+    md.use(markdownItAttrs).use(markdownItAnchor)
     return md.render(str)
   }
   return str

@@ -168,11 +168,14 @@ export const isElementInViewport = el => {
 
 export const setCookie = (name, value, days) => {
   let expires = ""
-  if (days) {
+  if (days > 0) {
     const date = new Date()
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
     expires = `; expires=${date.toUTCString()}`
+  } else {
+    expires = "; expires=Thu, 01 Jan 1970 00:00:00 GMT"
   }
+
   document.cookie = `${name}=${value || ""}${expires}; path=/`
 }
 
@@ -187,6 +190,26 @@ export const getCookie = name => {
   return null
 }
 
+export const getStorageParam = (paramName, isLocal = false) => {
+  const storage = isLocal ? window.localStorage : window.sessionStorage
+  const param = storage.getItem(paramName)
+  if (param) {
+    return JSON.parse(param)
+  }
+  return {}
+}
+
+export const setStorageParam = (paramName, paramValue, isLocal = false) => {
+  const storage = isLocal ? window.localStorage : window.sessionStorage
+  if (typeof paramValue === "object") storage.setItem(paramName, JSON.stringify(paramValue))
+  if (paramValue === null) storage.removeItem(paramName)
+
+  const triggerDetail = {}
+  triggerDetail[paramName] = paramValue
+
+  trigger("storage:changed", triggerDetail)
+}
+
 export const eraseCookie = name => {
   document.cookie = `${name}=; Max-Age=-99999999;`
 }
@@ -194,19 +217,6 @@ export const eraseCookie = name => {
 export const validateEmail = email => {
   const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+.([A-Za-z]{2,4})$/
   return reg.test(email)
-}
-
-const globalSettingsStorage = {}
-export const globalSettings = {
-  setItem: (key, value) => {
-    globalSettingsStorage[key] = value
-  },
-  getItem: key => {
-    return globalSettingsStorage[key]
-  },
-  removeItem: key => {
-    delete globalSettingsStorage[key]
-  },
 }
 
 export const redirectTo = href => {

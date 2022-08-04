@@ -2,7 +2,7 @@ module.exports = {
   ENV: process.env.ENV,
   SITE: "https://www.dokuforte.com",
   EMAIL: "dokuforte@dokuforte.com",
-  SITE_DEV: "http://localhost:8888",
+  SITE_DEV: "http://localhost:8080",
   API_HOST: "https://api.dokuforte.co.il",
   FACEBOOK_APP_ID: "",
   THUMBNAILS_QUERY_LIMIT: 40,

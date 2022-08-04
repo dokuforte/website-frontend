@@ -1,33 +1,44 @@
 import { Controller } from "stimulus"
 
 import config from "../../data/siteConfig"
+import { getStorageParam, setStorageParam } from "../../js/utils"
 import { setAppState, removeAppState } from "../../js/app"
 
 export default class extends Controller {
   connect() {
-    this.theme = config.DEFAULT_THEME
+    this.settings = getStorageParam("settings", true)
+    if (!this.settings.theme) this.settings.theme = config.DEFAULT_THEME
 
-    this.loadStateFromLocalStorage()
-    this.saveStateToLocalStorage()
-    this.setTheme(this.theme)
-  }
+    this.setTheme(this.settings.theme)
 
-  loadStateFromLocalStorage() {
-    this.theme = localStorage.getItem("theme") || this.theme
+    document.addEventListener("theme:toggleTheme", () => {
+      this.toggleTheme()
+    })
+
+    document.addEventListener("storage:changed", e => {
+      if (e.detail) {
+        const { settings, privacySettings } = e.detail
+        if (settings) {
+          this.settings = settings
+        }
+
+        if (privacySettings) {
+          this.privacySettings = privacySettings
+        }
+      }
+    })
   }
 
   setTheme(newTheme) {
-    removeAppState(`theme--${this.theme}`)
+    removeAppState(`theme--${this.settings.theme}`)
     setAppState(`theme--${newTheme}`)
-    this.theme = newTheme
-  }
+    this.settings.theme = newTheme
 
-  saveStateToLocalStorage() {
-    localStorage.setItem("theme", this.theme)
+    setStorageParam("settings", this.settings, true)
   }
 
   toggleTheme() {
-    this.setTheme(this.theme === "light" ? "dark" : "light")
-    this.saveStateToLocalStorage()
+    const newTheme = this.settings.theme === "light" ? "dark" : "light"
+    this.setTheme(newTheme)
   }
 }

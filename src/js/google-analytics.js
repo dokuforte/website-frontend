@@ -14,21 +14,29 @@ const GA_MEASUREMENT_ID = "G-66H6LGGJL7"
 const GA = {
   init: () => {
     // pollute window
-    window.dataLayer = window.dataLayer || []
+    window[`ga-disable-${GA_MEASUREMENT_ID}`] = false
+    if (window.dataLayer) return
+
+    window.dataLayer = []
+
     function gtag() {
       // eslint-disable-next-line prefer-rest-params
       window.dataLayer.push(arguments)
     }
+
     gtag("js", new Date())
 
-    gtag("config", GA_MEASUREMENT_ID)
+    gtag("config", GA_MEASUREMENT_ID, { anonymize_ip: true })
 
     // inject GA script to document header
-    const a = document.createElement("script")
-    a.async = true
-    a.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`
-    const s = document.getElementsByTagName("script")[0]
-    s.parentNode.insertBefore(a, s)
+    if (!document.getElementById("gtag-js")) {
+      const a = document.createElement("script")
+      a.id = "gtag-js"
+      a.async = true
+      a.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`
+      const s = document.getElementsByTagName("script")[0]
+      s.parentNode.insertBefore(a, s)
+    }
   },
   trackPageView: () => {
     if (window.dataLayer) {
@@ -42,6 +50,9 @@ const GA = {
         event_label: l,
       })
   },
+  disable: () => {
+    window[`ga-disable-${GA_MEASUREMENT_ID}`] = true
+  },
 }
 
 /** Custom event listeners */
@@ -50,5 +61,14 @@ document.addEventListener("analytics:trackEvent", GA.trackEvent)
 document.addEventListener("analytics:trackPageView", GA.trackPageView)
 
 /** GA tracking is only allowed when users approve it with the cookie consent */
+document.addEventListener("storage:changed", e => {
+  if (e.detail) {
+    const { privacySettings } = e.detail
 
-document.addEventListener("cookieConsent:cookiesAllowed", GA.init)
+    if (privacySettings && privacySettings.marketingCookiesAllowed) {
+      GA.init()
+    } else if (privacySettings && !privacySettings.marketingCookiesAllowed) {
+      GA.disable()
+    }
+  }
+})

@@ -1,6 +1,9 @@
 const liquidFilters = require("./plugins/liquid-filters")
 const inlineSVG = require("./plugins/inlineSVG")
 const htmlmin = require("html-minifier")
+const markdownIt = require("markdown-it")
+const markdownItAttrs = require("markdown-it-attrs")
+const markdownItAnchor = require("markdown-it-anchor")
 
 module.exports = eleventyConfig => {
   // Disable .gitignore and use eleventy's own ignore file instead
@@ -33,6 +36,15 @@ module.exports = eleventyConfig => {
   eleventyConfig.addLiquidFilter("slugify", liquidFilters.slugify)
   eleventyConfig.addLiquidFilter("format_price", liquidFilters.formatPrice)
   eleventyConfig.addLiquidFilter("to_timestamp", liquidFilters.toTimestamp)
+
+  // Markdown custom config
+  let markdownOptions = {
+    html: true,
+  }
+  let markdownLibrary = markdownIt(markdownOptions)
+    .use(markdownItAttrs)
+    .use(markdownItAnchor)
+  eleventyConfig.setLibrary("md", markdownLibrary)
 
   // Minify html in production
   if (process.env.ENV === "production") {

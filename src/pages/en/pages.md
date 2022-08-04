@@ -1,12 +1,12 @@
 ---
 layout: article/article.liquid
 pagination:
-    data: pages
+    data: pages-en
     size: 1
     alias: p
 permalink: "/{{ p.locale }}/{{ p.permalink }}/"
 eleventyComputed:
   title: "{{ p.title }}"
-  date: {{ p.date }}
+  date: {{ p.date_updated }}
 ---
 {{ p.content }}

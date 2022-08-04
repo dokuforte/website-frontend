@@ -1,12 +1,12 @@
 ---
-layout: profile/profile.liquid
+layout: article/article.liquid
 ---
 
-<h1 class="profile-content__title">{{ lang[locale].upload }}</h1>
+<h1 class="article__content__title" data-controller="page-title">{{ lang[locale].upload }}</h1>
 <div data-controller="profile-upload" class="profile-upload" data-action="load->profile-upload#onPopState">
 	<div class="profile-upload__lead" data-profile-upload-target="lead">{{ lang[locale].upload_lead | markdownify }}</div>
 	  
-	<div class="profile-content__section" data-profile-upload-target="formWrapper">
+	<div class="article__content__section" data-profile-upload-target="formWrapper">
 		{% include ./file-selector/file-selector.liquid stimulus_target:'data-profile-upload-target="fileSelector"' %}
 
 		<form class="profile-upload__form" data-profile-upload-target="form">
@@ -32,7 +32,7 @@ layout: profile/profile.liquid
 				<label for="profile-upload-date-approx" class="checkbox-wrapper__label">{{ lang[locale].date_approx }}</label>
 			</div>
 
-			<div class="profile-content__actions">
+			<div class="article__content__actions">
 				<button class="button button--primary" data-action="profile-upload#markAlbumForReview">
 					{{ lang[locale].submit_for_review }}
 				</button>

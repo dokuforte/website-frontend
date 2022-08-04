@@ -1,21 +1,18 @@
 <div class="cookie-consent" data-controller="cookie-consent">
   <div class="cookie-consent__wrapper">
-    <form
-      class="cookie-consent__form"
-      data-cookie-consent-target="form"
-      data-action="submit->cookie-consent#disableFormSubmit keypress->cookie-consent#disableFormSubmitOnEnter"
-    >
       <div class="cookie-consent__blurb styled-links">
         {{ lang[locale].cookie_consent | markdownify }}
       </div>
-      <div class="cookie-consent__form__actions">
-        <button class="button button--secondary button--medium" data-action="cookie-consent#hide">
-          {{ lang[locale].decline }}
+      <div class="cookie-consent__actions">
+        <a href="/{{ locale }}/profile/settings#privacy" class="button button--transparent button--small">
+          {{ lang[locale].cookie_more_options }}
+        </a>
+        <button class="button button--secondary button--small" data-action="cookie-consent#declineAll">
+          {{ lang[locale].cookie_decline_all }}
         </button>
-        <button class="button button--primary button--medium" data-action="cookie-consent#accept">
-          {{ lang[locale].allow_cookies }}
+        <button class="button button--primary button--small" data-action="cookie-consent#acceptAll">
+          {{ lang[locale].cookie_accept_all }}
         </button>
       </div>
-    </form>
   </div>
 </div>

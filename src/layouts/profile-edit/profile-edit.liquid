@@ -1,9 +1,10 @@
 ---
-layout: profile/profile.liquid
+layout: article/article.liquid
+hide_search: true
 ---
-<h1 class="profile-content__title">{{ title }}</h1>
+<h1 class="article__content__title" data-controller="page-title">{{ lang[locale].account }}</h1>
 <div class="profile-edit" data-controller="profile-edit" data-action="auth:signedOut@document->profile-edit#redirectToHome">
-  <div class="profile-content__section">
+  <div class="article__content__section">
     <h3>{{ lang[locale].personal }}</h3>
     <div class="profile-edit__grid">
       {% include input/input.liquid type:'text' name:'first_name' label:lang[locale].first_name placeholder:lang[locale].first_name_placeholder stimulus_target:'data-profile-edit-target="personalField firstName"' stimulus_action:"keyup->profile-edit#onPersonalFieldChange" %}
@@ -11,24 +12,24 @@ layout: profile/profile.liquid
     </div>
     {% include input/input.liquid type:'email' name:'email' readonly:true label:lang[locale].email placeholder:lang[locale].email_placeholder stimulus_target:'data-profile-edit-target="personalField email"' stimulus_action:"keyup->profile-edit#onPersonalFieldChange" %}
     {% include input/input.liquid type:'tel' name:'phone' label:lang[locale].phone_number placeholder:lang[locale].phone_number_placeholder hint:lang[locale].phone_number_hint stimulus_target:'data-profile-edit-target="personalField tel"' stimulus_action:"keyup->profile-edit#onPersonalFieldChange" %}
-    <div class="profile-content__actions">
+    <div class="profile-edit__actions">
       <button class="button button--primary" disabled data-profile-edit-target="savePersonalChanges" data-action="profile-edit#updateAuthProfile">Save changes</button>
     </div>
   </div>
 
-  <div class="profile-content__section">
+  <div class="article__content__section">
     <h3>{{ lang[locale].password_change }}</h3>
     <form>
       {% include input/input.liquid type:'password' name:'password' label:lang[locale].password stimulus_target:'data-profile-edit-target="passwordField password"' %}
       {% include input/input.liquid type:'password' name:'password_new' label:lang[locale].password_new stimulus_target:'data-profile-edit-target="passwordField newPassword"' %}
       {% include input/input.liquid type:'password' name:'password_new_confirm' label:lang[locale].password_new_confirm stimulus_target:'data-profile-edit-target="passwordField newPasswordConfirm"' %}
-      <div class="profile-content__actions">
+      <div class="profile-edit__actions">
         <button class="button button--primary" data-profile-edit-target="changePassword">{{ lang[locale].password_change }}</button>
       </div>
     </form>
   </div>
 
-  <div class="profile-content__section">
+  <div class="article__content__section">
     <h4>{{ lang[locale].other }}</h4>
     <button class="button button--red" data-profile-edit-target="deleteAccount" data-action="profile-edit#showDeleteAccountDialog">{{ lang[locale].account_delete }}</button>
   </div>

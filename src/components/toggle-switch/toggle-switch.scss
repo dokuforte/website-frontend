@@ -11,7 +11,7 @@
   }
 
   .theme--dark & {
-    background-color: $accent;
+    background-color: rgba($light-base, 0.2);
   }
 
   &::after {
@@ -29,8 +29,21 @@
     }
 
     .theme--dark & {
-      transform: translateX(24px);
-      background-color: $light-base;
+      background-color: $dark-primary;
     }
+  }
+
+  &.is-on {
+    background-color: $accent;
+  }
+
+  &.is-disabled {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  &.is-on::after {
+    transform: translateX(24px);
+    background-color: $light-base;
   }
 }

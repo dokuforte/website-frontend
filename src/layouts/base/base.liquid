@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html
+  lang="{{ locale }}"
+>
   <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
@@ -26,16 +28,16 @@
     <meta property="twitter:image:src" content="{{ site_url }}/images/social/dokuforte-twitter-1.jpg"/>
     <meta content="@Dokuforte" property="twitter:site"/>
     <meta content="summary_large_image" property="twitter:card"/>
-    <meta property="twitter:title" content="{{ title }}"/>
+    <meta property="twitter:title" content="{{ title | default: lang[locale].page_head_title }}"/>
     <meta property="twitter:description" content="{{ lang[locale].page_head_description }}"/>
 
     <meta property="og:image" content="{{ site_url }}/images/social/dokuforte-facebook-1.jpg"/>
     <meta content="Dokuforte" property="og:site_name"/>
     <meta content="object" property="og:type"/>
-    <meta property="og:title" content="{{ title }}"/>
+    <meta property="og:title" content="{{ title | default: lang[locale].page_head_title }}"/>
     <meta property="og:description" content="{{ lang[locale].page_head_description }}"/>
 
-    <title>{{ title }}</title>
+    <title>{{ title | default: lang[locale].page_head_title }}</title>
 
     <link href="https://use.typekit.net/shi7abw.css" rel="stylesheet"/>
     <link href="/main.css?{{ cacheBust.mainCss }}" rel="stylesheet"/>

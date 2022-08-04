@@ -2,13 +2,16 @@
 layout: base/base.liquid
 ---
 
-<div class="article scrollview" data-controller="scrollview" data-action="scroll->scrollview#handleScroll">
+<div 
+  class="article scrollview"
+  data-controller="scrollview"
+  data-action="click->scrollview#navigate DOMContentLoaded@window->scrollview#goToHash hashchange@window->scrollview#goToHash scroll->scrollview#handleScroll"
+>
   <section class="article__content">
-  <h1>{{ title }}</h1>
+  {% if title %} <h1 class="article__content__title" data-controller="page-title">{{ title }}</h1>{% endif %}
   {{ content }}
   </section>
   {% include footer/footer.liquid %}
-  
 </div>
 
 {% include background-icon/background-icon.liquid %}

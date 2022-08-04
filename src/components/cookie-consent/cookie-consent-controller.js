@@ -1,72 +1,61 @@
 import { Controller } from "stimulus"
-import { trigger, globalSettings } from "../../js/utils"
+import { getStorageParam, setStorageParam } from "../../js/utils"
 
 export default class CookieConsent extends Controller {
-  static get targets() {
-    return ["form"]
-  }
-
   connect() {
-    this.addEventListeners()
+    /**
+     * Read session storage to get the stored values of privacy settings
+     */
+    this.privacySettings = getStorageParam("privacySettings")
+
+    /**
+     * Bind event listeners
+     */
+    document.addEventListener("cookieConsent:show", this.show.bind(this))
+    document.addEventListener("cookieConsent:hide", this.hide.bind(this))
 
     /**
      *  Check local storage settings
      */
-    if (localStorage.getItem("allowCookies") !== "1") {
-      // When no cookie consent related local storage items are set
+    if (Object.keys(this.privacySettings).length === 0) {
+      // When no cookie consent related storage items are set
       setTimeout(() => {
         this.show()
       }, 100)
     } else {
       // Otherwise
       setTimeout(() => {
-        this.publishState()
+        setStorageParam("privacySettings", this.privacySettings)
       }, 100)
     }
   }
 
   /**
-   * Custom event listeners
-   *
-   * When an other component controller fires the events below, the following methods will be called
-   * cookieConsent:show -> this.show
-   * cookieConsent:hide -> this.hide
+   * Accept all cookies
    */
-  addEventListeners() {
-    document.addEventListener("cookieConsent:show", this.show.bind(this))
-    document.addEventListener("cookieConsent:hide", this.hide.bind(this))
-  }
-
-  /**
-   * Disable form submit and submit on Enter
-   */
-  disableFormSubmitOnEnter(e) {
-    if (e.key === "Enter") {
-      e.preventDefault()
+  acceptAll() {
+    this.privacySettings = {
+      convenienceCookiesAllowed: true,
+      marketingCookiesAllowed: true,
     }
-  }
 
-  disableFormSubmit(e) {
-    e.preventDefault()
-  }
-
-  /**
-   * Allow cookies by accepting the consent
-   */
-  accept() {
-    localStorage.setItem("allowCookies", "1")
-
-    this.publishState()
+    setStorageParam("privacySettings", this.privacySettings)
 
     this.hide()
   }
 
-  publishState() {
-    // Publish the approval to the application for other component listeners
-    trigger("cookieConsent:cookiesAllowed")
+  /**
+   * Decline all cookies
+   */
+  declineAll() {
+    this.privacySettings = {
+      convenienceCookiesAllowed: false,
+      marketingCookiesAllowed: false,
+    }
 
-    // Save the state to the dom
-    globalSettings.setItem("cookiesAllowed", true)
+    setStorageParam("privacySettings", this.privacySettings)
+
+    this.hide()
   }
 
   /** Show / hide component */
