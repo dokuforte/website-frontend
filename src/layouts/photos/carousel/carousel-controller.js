@@ -65,7 +65,6 @@ export default class extends Controller {
   }
 
   loadPhoto() {
-    console.log(selectedThumbnail.itemData)
     const id = selectedThumbnail.itemData.photo_full
     let photo = this.element.querySelector(`#dokuforte-${id}`)
     if (!photo) {
@@ -75,7 +74,7 @@ export default class extends Controller {
       photo.className = "image-loader"
       photo.id = `dokuforte-${id}`
 
-      photo.imageSrc = `${config.API_HOST}/photos/${selectedThumbnail.itemData.photo_url_full_path}`
+      photo.imageSrc = `${config.API_HOST}/photos/${selectedThumbnail.itemData.photo_url_web_path}`
       photo.loadCallback = () => {
         trigger("loader:hide", { id: "loaderCarousel" })
         this.stepSlideshow()
