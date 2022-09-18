@@ -34,6 +34,8 @@
         href="/{{ locale }}/donators/"
         >{{ lang[locale].donators }}</a
       >
+      <a href="/{{ locale }}/profile/upload?id=new" class="header-nav__link header-nav__link--top header-nav__link--top-action"
+      >{{ lang[locale].upload }}</a>
     </div>
 
     <div class="header-nav__actions__group header-nav__actions__group--nav">
@@ -85,6 +87,7 @@
       lang[locale].photos
     }}</a>
     <a class="header-nav__link header-nav__link--top header-nav__link--hide-on-desktop" href="/{{ locale }}/donators/">{{ lang[locale].donators }}</a>
+    <a class="header-nav__link header-nav__link--top header-nav__link--hide-on-desktop header-nav__link--separator-after" href="/{{ locale }}/profile/upload?id=new">{{ lang[locale].upload }}</a>
     <a class="header-nav__link header-nav__link--top" href="/{{ locale }}/about-us/">{{ lang[locale].about_us }}</a>
     <a class="header-nav__link header-nav__link--top header-nav__link--separator-after" href="mailto:{{ siteConfig.EMAIL }}">{{ lang[locale].contact_us }}</a>
     {% comment %}
@@ -112,9 +115,6 @@
       <span data-header-nav-target="profileName"></span>
       <span class="header-nav__link__small" data-header-nav-target="profileEmail"></span>
     </a>
-    <a href="/{{ locale }}/profile/upload?id=new" class="header-nav__link header-nav__link--top is-visible-when-signed-in"
-      >{{ lang[locale].upload }}</a
-    >
     <a href="/{{ locale }}/profile/settings/" class="header-nav__link header-nav__link--top">{{ lang[locale].settings }}</a>
     <a
       href="#"
