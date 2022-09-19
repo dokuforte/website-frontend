@@ -8,6 +8,11 @@
   background-position: center center;
   filter: grayscale(100%) brightness(0.6);
 
+  body[data-lang="he"] & {
+    left: auto;
+    right: 0;
+  }
+
   @media screen and (max-width: ($breakpoint-desktop - 1px)) {
     display: none;
   }

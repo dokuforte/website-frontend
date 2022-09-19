@@ -32,6 +32,11 @@
   position: absolute;
   right: rem(8px);
   top: rem(8px);
+
+  body[data-lang="he"] & {
+    left: rem(8px);
+    right: auto;
+  }
 }
 
 .dialog__wrapper {

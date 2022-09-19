@@ -43,9 +43,16 @@ export default class extends Controller {
     // translate popup under the icon
     if (window.innerWidth < 480) {
       this.activePopup.style.left = ""
+      this.activePopup.style.right = ""
     } else {
       const rect = e.currentTarget.getBoundingClientRect()
-      this.activePopup.style.left = `${rect.x + rect.width / 2}px`
+      switch (getLocale()) {
+        case "he":
+          this.activePopup.style.left = `${rect.x + this.activePopup.offsetWidth - rect.width / 2}px`
+          break
+        default:
+          this.activePopup.style.left = `${rect.x + rect.width / 2}px`
+      }
     }
   }
 

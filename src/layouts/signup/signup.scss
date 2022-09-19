@@ -6,6 +6,13 @@
   box-sizing: border-box;
   padding: 0 rem(32px);
 
+  @media screen and (min-width: $breakpoint-desktop) {
+    body[data-lang="he"] & {
+      left: 0;
+      right: rem(480px);
+    }
+  }
+
   @media screen and (max-width: ($breakpoint-desktop - 1px)) {
     left: 0;
     width: 100%;

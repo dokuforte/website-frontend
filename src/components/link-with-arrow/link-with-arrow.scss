@@ -12,6 +12,10 @@
 
   &::after {
     content: " →";
+
+    body[data-lang="he"] & {
+      content: " ←";
+    }
   }
 }
 
