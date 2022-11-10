@@ -45,15 +45,12 @@ export default class extends Controller {
   }
 
   async getAlbumId() {
-    let id = localStorage.getItem("albumId")
-    if (!id) {
-      // Create a new album if id doesn't exist
-      const res = await albumAPI.createAlbum()
-      if (res.count > 0) {
-        id = res.data[0].albumid
-        localStorage.setItem("albumId", id)
-      }
+    let id
+    const res = await albumAPI.createAlbum()
+    if (res.count > 0) {
+      id = res.data[0].albumid
     }
+
     return id
   }
 
@@ -129,7 +126,5 @@ export default class extends Controller {
     this.leadTarget.classList.add("is-hidden")
     this.formWrapperTarget.classList.add("is-hidden")
     this.thankyouTarget.classList.remove("is-hidden")
-
-    localStorage.removeItem("albumId")
   }
 }
