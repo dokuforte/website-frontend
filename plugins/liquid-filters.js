@@ -110,3 +110,10 @@ exports.slugify = (str, removeSpaces = true) => {
 
   return s
 }
+
+exports.lowcase = s => s.toLowerCase()
+
+exports.slice = (s, start, end) => {
+  if (!s || s.length === 0) return null
+  return s.slice(start, end)
+}

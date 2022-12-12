@@ -5,8 +5,9 @@
 .profile-upload__form-wrapper {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-areas: "aside"
-                       "form";
+  grid-template-areas:
+    "aside"
+    "form";
   column-gap: 2rem;
   row-gap: 2rem;
 
@@ -34,3 +35,11 @@
   margin-bottom: 0;
 }
 
+.profile-upload__form__actions {
+  margin-top: 2rem;
+}
+
+.profile-upload__continue {
+  display: inline-block;
+  margin-top: 1rem;
+}

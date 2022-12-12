@@ -79,6 +79,10 @@ export default class extends Controller {
     this.dateApproxTarget.checked = data.approx
   }
 
+  reloadPage() {
+    window.location.reload()
+  }
+
   submit(e) {
     if (e) e.preventDefault()
 

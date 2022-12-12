@@ -15,6 +15,10 @@
 
 .file-selector__label {
   padding-left: 1rem;
+
+  .h5 {
+    margin-bottom: 0;
+  }
 }
 
 .file-selector__selected-files {
@@ -40,7 +44,7 @@
   box-sizing: border-box;
   align-items: center;
 
-  transition: background-color .4s $ease-out-expo;
+  transition: background-color 0.4s $ease-out-expo;
 
   .theme--light &:not(:last-child) {
     border-bottom: 1px solid rgba($dark-base, 0.1);
@@ -58,7 +62,6 @@
     background-color: rgba($light-base, 0.04);
   }
 }
-
 
 .file-selector-item__preview {
   width: 40px;
@@ -126,4 +129,3 @@
   width: 100%;
   background-color: $red;
 }
-

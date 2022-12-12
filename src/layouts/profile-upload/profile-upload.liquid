@@ -32,7 +32,7 @@ layout: article/article.liquid
 				<label for="profile-upload-date-approx" class="checkbox-wrapper__label">{{ lang[locale].date_approx }}</label>
 			</div>
 
-			<div class="article__content__actions">
+			<div class="profile-upload__form__actions">
 				<button class="button button--primary" data-action="profile-upload#markAlbumForReview">
 					{{ lang[locale].submit_for_review }}
 				</button>
@@ -44,6 +44,6 @@ layout: article/article.liquid
 
   <div class="profile-upload__thankyou is-hidden" data-profile-upload-target="thankyou">
     {{ lang[locale].upload_thank_you | markdownify }}
-		<a href="#" class="profile-upload__continue button button--primary">{{ lang[locale].upload_continue }}</a>
+		<a href="#" class="profile-upload__continue button button--primary" data-action="click->profile-upload#reloadPage">{{ lang[locale].upload_continue }}</a>
   </div>
 </div>
