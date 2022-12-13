@@ -34,7 +34,7 @@ layout: article/article.liquid
   {% assign group_num = group_num | plus: 1 %}
   {% endif %}
   {% if donator_name != prev_donator_name %}
-  <a class="donors__donor" href="/{{ locale }}/photos/?donatedby={{ donator_name | url_encode }}"><span class="donors__donor__name">{{ donator_name }}</span></a>
+  <a class="donors__donor" href="/{{ locale }}/photos/?donatedby={{ donator.name | url_encode }}"><span class="donors__donor__name">{{ donator_name }}</span></a>
   {% assign prev_donator = donator %}
   {% endif %}
   {% endfor %}
