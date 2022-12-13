@@ -1,0 +1,45 @@
+---
+layout: article/article.liquid
+---
+
+<h1 class="donors__title">{{ lang[locale].donators }}</h1>
+<div class="donors">
+  {% assign group_num = 0 %}
+  {% for donator in donators %}
+  {% if locale == "he" %}
+    {% assign donator_name = donator.hebrew_name %}
+    {% if prev_donator %}
+      {% assign prev_donator_name = prev_donator.hebrew_name %}
+    {% endif %}
+  {% else %}
+    {% assign donator_name = donator.name %}
+    {% if prev_donator %}
+      {% assign prev_donator_name = prev_donator.name %}
+    {% endif %}
+  {% endif %}
+
+  {% if prev_donator_name %}
+    {% assign prev_donator_first_letter = prev_donator_name | lowcase | slice: 0 %}
+  {%endif %}
+
+  {% assign donator_first_letter = donator_name | lowcase | slice: 0  %}
+  {% if prev_donator_first_letter != donator_first_letter %}
+
+  {% if group_num > 0 %}
+  </div>
+  {% endif %}
+
+  <div class="donors__group">
+    <h3>{{ donator_name | slice: 0 }}</h3>
+  {% assign group_num = group_num | plus: 1 %}
+  {% endif %}
+  {% if donator_name != prev_donator_name %}
+  <a class="donors__donor" href="/{{ locale }}/photos/?donatedby={{ donator_name | url_encode }}"><span class="donors__donor__name">{{ donator_name }}</span></a>
+  {% assign prev_donator = donator %}
+  {% endif %}
+  {% endfor %}
+  
+  {% if group_num > 0 %}
+  </div>
+  {% endif %}
+</div>

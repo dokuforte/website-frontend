@@ -1,4 +1,4 @@
 ---
-layout: donors/donors.liquid
-permalink: /he/donators-test/
+layout: donators/donators.liquid
+permalink: /he/donators/
 ---
