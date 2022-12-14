@@ -8,8 +8,12 @@ module.exports = async function() {
     .then(res => res.json())
     .then(json => {
       const donatorsData = json.data
+      donatorsData.forEach(donator => {
+        const nameArray = donator.name.split(" ")
+        donator.name_transformed = `${nameArray.pop()}, ${nameArray.join(" ")}`
+      })
       return donatorsData.sort((a, b) => {
-        return a.name.localeCompare(b.name, "en", { ignorePunctuation: false })
+        return a.name_transformed.localeCompare(b.name_transformed, "en", { ignorePunctuation: false })
       })
     })
 }
