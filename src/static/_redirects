@@ -1,4 +1,4 @@
 /en/  /  200
 /en/user/*  /  200
-/il/user/*  /en/  200
+/he/user/*  /he/  200
 /download/:photoID  https://api.dokuforte.com/photos/:photoID  200
