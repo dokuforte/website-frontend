@@ -8,28 +8,3 @@
   targetPort = 8080
   publish = "_dist/"
   autoLaunch = false
-
-## This rule redirects to an external API, signing requests with a secret
-[[redirects]]
-  from = "/en/"
-  to = "/"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/en/user/*"
-  to = "/"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/il/user/*"
-  to = "/en/"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/download/:photoID"
-  to = "https://api.dokuforte.com/photos/:photoID"
-  status = 200
-  force = true
