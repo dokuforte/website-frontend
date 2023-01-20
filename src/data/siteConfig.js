@@ -3,7 +3,7 @@ module.exports = {
   SITE: "https://www.dokuforte.com",
   EMAIL: "dokuforte@dokuforte.com",
   SITE_DEV: "http://localhost:8080",
-  API_HOST: "https://api.dokuforte.co.il",
+  API_HOST: "https://api.dokuforte.org",
   FACEBOOK_APP_ID: "",
   THUMBNAILS_QUERY_LIMIT: 40,
   BREAKPOINT_PHONE_XS: 360,

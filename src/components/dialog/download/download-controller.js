@@ -1,5 +1,4 @@
 import { Controller } from "stimulus"
-import config from "../../../data/siteConfig"
 import { lang } from "../../../js/utils"
 import { selectedThumbnail } from "../../../js/app"
 
@@ -30,8 +29,7 @@ export default class extends Controller {
 
     const a = document.createElement("a")
     a.setAttribute("download", data.id)
-    a.href = `https://api.dokuforte.com/photos/${data.photo_url_full_path}`
-    // a.href = `/download/${data.photo_url_full_path}`
+    a.href = `/download/${data.photo_url_full_path}`
     a.click()
   }
 }
