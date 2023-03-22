@@ -2,13 +2,13 @@
 layout: base/base.liquid
 ---
 
-{% include header-nav/header-nav.liquid hide_search:true class:"header-nav--transparent header-nav--transparent-light" %}
+{% include 'header-nav/header-nav.liquid' hide_search:true class:"header-nav--transparent header-nav--transparent-light" %}
 
 <div class="home scrollview" data-controller="home">
   <section class="home__hero">
     <div class="home__hero__background" data-controller="background-loader"></div>
     <div class="home__hero__search-wrapper">
-      {% include search/search.liquid class:"home__search__input" type:"large" %}
+      {% include 'search/search.liquid' class:"home__search__input" type:"large" %}
       {% if locale == "en" %}
       <div class="home__hero__total h3" data-home-target="total"><a href="/{{ locale }}/photos/"><span data-home-target="totalVal"></span> photos</a> in total</div>
       {% endif %}
@@ -18,5 +18,5 @@ layout: base/base.liquid
       <div class="home__hero__text">{{ lang[locale].home_intro | default: 'home_intro' | markdownify }}</div>
     </div>
   </section>
-  {% include footer/footer.liquid %}
+  {% include 'footer/footer.liquid' %}
 </div>

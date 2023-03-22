@@ -13,7 +13,7 @@
       </div>
       <h3 class="dialog__title">{{ lang[locale].advanced_search }}</h3>
       <form class="dialog__form dialog-search__form" data-dialog--search-target="form">
-        {% include selectize-control/selectize-control.liquid 
+        {% include 'selectize-control/selectize-control.liquid' 
                    class:'selectize-control--wide dialog-search__selectize'
                    stimulus_target:'data-dialog--search-target="input"' 
         %}

@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 import { trigger, lang, redirectTo, getLocale } from "../../js/utils"
 import auth from "../../api/auth"
 

@@ -9,11 +9,7 @@ module.exports = eleventyConfig => {
   // Disable .gitignore and use eleventy's own ignore file instead
   eleventyConfig.setUseGitIgnore(false)
 
-  // Watch the compiled assets for changes
-  eleventyConfig.addWatchTarget("./_compiled-assets/")
-
   // Copy assets
-  eleventyConfig.addPassthroughCopy({ "_compiled-assets": "/" })
   eleventyConfig.addPassthroughCopy({ "src/static/images": "/images/" })
   eleventyConfig.addPassthroughCopy({ "src/static/uploads": "/uploads/" })
   eleventyConfig.addPassthroughCopy({ "src/static/": "/" })
@@ -36,6 +32,7 @@ module.exports = eleventyConfig => {
   eleventyConfig.addLiquidFilter("slugify", liquidFilters.slugify)
   eleventyConfig.addLiquidFilter("format_price", liquidFilters.formatPrice)
   eleventyConfig.addLiquidFilter("to_timestamp", liquidFilters.toTimestamp)
+  eleventyConfig.addLiquidFilter("lowcase", liquidFilters.lowcase)
 
   // Markdown custom config
   let markdownOptions = {

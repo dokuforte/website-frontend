@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 
 import throttle from "lodash/throttle"
 import config from "../../data/siteConfig"

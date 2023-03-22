@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 import { copyToClipboard, trigger } from "../../../js/utils"
 import { selectedThumbnail } from "../../../js/app"
 import config from "../../../data/siteConfig"

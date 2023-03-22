@@ -1,5 +1,6 @@
-import { Controller } from "stimulus"
-import moment from "moment"
+import { Controller } from "@hotwired/stimulus"
+import dayjs from "dayjs"
+import customParseFormat from "dayjs/plugin/customParseFormat"
 import authAPI from "../../api/auth"
 import albumAPI from "../../api/album"
 import { trigger, comeBackAfterSignIn } from "../../js/utils"
@@ -72,10 +73,10 @@ export default class extends Controller {
     this.photographerTarget.value = data.photographer || ""
     this.tagsTarget.selectizeControl.value = data.tags || ""
     this.locationTarget.value = data.addressline || ""
-    this.dateTarget.value = moment(data.date, "DD/MM/YYYY").format("YYYY-MM-DD") || ""
-    if (!data.date) {
-      this.dateTarget.valueAsDate = new Date()
-    }
+
+    dayjs.extend(customParseFormat)
+    this.dateTarget.value = dayjs(data.date || "31/12/1998", "DD/MM/YYYY").format("YYYY-MM-DD")
+
     this.dateApproxTarget.checked = data.approx
   }
 
@@ -85,7 +86,6 @@ export default class extends Controller {
 
   submit(e) {
     if (e) e.preventDefault()
-
     // UPDATE ALBUM DATA
     const formData = {
       albumid: this.albumId,
@@ -94,7 +94,7 @@ export default class extends Controller {
       photographer: this.photographerTarget.value,
       tags: this.tagsTarget.selectizeControl.value.join(", "),
       addressline: this.locationTarget.value,
-      date: moment(this.dateTarget.value).format("DD/MM/YYYY"),
+      date: dayjs(this.dateTarget.value).format("DD/MM/YYYY"),
       approx: this.dateApproxTarget.checked ? "true" : "false",
       original_photos: this.fileSelectorTarget.getUploadedFiles(),
     }

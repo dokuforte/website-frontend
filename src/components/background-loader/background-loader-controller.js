@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 
 const bgIds = [1027, 1028, 1029, 1030, 1031, 1032, 1033]
 

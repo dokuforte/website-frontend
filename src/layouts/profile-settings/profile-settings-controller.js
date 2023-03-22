@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 import { trigger, getStorageParam, setStorageParam } from "../../js/utils"
 
 export default class extends Controller {

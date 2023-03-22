@@ -1,5 +1,4 @@
 module.exports = {
-  ENV: process.env.ENV,
   SITE: "https://www.dokuforte.com",
   EMAIL: "dokuforte@dokuforte.com",
   SITE_DEV: "http://localhost:8080",

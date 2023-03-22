@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 
 import config from "../../data/siteConfig"
 import { getStorageParam, setStorageParam } from "../../js/utils"

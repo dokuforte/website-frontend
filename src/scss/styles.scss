@@ -1,16 +1,16 @@
-@import "utils";
+@import "_utils.scss";
 
-@import "animation";
-@import "breakpoints";
-@import "colors";
-@import "helpers";
+@import "_animation.scss";
+@import "_breakpoints.scss";
+@import "_colors.scss";
+@import "_helpers.scss";
 
-@import "layout";
-@import "typography";
-@import "scopes";
+@import "_layout.scss";
+@import "_typography.scss";
+@import "_scopes.scss";
 
 /* components */
-@import "./../components/**/*.scss";
+@import-glob "./../components/**/*.scss";
 
 /* layouts */
-@import "./../layouts/**/*.scss";
+@import-glob "./../layouts/**/*.scss";

@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 // import { initUploader, findElementByClassName } from "./multiupload.js"
 
 export default class extends Controller {

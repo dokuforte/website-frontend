@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 import { lang } from "../../../js/utils"
 import { selectedThumbnail } from "../../../js/app"
 

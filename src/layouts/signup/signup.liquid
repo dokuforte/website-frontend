@@ -11,7 +11,7 @@ layout: auth/auth.liquid
     </div>
 
     <form class="signup__form" data-signup-target="form">
-      {% include input/input.liquid 
+      {% include 'input/input.liquid'
                   type:"text"
                   name:"first_name"
                   placeholder: lang[locale].first_name_placeholder
@@ -19,7 +19,7 @@ layout: auth/auth.liquid
                   label: lang[locale].first_name
                   stimulus_target:'data-signup-target="firstName"'
       %}
-      {% include input/input.liquid 
+      {% include 'input/input.liquid' 
                   type:"text"
                   name:"last_name"
                   placeholder: lang[locale].last_name_placeholder
@@ -27,7 +27,7 @@ layout: auth/auth.liquid
                   label: lang[locale].last_name
                   stimulus_target:'data-signup-target="lastName"'
       %}
-      {% include input/input.liquid 
+      {% include 'input/input.liquid'
                   type:"email"
                   name:"email"
                   placeholder: lang[locale].email_placeholder
@@ -35,7 +35,7 @@ layout: auth/auth.liquid
                   label: lang[locale].email 
                   stimulus_target:'data-signup-target="email"'
       %}
-      {% include input/input.liquid 
+      {% include 'input/input.liquid'
         type:"tel"
         name:"phone"
         required: true
@@ -44,7 +44,7 @@ layout: auth/auth.liquid
         label: lang[locale].phone_number
         stimulus_target:'data-signup-target="phone"'
       %} 
-      {% include input/input.liquid 
+      {% include 'input/input.liquid' 
         type:"password"
         name:"password"
         required: true

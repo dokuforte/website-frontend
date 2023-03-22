@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 
 import searchAPI from "../../api/search"
 import { numberWithCommas } from "../../js/utils"

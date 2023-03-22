@@ -12,11 +12,10 @@
     <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
     <meta content="!" name="fragment"/>
 
-    {% if siteConfig.ENV == 'production' %}
+    {% if process.env.ENV == 'production' %}
       {% assign site_url = siteConfig.SITE %}
     {% else %}
-      {% assign site_url =
-    siteConfig.SITE_DEV %}
+      {% assign site_url = siteConfig.SITE_DEV %}
     {% endif %}
 
     <link rel="shortcut icon" href="{{ site_url }}/favicon.ico"/>
@@ -40,7 +39,9 @@
     <title>{{ title | default: lang[locale].page_head_title }}</title>
 
     <link href="https://use.typekit.net/shi7abw.css" rel="stylesheet"/>
-    <link href="/main.css?{{ cacheBust.mainCss }}" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="/css/{{ manifest-css["styles.css"] }}" type="text/css">
+    {% for style in styles %}<link rel="stylesheet" href="/css/{{ manifest-css[style] }}" type="text/css">{% endfor %}
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=URLSearchParams%2CObject.fromEntries"></script>
   </head>
@@ -48,17 +49,17 @@
     <main>
       {{ content }}
     </main>
-    {% include dialog/search/search.liquid %}
-    {% include cookie-consent/cookie-consent.liquid %}
-    {% include
-    loader/loader.liquid id:"loaderBase" %}
-    {% include snackbar/snackbar.liquid %}
+    {% include 'dialog/search/search.liquid' %}
+    {% include 'cookie-consent/cookie-consent.liquid' %}
+    {% include 'loader/loader.liquid' id:"loaderBase" %}
+    {% include 'snackbar/snackbar.liquid' %}
 
     <script>
+
       {% for param in cmsConfig %}
         window.{{param[0]}} = "{{param[1]}}";
       {% endfor %}
     </script>
-    <script src="/main.js?{{ cacheBust.mainJs }}"></script>
+    <script src="/{{ manifest-js['main.js'] }}"></script>
   </body>
 </html>

@@ -7,17 +7,17 @@ layout: article/article.liquid
 	<div class="profile-upload__lead" data-profile-upload-target="lead">{{ lang[locale].upload_lead | markdownify }}</div>
 	  
 	<div class="article__content__section" data-profile-upload-target="formWrapper">
-		{% include ./file-selector/file-selector.liquid stimulus_target:'data-profile-upload-target="fileSelector"' %}
+		{% include './file-selector/file-selector.liquid' stimulus_target:'data-profile-upload-target="fileSelector"' %}
 
 		<form class="profile-upload__form" data-profile-upload-target="form">
 			<h4 class="profile-upload__form__title">{{ lang[locale].upload_form_title }}</h4>
 			<p>{{ lang[locale].upload_form_blurb }}</p>
 			
-			{% include textarea/textarea.liquid name:'description' label:lang[locale].description stimulus_target:'data-profile-upload-target="description"' hint: lang[locale].upload_description_hint %}
-			{% include textarea/textarea.liquid dir:'rtl' name:'hebrewdescription' label:lang[locale].hebrewdescription stimulus_target:'data-profile-upload-target="hebrewDescription"' %}
-			{% include input/input.liquid type:'text' name:'addressline' autosuggest:'addressline' label:lang[locale].location stimulus_target:'data-profile-upload-target="location"' hint: lang[locale].upload_location_hint %}
-			{% include input/input.liquid type:'text' name:'photographer' autosuggest:'photographer' label:lang[locale].photographer stimulus_target:'data-profile-upload-target="photographer"' %}
-			{% include selectize-control/selectize-control.liquid 
+			{% include 'textarea/textarea.liquid' name:'description' label:lang[locale].description stimulus_target:'data-profile-upload-target="description"' hint: lang[locale].upload_description_hint %}
+			{% include 'textarea/textarea.liquid' dir:'rtl' name:'hebrewdescription' label:lang[locale].hebrewdescription stimulus_target:'data-profile-upload-target="hebrewDescription"' %}
+			{% include 'input/input.liquid' type:'text' name:'addressline' autosuggest:'addressline' label:lang[locale].location stimulus_target:'data-profile-upload-target="location"' hint: lang[locale].upload_location_hint %}
+			{% include 'input/input.liquid' type:'text' name:'photographer' autosuggest:'photographer' label:lang[locale].photographer stimulus_target:'data-profile-upload-target="photographer"' %}
+			{% include 'selectize-control/selectize-control.liquid'
 				class:'profile-upload__form__tags'
 				filter:'tag'
 				show_label: true
@@ -25,7 +25,7 @@ layout: article/article.liquid
 				stimulus_target:'data-profile-upload-target="tags"' 
 			%}
 
-			{% include input/input.liquid type:'date' name:'date' min:'1840-01-01' max:'1998-12-31' label:lang[locale].date stimulus_target:'data-profile-upload-target="date"' %}
+			{% include 'input/input.liquid' type:'date' name:'date' min:'1840-01-01' max:'1998-12-31' label:lang[locale].date stimulus_target:'data-profile-upload-target="date"' %}
 
 			<div class="checkbox-wrapper">
 				<input class="checkbox-wrapper__checkbox" type="checkbox" name="approx" id="profile-upload-date-approx" data-profile-upload-target="dateApprox">
@@ -40,7 +40,7 @@ layout: article/article.liquid
 		</form>
 	</div>
 
-	{% include loader/loader.liquid id:"loaderUpload" %}
+	{% include 'loader/loader.liquid' id:"loaderUpload" %}
 
   <div class="profile-upload__thankyou is-hidden" data-profile-upload-target="thankyou">
     {{ lang[locale].upload_thank_you | markdownify }}

@@ -10,8 +10,8 @@ layout: auth/auth.liquid
     </div>
 
     <form class="signin__form" data-signin-target="form">
-      {% include input/input.liquid type:'text' name:'email' label:lang[locale].email placeholder:lang[locale].email_placeholder stimulus_target:'data-signin-target="email"' %}
-      {% include input/input.liquid type:'password' name:'password' label:lang[locale].password placeholder:"********" stimulus_target:'data-signin-target="password"' %}
+      {% include 'input/input.liquid' type:'text' name:'email' label:lang[locale].email placeholder:lang[locale].email_placeholder stimulus_target:'data-signin-target="email"' %}
+      {% include 'input/input.liquid' type:'password' name:'password' label:lang[locale].password placeholder:"********" stimulus_target:'data-signin-target="password"' %}
       <div class="signin__links">
         <a href="/{{ locale }}/reset-password" class="link-with-arrow link-with-arrow--small">{{ lang[locale].password_forgot }}</a>
       </div>

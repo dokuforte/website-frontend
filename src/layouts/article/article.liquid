@@ -11,9 +11,9 @@ layout: base/base.liquid
   {% if title %} <h1 class="article__content__title" data-controller="page-title">{{ title }}</h1>{% endif %}
   {{ content }}
   </section>
-  {% include footer/footer.liquid %}
+  {% include 'footer/footer.liquid' %}
 </div>
 
-{% include background-icon/background-icon.liquid %}
-{% include header-nav/header-nav.liquid %}
+{% include 'background-icon/background-icon.liquid' %}
+{% include 'header-nav/header-nav.liquid' %}
 

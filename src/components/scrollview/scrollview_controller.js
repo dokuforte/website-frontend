@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 import scrollTo from "../../js/scrollTo"
 
 export default class ScrollView extends Controller {

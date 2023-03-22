@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 import { lang, getURLParams, numberWithCommas, setPageMeta } from "../../../js/utils"
 
 export default class extends Controller {
