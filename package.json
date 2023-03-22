@@ -11,7 +11,7 @@
     "webpack:serve": "webpack -- --watch",
     "postcss": "postcss 'src/scss/[!_]*.scss' --verbose --dir _dist/css/ --ext css",
     "postcss:serve": "npm run postcss -- --watch",
-    "build:prod": "ENV=production npm-run-all clean webpack postcss eleventy",
+    "build": "ENV=production npm-run-all clean webpack postcss eleventy",
     "dev": "ENV=development npm-run-all -l --silent clean webpack postcss --parallel *:serve"
   },
   "repository": {
