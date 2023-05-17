@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 import config from "../../../data/siteConfig"
-import { lang, trigger, setPageMeta, stripTags, isElementInViewport } from "../../../js/utils"
+import { lang, getLocale, trigger, setPageMeta, stripTags, isElementInViewport } from "../../../js/utils"
 
 const THUMBNAIL_HEIGHT = 160
 export default class extends Controller {
@@ -57,7 +57,8 @@ export default class extends Controller {
     const data = this.element.itemData
     const metaArray = [data.year, data.addressline]
     this.metaTarget.textContent = metaArray.filter(Boolean).join(" · ")
-    this.descriptionTarget.innerHTML = stripTags(data.description) || stripTags(data.addressline) || ""
+    this.descriptionTarget.innerHTML =
+      stripTags(getLocale() === "he" ? data.hebrew_description : data.description) || stripTags(data.addressline) || ""
 
     this.element.classList.add("is-visible")
 

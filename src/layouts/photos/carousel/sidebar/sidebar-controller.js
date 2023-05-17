@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 import throttle from "lodash/throttle"
-import { trigger, stripTags } from "../../../../js/utils"
+import { trigger, getLocale, stripTags } from "../../../../js/utils"
 import { setAppState, removeAppState, toggleAppState, appState } from "../../../../js/app"
 
 export default class extends Controller {
@@ -39,7 +39,9 @@ export default class extends Controller {
 
     this.titleTarget.innerHTML = ""
     if (data.title || (!data.title && data.description)) {
-      this.titleTarget.innerHTML = data.title ? stripTags(data.title) : stripTags(data.description)
+      this.titleTarget.innerHTML = data.title
+        ? stripTags(data.title)
+        : stripTags(getLocale() === "he" ? data.hebrew_description : data.description)
       this.titleTarget.parentNode.style.display = "block"
     }
 

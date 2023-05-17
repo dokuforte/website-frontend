@@ -1,4 +1,4 @@
-const moment = require("moment")
+const dayjs = require("dayjs")
 const md = require("markdown-it")()
 const markdownItAttrs = require("markdown-it-attrs")
 const markdownItAnchor = require("markdown-it-anchor")
@@ -46,7 +46,7 @@ exports.date = (timestamp, locale) => {
 }
 
 exports.toTimestamp = date => {
-  return moment(date).format("x")
+  return dayjs(date).format("x")
 }
 
 exports.sort = (arr, sortBy, order = "asc") => {
