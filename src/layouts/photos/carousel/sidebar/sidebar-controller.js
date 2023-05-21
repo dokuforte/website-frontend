@@ -64,8 +64,13 @@ export default class extends Controller {
       this.descriptionTarget.parentNode.style.display = "none"
     }
 
-    if (data.tag) {
+    if (data.tag && getLocale() === "en") {
       this.tagsTarget.innerHTML = data.tag
+        .filter(tag => tag.tag.trim().length > 0)
+        .map(tag => `<a href="?tag=${encodeURIComponent(tag.tag.trim())}">${tag.tag.trim()}</a>`)
+        .join(", ")
+    } else if (data.hebrew_tag && getLocale() === "he") {
+      this.tagsTarget.innerHTML = data.hebrew_tag
         .filter(tag => tag.tag.trim().length > 0)
         .map(tag => `<a href="?tag=${encodeURIComponent(tag.tag.trim())}">${tag.tag.trim()}</a>`)
         .join(", ")
