@@ -1,4 +1,5 @@
 import config from "../data/siteConfig"
+import { getLocale } from "../js/utils"
 
 const CUSTOM_SEARCH_PREFIX = "/search"
 
@@ -40,7 +41,7 @@ const search = async params => {
 
   const queryParams = `${limit}&${offset}&${yearFrom}&${yearTo}`
 
-  const url = `${config.API_HOST}${query}${queryParams.length > 0 ? `?${queryParams}` : ""}`
+  const url = `${config.API_HOST}/api/media/search${query}${queryParams.length > 0 ? `?${queryParams}` : ""}`
   const resp = await fetch(url, {
     method: "GET",
     mode: "cors",
@@ -52,9 +53,35 @@ const search = async params => {
 
 // get the total number of published photos
 const getTotal = async () => {
-  const resp = await fetch(`${config.API_HOST}/search?limit=1`, {
-    method: "GET",
+  const body = {
+    size: 0,
+    track_total_hits: true,
+    query: {
+      bool: {
+        must: [
+          {
+            match_all: {},
+          },
+          {
+            range: {
+              year: {
+                gt: 0,
+              },
+            },
+          },
+        ],
+      },
+    },
+  }
+  const lang = { lang: getLocale() }
+  const resp = await fetch(`${config.API_HOST}/api/media/get-total`, {
+    method: "POST",
     mode: "cors",
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ body, ...lang }),
   })
 
   return resp.json()

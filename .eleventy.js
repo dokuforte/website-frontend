@@ -34,7 +34,7 @@ module.exports = eleventyConfig => {
   eleventyConfig.addLiquidFilter("to_timestamp", liquidFilters.toTimestamp)
   eleventyConfig.addLiquidFilter("lowcase", liquidFilters.lowcase)
 
-  // local dev environment
+  // https local dev environment settings
   eleventyConfig.setServerOptions({
     port: 443,
     https: {
