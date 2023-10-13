@@ -34,6 +34,15 @@ module.exports = eleventyConfig => {
   eleventyConfig.addLiquidFilter("to_timestamp", liquidFilters.toTimestamp)
   eleventyConfig.addLiquidFilter("lowcase", liquidFilters.lowcase)
 
+  // local dev environment
+  eleventyConfig.setServerOptions({
+    port: 443,
+    https: {
+      key: './dev.dokuforte.co.il.key',
+      cert: './dev.dokuforte.co.il.cert',
+    },
+  });
+
   // Markdown custom config
   let markdownOptions = {
     html: true,

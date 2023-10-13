@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/dokuforte/website-frontend/#readme",
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.0",
+    "@11ty/eleventy": "latest",
     "@csstools/postcss-sass": "^5.0.1",
     "autoprefixer": "10.1.0",
     "caniuse-lite": "^1.0.30001171",
