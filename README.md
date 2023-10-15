@@ -24,20 +24,22 @@ $ npm install
 
 #### Running and serving a dev build
 
+1. Generate a local SSL/TLS certificate for your development domain by running the following command in your terminal:
+```
+npx devcert-cli generate dev.dokuforte.co.il
+```
+
+This will generate a certificate and key file for the dev.dokuforte.co.il domain in the project root.
+
+2. Edit your hosts file to redirect 127.0.0.1 to dev.dokuforte.co.il
+
+3. Start the development server
+
 ```
 $ npm run dev
-
 ```
 
-Browse to http://localhost:8080.
-
-or, if you want to take full advantage of Netlify's local dev env (testing redirects and AWS Lambda functions):
-
-```
-$ netlify dev
-```
-
-In this case, browse to http://localhost:8888.
+Browse to https://dev.dokuforte.co.il
 
 #### Running a prod build
 

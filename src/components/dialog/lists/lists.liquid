@@ -1,0 +1,103 @@
+<div class="dialog dialog-lists"
+     data-controller="dialog--lists"
+     data-action="dialogs:hide@document->dialog--lists#hide
+                   dialogLists:show@document->dialog--lists#show
+                   dialogLists:hide@document->dialog--lists#hide"
+>
+  <div class="dialog__wrapper">
+      <div class="button-circular dialog__close"
+           data-action="click->dialog--lists#hide"
+      >
+        {% inlineSVG src:"src/static/images/icons/24/icon-close.svg" class:"button-circular__icon" %}
+        <div class="button-circular__label">{{ lang[locale].close }}</div>
+      </div>
+
+      <section role="addPhotos" data-dialog--lists-target="section sectionAddPhotos">
+        <h3 class="dialog__title">{{ lang[locale].lists }}</h3>
+
+        <div class="dialog-lists__added-to"
+          data-dialog--lists-target="addedToSection"
+          data-action="click@document->dialog-lists#closeListTagDropdowns"
+        >
+          <h6>{{ lang[locale].list_added_to }}</h6>
+          <ul class="dialog-lists__added-to-list" data-dialog--lists-target="addedToList"></ul>
+        </div>
+
+        <h6>{{ lang[locale].list_add_to }}</h6>
+
+        <form class="dialog__form" data-dialog--lists-target="addToListForm" data-action="submit->dialog--lists#submitAddingToList">
+          {% include select/select.liquid 
+                    stimulus_target:'data-dialog--lists-target="select"'
+                    stimulus_action:'change->dialog--lists#toggleInput'
+          %}
+          {% include input/input.liquid 
+                    type:"text"
+                    name:"name"
+                    label:lang[locale].list_new_name
+                    stimulus_wrapper_target:'data-dialog--lists-target="addToListFormName"'
+                    class:"dialog-lists__input is-hidden"
+          %}
+          {% include input/input.liquid 
+                    type:"text"
+                    name:"description"
+                    label:lang[locale].list_description_label
+                    stimulus_wrapper_target:'data-dialog--lists-target="addToListFormDescription"'
+                    class:"dialog-lists__input is-hidden"
+                    input_options:'maxlength="140"'
+          %}
+          <button class="button button--primary dialog__button" data-action="dialog--lists#submitAddingToList">{{ lang[locale].save }}</button>
+        </form>
+      </section>
+
+      <section role="edit" data-dialog--lists-target="section sectionEdit">
+        <h3 class="dialog__title">{{ lang[locale].list_edit_header }}</h3>
+        <form class="dialog__form" data-dialog--lists-target="editListForm" data-action="submit->dialog--lists#submitEditList">
+          {% include input/input.liquid 
+                    type:"text"
+                    name:"name"
+                    label:lang[locale].list_name
+                    class:"dialog-lists__input"
+          %}
+          {% include input/input.liquid 
+                    type:"text"
+                    name:"description"
+                    label:lang[locale].list_description_label
+                    class:"dialog-lists__input"
+                    input_options:'maxlength="140"'
+          %}
+          <div class="input-wrapper dialog-lists__privacy-switch">
+            <div class="dialog-lists__switch-container">
+              <h5>
+                <i class="lists-private-icon is-visible">
+                  {% inlineSVG src:"src/static/images/icons/24/icon-lock.svg" %}
+                </i>
+                {{ lang[locale].list_edit_private }}
+              </h5>
+              <span class="toggle-switch" data-dialog--lists-target="privacySwitch" data-action="click->dialog--lists#togglePrivacySwitch"></span>
+            </div>
+            <label class="input-wrapper__label is-visible" data-dialog--lists-target="privacySwitchLabel"></label>
+          </div>
+          <button class="button button--primary dialog__button" data-action="dialog--lists#submitEditList">{{ lang[locale].save }}</button>
+        </form>
+      </section>
+
+      <section role="delete" data-dialog--lists-target="section sectionDelete">
+        <h3 class="dialog__title">{{ lang[locale].list_delete_header }}</h3>
+        <p class="dialog__content">{{ lang[locale].list_delete_confirm_msg }}<br><strong class="dialog-lists__delete-title"></strong></p>
+        <button class="button button--primary dialog__button" data-action="dialog--lists#deleteList">{{ lang[locale].list_delete }}</button>
+      </section>
+
+  </div>
+</div>
+
+
+<template id="dialog-list-tag">
+  <li class="dialog-lists__list-tag">
+    <a href="#" class="dialog-lists__list-tag__label"></a>
+    <a href="#" class="dialog-lists__list-tag__icon"></a>
+    <div class="header-nav__popup header-nav__popup--small">
+      <a href="#" class="header-nav__link dialog-lists__tag-link--open-list">{{ lang[locale].list_view }}</a>
+      <a href="#" class="header-nav__link dialog-lists__tag-link--remove">{{ lang[locale].list_remove_from }}</a>
+    </div>
+  </li>
+</template>

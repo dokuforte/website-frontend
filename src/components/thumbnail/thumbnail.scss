@@ -23,8 +23,57 @@
     min-width: auto;
   }
 
+  .context-menu--lists {
+    top: rem(6px);
+    right: rem(6px);
+    opacity: 0.5;
+
+    .button-circular {
+      width: 1.5rem;
+      height: 1.25rem;
+      border-radius: rem(4px);
+
+      .theme--light & {
+        color: $dark-base;
+        background-color: $light-base;
+      }
+
+      .theme--dark & {
+        color: $light-base;
+        background-color: $dark-secondary;
+      }
+    }
+
+    .header-nav__popup {
+      top: 1.25rem;
+      right: 0;
+    }
+  }
+
+  &:hover .context-menu--lists {
+    opacity: 1;
+  }
+
   &.is-failed-loading {
     display: none;
+  }
+
+  &__link {
+    display: block;
+
+    text-decoration: none;
+
+    .theme--light & {
+      color: $dark-base;
+    }
+
+    .theme--dark & {
+      color: $light-base;
+    }
+
+    .no-image & {
+      cursor: default;
+    }
   }
 }
 
@@ -32,8 +81,8 @@
   border-radius: rem(4px);
   margin-bottom: rem(8px);
 
-  height: rem(160px);
   width: 100%;
+  height: rem(160px);
 
   @media screen and (max-width: ($breakpoint-phone - 1px)) {
     height: rem(calc(160px * 2 / 3));
@@ -127,6 +176,16 @@
     }
   }
 
+  @media screen and (max-width: ($breakpoint-phone - 1px)) {
+    .age-restricted & .age-restriction {
+      &__title,
+      &__content,
+      &__link {
+        font-size: rem(11px);
+      }
+    }
+  }
+
   .is-selected & {
     box-shadow: 0 0 0 3px $accent;
   }
@@ -135,7 +194,7 @@
 .photos-thumbnail__meta {
   position: relative;
   font-size: rem(12px);
-  line-height: rem(16px);
+  line-height: 1.33;
   font-weight: 400;
   white-space: nowrap;
   overflow: hidden;

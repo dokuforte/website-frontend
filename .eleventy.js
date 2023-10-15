@@ -38,10 +38,10 @@ module.exports = eleventyConfig => {
   eleventyConfig.setServerOptions({
     port: 443,
     https: {
-      key: './dev.dokuforte.co.il.key',
-      cert: './dev.dokuforte.co.il.cert',
+      key: "./dev.dokuforte.co.il.key",
+      cert: "./dev.dokuforte.co.il.cert",
     },
-  });
+  })
 
   // Markdown custom config
   let markdownOptions = {
@@ -80,5 +80,6 @@ module.exports = eleventyConfig => {
     passthroughFileCopy: true,
     htmlTemplateEngine: "liquid",
     templateFormats: ["liquid", "md", "html", "yml"],
+    dynamicPartials: false,
   }
 }

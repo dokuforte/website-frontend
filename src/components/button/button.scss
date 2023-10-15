@@ -34,11 +34,11 @@ button,
 
 .button--red {
   color: $light-base;
-  background-color: $red;
+  background-color: $accent;
 
   &:hover,
   &:active {
-    background-color: darken($red, 5%);
+    background-color: darken($accent, 5%);
   }
 }
 

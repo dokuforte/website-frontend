@@ -163,4 +163,8 @@
       {% endif %}
     </ul>
   </div>
+
+  {% if hasTimeline %}
+  {% include "timeline/timeline.liquid" %}
+  {% endif %}
 </div>

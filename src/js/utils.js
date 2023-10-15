@@ -1,27 +1,11 @@
 import siteConfig from "../data/siteConfig"
+import langData from "../data/lang.json"
 
 export const getLocale = () => {
   return document.querySelector("body").dataset.lang
 }
 
-let langData = null
-export const lang = async key => {
-  if (!langData) {
-    await fetch(`${siteConfig.API_HOST}/items/dictionary/?limit=500`)
-      .then(res => res.json())
-      .then(json => {
-        langData = {}
-        const responseData = json.data
-        responseData.forEach(item => {
-          Object.keys(item).forEach(itemKey => {
-            if (siteConfig.LOCALES[itemKey]) {
-              if (!langData[itemKey]) langData[itemKey] = {}
-              langData[itemKey][item.key] = item[itemKey]
-            }
-          })
-        })
-      })
-  }
+export const lang = key => {
   const l = langData[getLocale()]
   const val = l[key] ? l[key] : key
   return val.replace(/(?:\r\n|\r|\n)/g, "<br/>")
@@ -44,6 +28,13 @@ export const click = () => {
 
 export const getURLParams = () => {
   return Object.fromEntries(new URLSearchParams(window.location.search.substring(1)))
+}
+
+export const getPrettyURLValues = path => {
+  const values = (path || window.location.pathname).split("/")
+  while (values[0] === "") values.shift()
+  while (values[values.length - 1] === "") values.pop()
+  return values
 }
 
 export const removeClassByPrefix = (el, prefix) => {
@@ -117,6 +108,22 @@ export const setPageMeta = (title, description, imgSrc) => {
     document.querySelector('meta[property="twitter:image:src"]').setAttribute("content", imgSrc)
     document.querySelector('meta[property="og:image"]').setAttribute("content", imgSrc)
   }
+}
+
+export const getImgAltText = data => {
+  return [
+    data.country,
+    data.place,
+    data.city,
+    data.description,
+    data.year,
+    data.donor,
+    data.author,
+    (data.tags || []).join(", "),
+    data.mid ? `Dokuforte #${data.mid}` : false,
+  ]
+    .filter(Boolean)
+    .join(", ")
 }
 
 export const onClassChange = (node, callback) => {
@@ -229,4 +236,36 @@ export const redirectTo = href => {
 export const comeBackAfterSignIn = targetURL => {
   localStorage.setItem("redirectAfterSignin", targetURL || document.location.href)
   document.location.href = `/${getLocale()}/signin/`
+}
+
+export const escapeHTML = unsafe => {
+  return unsafe
+    ? unsafe.replace(/[\u00A0-\u9999<>&]/g, i => {
+        return `&#${i.charCodeAt(0)};`
+      })
+    : ""
+}
+
+export const photoRes = (size, photoId) => {
+  const imageRequest = {
+    bucket: siteConfig.PHOTO_BUCKET,
+    key: photoId,
+    edits: {
+      toFormat: "jpeg",
+      resize: {},
+    },
+  }
+
+  if (size === "large") {
+    imageRequest.edits.resize.width = `${window.innerWidth > 1600 ? 2560 : 1600}`
+  }
+  if (size === 240) {
+    imageRequest.edits.resize.width = 240
+  }
+  if (size === 480) {
+    imageRequest.edits.resize.width = 480
+  }
+  // console.log('imageRequest: ', imageRequest)
+  const encoded = btoa(JSON.stringify(imageRequest))
+  return `${siteConfig.PHOTO_SOURCE}/${encoded}`
 }

@@ -10,7 +10,6 @@ $dark-tertiary: #404040;
 $accent: #1c9fed;
 
 $grey: #8c8c8c;
-$red: #f73f13;
 $green: #1abc58;
 
 .color-grey {
@@ -18,7 +17,7 @@ $green: #1abc58;
 }
 
 .color-red {
-  color: $red;
+  color: $accent;
 }
 
 .color-green {
