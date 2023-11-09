@@ -28,7 +28,11 @@
             <h6>{{ lang[locale].photographer }}</h6>
             <h5 data-sidebar-target="author"></h5>
         </div>
-
+        <div class="carousel-sidebar__tags">
+            <h6 class="carousel-sidebar__tags-title">{{ lang[locale].tags }}</h6>
+            <p class="carousel-sidebar__tags" data-sidebar-target="tags" data-add-tags-target="tags"></p>
+        </div>
+        {% comment %}
         <div class="carousel-add-tags"
              data-controller="add-tags"
              data-action="photosCarousel:hide@document->add-tags#hideForm
@@ -53,5 +57,6 @@
                 >{{ lang[locale].add_tag_action }}</button>
             </form>
         </div>
+        {% endcomment %}
     </div>
 </div>

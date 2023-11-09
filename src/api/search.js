@@ -43,6 +43,7 @@ const transformResults = resp => {
   return r
 }
 
+// get the total number of published photos
 const totalRequest = async data => {
   const url = `${config.API_HOST}/api/media/get-total`
   const lang = { lang: getLocale() }
@@ -59,7 +60,8 @@ const totalRequest = async data => {
   return resp.json()
 }
 
-const elasticRequest = async data => {
+// search request
+const searchRequest = async data => {
   let url = `${config.API_HOST}/api/media/search`
 
   const q = getURLParams()
@@ -82,6 +84,7 @@ const elasticRequest = async data => {
   return resp.json()
 }
 
+// check search params and build the query
 const search = params => {
   return new Promise((resolve, reject) => {
     // init the default query params
@@ -91,7 +94,7 @@ const search = params => {
       sort: [],
       multi: [],
     }
-    console.log("params for search", params)
+
     let sortOrder = "asc"
     if (params && params.reverseOrder === "asc") {
       sortOrder = "desc"
@@ -120,26 +123,11 @@ const search = params => {
     }
 
     // if query (search term) exists
-    // then it'll search matches in adomanyozo, cimke, description, orszag, varos fields
     if (params.q && params.q !== "") {
       const words = params.q.split(", ")
-      const fieldsToSearch = ["mid^5", "year^2", "description_search", "adomanyozo_search", "szerzo_search"]
-      const availableFields = ["cimke", "orszag", "varos", "helyszin"]
-
-      availableFields.forEach(s => fieldsToSearch.push(getLocale() === "hu" ? `${s}_search` : `${s}_en_search`))
 
       words.forEach(word => {
         query.multi.push(`${slugify(word)}`)
-        // query.bool.must.push({
-        //   multi_match: {
-        //     query: ,
-        //     fields: fieldsToSearch,
-        //     type: "bool_prefix",
-        //     lenient: true,
-        //     operator: "and",
-        //     tie_breaker: 0.8,
-        //   },
-        // })
       })
     }
 
@@ -157,13 +145,7 @@ const search = params => {
     // if there's a city search attribute defined (advanced search)
     if (params.place) {
       const place = slugify(params.place)
-      query.matching.push({ model: "Places", field: "name", value: `${place}` })
-    }
-
-    // if there's a city search attribute defined (advanced search)
-    if (params.city) {
-      const city = slugify(params.city)
-      query.matching.push({ model: "Localities", field: "name", value: `${city}` })
+      query.matching.push({ model: "Localities", field: "name", value: `${place}` })
     }
 
     // if there's a country search attribute defined (advanced search)
@@ -226,7 +208,7 @@ const search = params => {
       }
     }
 
-    elasticRequest(body)
+    searchRequest(body)
       .then(resp => {
         resolve(transformResults(resp))
       })
@@ -286,7 +268,7 @@ const getDonators = () => {
       },
     }
 
-    elasticRequest(body)
+    searchRequest(body)
       .then(resp => {
         resolve(resp)
       })
@@ -296,7 +278,7 @@ const getDonators = () => {
   })
 }
 
-// get a random records from Elastic
+// get a random record
 const getRandom = (size = 1) => {
   return new Promise((resolve, reject) => {
     const body = {
@@ -330,7 +312,7 @@ const getRandom = (size = 1) => {
       },
     }
 
-    elasticRequest(body)
+    searchRequest(body)
       .then(resp => {
         resolve(transformResults(resp))
       })
@@ -351,31 +333,7 @@ const getDataById = array => {
       },
     }
 
-    elasticRequest(body)
-      .then(resp => {
-        resolve(transformResults(resp))
-      })
-      .catch(err => {
-        reject(err)
-      })
-  })
-}
-
-const getAggregatedYears = () => {
-  return new Promise((resolve, reject) => {
-    const body = {
-      aggs: {
-        years: {
-          terms: {
-            field: "year",
-            size: 100000,
-            order: { _key: "asc" },
-          },
-        },
-      },
-    }
-
-    elasticRequest(body)
+    searchRequest(body)
       .then(resp => {
         resolve(transformResults(resp))
       })
@@ -391,5 +349,4 @@ export default {
   getDonators,
   getRandom,
   getDataById,
-  getAggregatedYears,
 }

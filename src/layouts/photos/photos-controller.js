@@ -61,7 +61,7 @@ export default class extends Controller {
       const insertBefore = this.element.scrollTop <= 0
 
       this.loadPhotos(insertBefore).then(() => {
-        // loadPhotos resets the timline, so we need to update the displayed year on it
+        // loadPhotos resets the timeline, so we need to update the displayed year on it
         // reset first the year in viewport to force a new calculation
         delete this.yearInViewPort
         this.calcYearOfViewport()
