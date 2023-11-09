@@ -69,7 +69,7 @@ const searchRequest = async data => {
     url = q.esurl
   }
 
-  const lang = { lang: getLocale() }
+  const lang = { lang: getLocale() === "he" ? "il" : getLocale() }
   const resp = await fetch(url, {
     method: "POST",
     mode: "cors",
