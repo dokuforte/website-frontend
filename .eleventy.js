@@ -36,11 +36,11 @@ module.exports = eleventyConfig => {
 
   // https local dev environment settings
   eleventyConfig.setServerOptions({
-    port: 443,
-    https: {
-      key: "./dev.dokuforte.co.il.key",
-      cert: "./dev.dokuforte.co.il.cert",
-    },
+    port: 8080,
+    // https: {
+      // key: "./dev.dokuforte.co.il.key",
+      // cert: "./dev.dokuforte.co.il.cert",
+    // },
   })
 
   // Markdown custom config

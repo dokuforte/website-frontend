@@ -5,6 +5,16 @@
 [dev]
   framework = "#custom"
   command = "npm run dev"
+  port = 443
   targetPort = 8080
   publish = "_dist/"
   autoLaunch = false
+
+[dev.https]
+  certFile = "dev.dokuforte.co.il.cert" # path to the certificate file
+  keyFile = "dev.dokuforte.co.il.key" # path to the private key file
+
+[[redirects]]
+  from = "/en/"
+  to = "/"
+  status = 200
