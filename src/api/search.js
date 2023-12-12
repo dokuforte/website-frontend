@@ -69,7 +69,9 @@ const searchRequest = async data => {
     url = q.esurl
   }
 
+  // The server requires a il language code for Hebrew
   const lang = { lang: getLocale() === "he" ? "il" : getLocale() }
+
   const resp = await fetch(url, {
     method: "POST",
     mode: "cors",
@@ -96,7 +98,7 @@ const search = params => {
     }
 
     let sortOrder = "asc"
-    if (params && params.reverseOrder === "asc") {
+    if (params && params.reverseOrder) {
       sortOrder = "desc"
     }
 
@@ -186,12 +188,14 @@ const search = params => {
       query,
     }
 
-    if (params.search_after) {
+    if (params && params.reverseOrder && params.search_after) {
+      console.log("search before:", params.search_after)
+      query.where.push({ "Media.year <=": `${params.search_after[0]}` })
+      query.where.push({ "Media.id <": `${params.search_after[2]}` })
+    } else if (params.search_after) {
       console.log("search after:", params.search_after)
       query.where.push({ "Media.year >=": `${params.search_after[0]}` })
-      // query.where.push({ "Media.created >=": `${params.search_after[1]}` })
       query.where.push({ "Media.id >": `${params.search_after[2]}` })
-      // body.search_after = params.search_after
     } else {
       body.from = params.from || 0
     }
