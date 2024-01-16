@@ -2,7 +2,7 @@ import { slugify, getLocale, getURLParams } from "../js/utils"
 import config from "../data/siteConfig"
 
 // simplify and localize the Elastic server response
-const transformResults = resp => {
+const transformResults = (resp) => {
   const r = {
     total: resp.hits.total.value,
     items: [],
@@ -11,7 +11,7 @@ const transformResults = resp => {
   // adding the aggregated years (photo count per all year in search range) to the results
   if (resp.aggregations && resp.aggregations.years && resp.aggregations.years.buckets) {
     r.years = []
-    resp.aggregations.years.buckets.forEach(year => {
+    resp.aggregations.years.buckets.forEach((year) => {
       if (year.key > 0) {
         r.years.push({ year: year.key, count: year.doc_count })
       }
@@ -19,7 +19,7 @@ const transformResults = resp => {
   }
 
   if (resp.hits.hits.length > 0) {
-    resp.hits.hits.forEach(hit => {
+    resp.hits.hits.forEach((hit) => {
       // eslint-disable-next-line no-underscore-dangle
       const item = {}
 
@@ -44,7 +44,7 @@ const transformResults = resp => {
 }
 
 // get the total number of published photos
-const totalRequest = async data => {
+const totalRequest = async (data) => {
   const url = `${config.API_HOST}/api/media/get-total`
   const lang = { lang: getLocale() }
   const resp = await fetch(url, {
@@ -61,7 +61,7 @@ const totalRequest = async data => {
 }
 
 // search request
-const searchRequest = async data => {
+const searchRequest = async (data) => {
   let url = `${config.API_HOST}/api/media/search`
 
   const q = getURLParams()
@@ -87,7 +87,7 @@ const searchRequest = async data => {
 }
 
 // check search params and build the query
-const search = params => {
+const search = (params) => {
   return new Promise((resolve, reject) => {
     // init the default query params
     const query = {
@@ -128,7 +128,7 @@ const search = params => {
     if (params.q && params.q !== "") {
       const words = params.q.split(", ")
 
-      words.forEach(word => {
+      words.forEach((word) => {
         query.multi.push(`${slugify(word)}`)
       })
     }
@@ -213,10 +213,10 @@ const search = params => {
     }
 
     searchRequest(body)
-      .then(resp => {
+      .then((resp) => {
         resolve(transformResults(resp))
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err)
       })
   })
@@ -247,10 +247,10 @@ const getTotal = () => {
     }
 
     totalRequest(body)
-      .then(resp => {
+      .then((resp) => {
         resolve(transformResults(resp))
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err)
       })
   })
@@ -258,28 +258,27 @@ const getTotal = () => {
 
 // get an aggregated list of all donators
 const getDonators = () => {
-  return new Promise((resolve, reject) => {
-    const body = {
-      size: 0,
-      aggs: {
-        donors: {
-          terms: {
-            field: "adomanyozo_name",
-            size: 10000,
-            order: { _key: "asc" },
-          },
-        },
-      },
-    }
-
-    searchRequest(body)
-      .then(resp => {
-        resolve(resp)
-      })
-      .catch(err => {
-        reject(err)
-      })
+  const lang = { lang: getLocale() }
+  return fetch(`${config.API_HOST}/api/donors/list`, {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ ...lang }),
   })
+    .then((res) => res.json())
+    .then((json) => {
+      const donatorsData = json.data
+      donatorsData.forEach((donator) => {
+        const nameArray = donator.name.split(" ")
+        donator.name_transformed = `${nameArray.pop()}, ${nameArray.join(" ")}`
+      })
+      return donatorsData.sort((a, b) => {
+        return a.name_transformed.localeCompare(b.name_transformed, "en", { ignorePunctuation: false })
+      })
+    })
 }
 
 // get a random record
@@ -317,31 +316,31 @@ const getRandom = (size = 1) => {
     }
 
     searchRequest(body)
-      .then(resp => {
+      .then((resp) => {
         resolve(transformResults(resp))
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err)
       })
   })
 }
 
-const getDataById = array => {
+const getDataById = (array) => {
   return new Promise((resolve, reject) => {
     const body = {
       size: array.length,
       query: {
         id: {
-          values: array.map(item => item),
+          values: array.map((item) => item),
         },
       },
     }
 
     searchRequest(body)
-      .then(resp => {
+      .then((resp) => {
         resolve(transformResults(resp))
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err)
       })
   })

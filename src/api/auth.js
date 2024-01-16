@@ -2,7 +2,7 @@ import { trigger } from "../js/utils"
 import config from "../data/siteConfig"
 import { setAppState, removeAppState } from "../js/app"
 
-const setLoginStatus = isUserSignedIn => {
+const setLoginStatus = (isUserSignedIn) => {
   if (isUserSignedIn) {
     setAppState("auth-signed-in")
   } else {
@@ -11,11 +11,12 @@ const setLoginStatus = isUserSignedIn => {
   }
 }
 
-const signin = async body => {
-  const resp = await fetch(`${config.API_HOST}/auth/login`, {
+const signin = async (body) => {
+  const resp = await fetch(`${config.API_HOST}/login?format=json`, {
     method: "POST",
+    credentials: "include",
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
+      Accept: "application/vnd.api+json",
     },
     body: body ? JSON.stringify(body) : null,
   })
@@ -48,7 +49,7 @@ const signout = async () => {
   }
 }
 
-const signup = async body => {
+const signup = async (body) => {
   const url = `${config.API_HOST}/users`
 
   const resp = await fetch(url, {
@@ -91,7 +92,7 @@ const refreshToken = async () => {
   return respData.data
 }
 
-const forgot = async email => {
+const forgot = async (email) => {
   const body = {
     email,
   }
@@ -110,7 +111,7 @@ const forgot = async email => {
   return respData
 }
 
-const resetPassword = async pass => {
+const resetPassword = async (pass) => {
   const body = {
     token: "",
     password: pass,

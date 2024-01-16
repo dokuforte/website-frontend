@@ -5,7 +5,7 @@ const markdownIt = require("markdown-it")
 const markdownItAttrs = require("markdown-it-attrs")
 const markdownItAnchor = require("markdown-it-anchor")
 
-module.exports = eleventyConfig => {
+module.exports = (eleventyConfig) => {
   // Disable .gitignore and use eleventy's own ignore file instead
   eleventyConfig.setUseGitIgnore(false)
 
@@ -28,6 +28,7 @@ module.exports = eleventyConfig => {
   eleventyConfig.addLiquidFilter("join", liquidFilters.join)
   eleventyConfig.addLiquidFilter("push", liquidFilters.push)
   eleventyConfig.addLiquidFilter("sort", liquidFilters.sort)
+  eleventyConfig.addLiquidFilter("transform_name", liquidFilters.transformName)
   eleventyConfig.addLiquidFilter("markdownify", liquidFilters.markdownify)
   eleventyConfig.addLiquidFilter("slugify", liquidFilters.slugify)
   eleventyConfig.addLiquidFilter("format_price", liquidFilters.formatPrice)
@@ -38,8 +39,8 @@ module.exports = eleventyConfig => {
   eleventyConfig.setServerOptions({
     port: 8080,
     // https: {
-      // key: "./dev.dokuforte.co.il.key",
-      // cert: "./dev.dokuforte.co.il.cert",
+    // key: "./dev.dokuforte.co.il.key",
+    // cert: "./dev.dokuforte.co.il.cert",
     // },
   })
 
@@ -47,9 +48,7 @@ module.exports = eleventyConfig => {
   let markdownOptions = {
     html: true,
   }
-  let markdownLibrary = markdownIt(markdownOptions)
-    .use(markdownItAttrs)
-    .use(markdownItAnchor)
+  let markdownLibrary = markdownIt(markdownOptions).use(markdownItAttrs).use(markdownItAnchor)
   eleventyConfig.setLibrary("md", markdownLibrary)
 
   // Minify html in production

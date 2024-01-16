@@ -1,33 +1,50 @@
 import config from "../data/siteConfig"
 import { slugify, getLocale } from "../js/utils"
 
+let autosuggestList = []
+let autosuggestListLoaded = false
+
 // this is a cache that contains all previously entered autosuggest name / value pairs
 const autosuggestCache = {}
 
-export default async prefix => {
+const loadAutosuggestList = async (lang) => {
+  const respJson = await fetch(`${config.API_HOST}/api/search/list`)
+  const resp = await respJson.json()
+
+  // filter items by language
+  autosuggestList = resp.filter((item) => {
+    return item.locale === lang
+  })
+
+  return true
+}
+
+export default async (prefix, categories, limit) => {
   let resp = null
 
   const lang = getLocale()
   const expression = slugify(prefix)
-  const body = {
-    lang,
-    term: expression,
-  }
 
   // check autosuggest cache
   if (autosuggestCache[expression]) {
     resp = autosuggestCache[expression]
   } else {
-    const respJson = await fetch(`${config.API_HOST}/api/tags/filter`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(body),
+    if (!autosuggestListLoaded) autosuggestListLoaded = await loadAutosuggestList(lang)
+
+    let count = 0
+
+    resp = autosuggestList.filter((item) => {
+      if (count >= limit) {
+        return false
+      }
+      if (item.word.indexOf(expression) >= 0) {
+        count += 1
+        return true
+      }
+      return false
     })
-    resp = await respJson.json()
     autosuggestCache[expression] = resp
+    return resp
   }
 
   return resp

@@ -26,6 +26,7 @@
   "homepage": "https://github.com/dokuforte/website-frontend/#readme",
   "devDependencies": {
     "@11ty/eleventy": "latest",
+    "@11ty/eleventy-fetch": "^4.0.0",
     "@csstools/postcss-sass": "latest",
     "autoprefixer": "latest",
     "caniuse-lite": "latest",
@@ -42,6 +43,7 @@
     "latest-version": "latest",
     "netlify-cli": "latest",
     "npm-run-all": "latest",
+    "pm": "^2.2.6",
     "postcss": "latest",
     "postcss-cli": "latest",
     "postcss-hash": "latest",
@@ -69,7 +71,6 @@
     "markdown-it": "latest",
     "markdown-it-anchor": "latest",
     "markdown-it-attrs": "latest",
-    "node-fetch": "latest",
     "object.fromentries": "latest"
   },
   "keywords": []

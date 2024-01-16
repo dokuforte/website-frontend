@@ -28,3 +28,5 @@ src/static/autocomplete-hu.json
 # devcert-cli related
 dev.dokuforte.co.il.cert
 dev.dokuforte.co.il.key
+
+.cache

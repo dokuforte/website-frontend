@@ -54,8 +54,8 @@ export default class extends Controller {
   createAutoSuggestItem(label) {
     const itemNode = document.createElement("div")
     itemNode.className = "autosuggest__item"
-    itemNode.textContent = label
-    itemNode.addEventListener("click", e => {
+    itemNode.innerHTML = label.replace(this.inputTarget.value, `<span class="autosuggest__item__highlight">$&</span>`)
+    itemNode.addEventListener("click", (e) => {
       const selectedNode = this.autosuggestTarget.querySelector(".autosuggest__item.is-selected")
       if (selectedNode) {
         selectedNode.classList.remove("is-selected")
@@ -73,10 +73,10 @@ export default class extends Controller {
   }
 
   showAutosuggestPanel() {
-    if (this.inputTarget.value.length > 0) {
+    if (this.inputTarget.value.length > 2) {
       // get filtered results based on the autosuggest data attribute of the input field
       autoSuggest(this.inputTarget.value, this.inputTarget.dataset.autosuggest, AUTOSUGGEST_ITEM_LIMIT)
-        .then(res => {
+        .then((res) => {
           // show autosuggest result container and clear it's content
           this.autosuggestTarget.innerHTML = ""
           this.autosuggestTarget.classList.add("is-visible")
@@ -85,12 +85,11 @@ export default class extends Controller {
           this.autosuggestTarget.appendChild(this.createAutoSuggestItem(this.inputTarget.value))
 
           // add items from the autosuggest filter results
-          if (res.count > 0) {
-            res.data.forEach(label => {
-              if (label.name !== this.inputTarget.value)
-                this.autosuggestTarget.appendChild(this.createAutoSuggestItem(label.name))
-            })
-          }
+          res.forEach((label) => {
+            if (label.word !== this.inputTarget.value && label.word !== "") {
+              this.autosuggestTarget.appendChild(this.createAutoSuggestItem(label.word))
+            }
+          })
 
           // select the first item
           this.autosuggestTarget.querySelector(".autosuggest__item").classList.add("is-selected")

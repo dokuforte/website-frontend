@@ -2,10 +2,8 @@
 layout: article/article.liquid
 ---
 
-{% assign donators_data = donators-en %}
-{% if locale == "he" %}
-{% assign donators_data = donators-he %}
-{% endif %}
+{% assign donators_data = donators | transform_name  %}
+
 
 <h1 class="donors__title">{{ lang[locale].donators }}</h1>
 <div class="donors">
