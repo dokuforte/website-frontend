@@ -12,6 +12,9 @@ layout: base/base.liquid
       {% if locale == "en" %}
       <div class="home__hero__total h3" data-home-target="total"><a href="/{{ locale }}/photos/"><span data-home-target="totalVal"></span> photos</a> in total</div>
       {% endif %}
+      {% if locale == "he" %}
+    <div class="home__hero__total h3" data-home-target="total"><a href="/{{ locale }}/photos/"><span data-home-target="totalVal"></span>תמונות </a>בסך הכל </div>
+      {% endif %}
     </div>
     <div class="home__hero__content">
       <h3 class="home__hero__headline">{{ lang[locale].home_lead | default: 'home_lead' }}</h3>
