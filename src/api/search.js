@@ -70,7 +70,7 @@ const searchRequest = async (data) => {
   }
 
   // The server requires a il language code for Hebrew
-  const lang = { lang: getLocale() === "he" ? "il" : getLocale() }
+  const lang = { lang: getLocale() }
 
   const resp = await fetch(url, {
     method: "POST",

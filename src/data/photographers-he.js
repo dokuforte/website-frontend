@@ -2,8 +2,8 @@ const EleventyFetch = require("@11ty/eleventy-fetch")
 const config = require("./siteConfig")
 
 module.exports = async function () {
-  console.log("Fetching donators data...")
-  const url = `${config.API_HOST}/api/donors/list`
+  console.log("Fetching photographers[HE] data...")
+  const url = `${config.API_HOST}/api/media/photographers?lang=he`
 
   /* This returns a promise */
   return EleventyFetch(url, {

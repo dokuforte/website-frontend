@@ -1,0 +1,14 @@
+---
+layout: article/article.liquid
+---
+
+{% if locale == "en" %} {% assign photographers_data = photographers-en | sort: 'name' %} {% endif %}
+{% if locale == "he" %} {% assign photographers_data = photographers-he | sort: 'name' %} {% endif %}
+
+
+<h1 class="photographers__title">{{ lang[locale].photographers }}</h1>
+<div class="list">
+  {% for photographer in photographers_data %}
+    <a class="list__item" href="/{{ locale }}/photos/?photographer={{ photographer.name | url_encode }}">{{ photographer.name }}</a>
+  {% endfor %}
+</div>

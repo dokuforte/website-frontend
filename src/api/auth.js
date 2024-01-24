@@ -50,7 +50,7 @@ const signout = async () => {
 }
 
 const signup = async (body) => {
-  const url = `${config.API_HOST}/users`
+  const url = `${config.API_HOST}/users/register`
 
   const resp = await fetch(url, {
     method: "POST",

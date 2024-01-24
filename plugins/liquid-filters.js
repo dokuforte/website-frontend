@@ -63,14 +63,14 @@ exports.transformName = (arr) => {
 
 exports.sort = (arr, sortBy, order = "asc") => {
   const arrSorted = arr.sort((a, b) => {
-    if (String(a[sortBy]) < String(b[sortBy])) {
-      return order === "asc" ? -1 : 1
+    const comparison = String(a[sortBy]).localeCompare(String(b[sortBy]))
+
+    if (order === "asc") {
+      return comparison
     }
-    if (String(a[sortBy]) > String(b[sortBy])) {
-      return order === "asc" ? 1 : -1
-    }
-    return 0
+    return -comparison
   })
+
   return arrSorted
 }
 

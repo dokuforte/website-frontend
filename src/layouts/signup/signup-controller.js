@@ -6,14 +6,17 @@ export default class extends Controller {
   static get targets() {
     return [
       "form",
+      "userName",
       "firstName",
       "lastName",
       "email",
       "phone",
       "password",
+      "passwordConfirm",
       "submitButton",
       "checkboxRead",
       "checkboxAge",
+      "checkboxNewsletter",
     ]
   }
 
@@ -37,6 +40,11 @@ export default class extends Controller {
     if (!isValid) {
       trigger("snackbar:show", { message: await lang("signup_must_filled"), status: "error", autoHide: true })
     }
+
+    if (this.passwordTarget.value !== this.passwordConfirmTarget.value) {
+      trigger("snackbar:show", { message: await lang("passwords_must_match"), status: "error", autoHide: true })
+    }
+
     return isValid
   }
 
@@ -45,31 +53,25 @@ export default class extends Controller {
 
     if (await this.formIsValid()) {
       this.credentials = {}
-      if (this.firstNameTarget.value.length > 0) {
-        this.credentials.first_name = this.firstNameTarget.value
-      }
-      if (this.lastNameTarget.value.length > 0) {
-        this.credentials.last_name = this.lastNameTarget.value
-      }
-      if (this.emailTarget.value.length > 0) {
-        this.credentials.email = this.emailTarget.value
-      }
-      if (this.phoneTarget.value.length > 0) {
-        this.credentials.phone = this.phoneTarget.value
-      }
-      if (this.passwordTarget.value.length > 0) {
-        this.credentials.password = this.passwordTarget.value
-      }
-      this.credentials.role = "eca918be-4232-4b66-96f4-3501507f5b97"
+
+      this.credentials.username = this.userNameTarget.value
+      this.credentials.first_name = this.firstNameTarget.value
+      this.credentials.last_name = this.lastNameTarget.value
+      this.credentials.email = this.emailTarget.value
+      this.credentials.phone = this.phoneTarget.value
+      this.credentials.password = this.passwordTarget.value
+      this.credentials.password_confirm = this.passwordConfirmTarget.value
+      this.credentials.newsletter = this.checkboxNewsletterTarget.checked
+      this.credentials.tos = this.checkboxReadTarget.checked
 
       trigger("loader:show", { id: "loaderBase" })
       this.element.classList.add("is-disabled")
 
-      const resp = await auth.signup(this.credentials).catch(err => {
+      const resp = await auth.signup(this.credentials).catch((err) => {
         this.error(err.message)
       })
 
-      if (resp.status === 204) {
+      if (resp.status === 200) {
         this.success()
       }
     }
@@ -104,7 +106,7 @@ export default class extends Controller {
           // redirectTo(`/${getLocale()}/profile/my-photos/`)
           redirectTo(`/${getLocale()}/profile/edit/`)
         })
-        .catch(err => {
+        .catch((err) => {
           this.error(err)
         })
     }, 2000)

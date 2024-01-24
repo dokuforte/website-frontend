@@ -1,11 +1,7 @@
 import siteConfig from "../data/siteConfig"
 import langData from "../data/lang.json"
 
-export const getLocale = () => {
-  let lang = document.querySelector("body").dataset.lang || undefined
-  lang = lang === "he" ? "il" : lang
-  return lang
-}
+export const getLocale = () => document.querySelector("body").dataset.lang || undefined
 
 export const lang = (key) => {
   const l = langData[getLocale()]

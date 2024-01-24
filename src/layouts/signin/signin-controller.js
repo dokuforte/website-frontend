@@ -4,13 +4,13 @@ import auth from "../../api/auth"
 
 export default class extends Controller {
   static get targets() {
-    return ["form", "email", "password", "submitButton"]
+    return ["form", "userName", "password", "submitButton"]
   }
 
   connect() {
     this.formTarget.submit = this.submit.bind(this)
 
-    auth.querySignedInUser().then(userData => {
+    auth.querySignedInUser().then((userData) => {
       if (userData.count === 1) {
         this.success()
       }
@@ -20,16 +20,13 @@ export default class extends Controller {
   submit(e) {
     if (e) e.preventDefault()
     const credentials = {}
-    credentials.email = this.emailTarget.value
+    credentials.username = this.userNameTarget.value
     credentials.password = this.passwordTarget.value
 
     trigger("loader:show", { id: "loaderBase" })
     this.element.classList.add("is-disabled")
 
-    auth
-      .signin(credentials)
-      .then(this.success.bind(this))
-      .catch(this.error.bind(this))
+    auth.signin(credentials).then(this.success.bind(this)).catch(this.error.bind(this))
   }
 
   // the server response returns a string based error message in English
