@@ -4,14 +4,14 @@ import auth from "../../api/auth"
 
 export default class extends Controller {
   static get targets() {
-    return ["form", "userName", "password", "submitButton"]
+    return ["form", "userName", "password", "submitButton", "rememberMe"]
   }
 
   connect() {
     this.formTarget.submit = this.submit.bind(this)
 
     auth.querySignedInUser().then((userData) => {
-      if (userData.count === 1) {
+      if (userData && userData.count === 1) {
         this.success()
       }
     })
@@ -19,9 +19,10 @@ export default class extends Controller {
 
   submit(e) {
     if (e) e.preventDefault()
-    const credentials = {}
-    credentials.username = this.userNameTarget.value
-    credentials.password = this.passwordTarget.value
+    const credentials = new FormData()
+    credentials.append("username", this.userNameTarget.value)
+    credentials.append("password", this.passwordTarget.value)
+    credentials.append("remember_me", this.rememberMeTarget.checked ? "1" : "0")
 
     trigger("loader:show", { id: "loaderBase" })
     this.element.classList.add("is-disabled")

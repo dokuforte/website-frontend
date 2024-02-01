@@ -15,6 +15,13 @@ layout: auth/auth.liquid
       <div class="signin__links">
         <a href="/{{ locale }}/reset-password" class="link-with-arrow link-with-arrow--small">{{ lang[locale].password_forgot }}</a>
       </div>
+      <div class="signin__checkboxes">
+        <div class="checkbox-wrapper">
+          <input class="checkbox-wrapper__checkbox" type="checkbox" required name="remember_me" id="signin-remember-me" data-signin-target="rememberMe">
+          <label for="signin-remember-me" class="checkbox-wrapper__label">{{ lang[locale].signin_remember_me }}</label>
+        </div>
+      </div>
+      
       <button class="button button--primary" data-action="signin#submit">{{ lang[locale].signin }}</button>
     </form>
   </div>

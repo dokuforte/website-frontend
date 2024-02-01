@@ -67,6 +67,7 @@
     "@hotwired/stimulus-webpack-helpers": "latest",
     "axios": "latest",
     "dayjs": "latest",
+    "iframe-resizer": "^4.3.9",
     "lodash": "latest",
     "markdown-it": "latest",
     "markdown-it-anchor": "latest",
