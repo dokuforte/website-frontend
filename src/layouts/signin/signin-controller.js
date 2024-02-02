@@ -10,6 +10,7 @@ export default class extends Controller {
   connect() {
     this.formTarget.submit = this.submit.bind(this)
 
+    // check if user is already signed in
     auth.querySignedInUser().then((userData) => {
       if (userData && userData.count === 1) {
         this.success()
@@ -34,22 +35,18 @@ export default class extends Controller {
   // so it needs to be localized
   async errorMessageHandler(text) {
     const errorMessages = {
-      "The user has not been activated or is blocked.": await lang("user_signin_error"),
-      "Invalid user credentials.": await lang("user_signin_error"),
-      '"email" must be a valid email': await lang("user_signin_error"),
-      '"email" is not allowed to be empty': await lang("user_signin_error"),
+      "Username or password is incorrect": await lang("user_signin_error"),
     }
-
-    return errorMessages[text]
+    return errorMessages[text.replace(/\n/g, "<br/>")]
   }
 
-  async error(respData) {
+  async error(respMessage) {
     this.element.classList.remove("is-disabled")
     trigger("loader:hide", { id: "loaderBase" })
 
     // show snackbar message
     trigger("snackbar:show", {
-      message: await this.errorMessageHandler(respData.errors[0].message),
+      message: await this.errorMessageHandler(respMessage),
       status: "error",
       autoHide: true,
     })

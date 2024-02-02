@@ -1,20 +1,35 @@
 import { trigger } from "../js/utils"
 import config from "../data/siteConfig"
-import { setAppState, removeAppState } from "../js/app"
+import { appState, setAppState, removeAppState } from "../js/app"
+
+let initialAuthCheck = false
 
 const signin = async (formData) => {
   const resp = await fetch(`${config.API_HOST}/login?format=json`, {
     method: "POST",
+    headers: {
+      Accept: "application/vnd.api+json",
+    },
     credentials: "include",
+    mode: "cors",
     body: formData,
   })
 
-  const respData = await resp.json()
-  if (resp.status === 200) {
-    localStorage.setItem("auth", JSON.stringify(respData.data))
-    trigger("auth:signedIn")
+  const contentType = resp.headers.get("Content-Type")
+  if (contentType && contentType.includes("application/json")) {
+    // Handle JSON data
+    const jsonData = await resp.json()
+    if (resp.status === 200 && jsonData) {
+      localStorage.setItem("auth", JSON.stringify(jsonData))
+      trigger("auth:signedIn")
+    }
   } else {
-    throw respData
+    // Handle non-JSON data (error message, etc.)
+    const htmlData = await resp.text()
+    const parser = new DOMParser()
+    const data = parser.parseFromString(htmlData, "text/html")
+    const error = data.querySelector(".message.error").textContent
+    throw error
   }
 }
 
@@ -22,10 +37,9 @@ const signout = async () => {
   const url = `${config.API_HOST}/users/logout`
 
   const resp = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
+    method: "GET",
+    mode: "cors",
+    credentials: "include",
   })
 
   if (resp.status === 200) {
@@ -108,9 +122,31 @@ const resetPassword = async (pass) => {
   throw Error(respData.message)
 }
 
+const setLoginStatus = (isUserSignedIn) => {
+  const authState = appState("auth-signed-in")
+
+  if (isUserSignedIn) {
+    setAppState("auth-signed-in")
+  } else {
+    removeAppState("auth-signed-in")
+    localStorage.removeItem("auth")
+  }
+
+  // trigger a custom event:
+  // - on the very first check regardless of the status
+  // - or when the status has changed
+  if (!initialAuthCheck || appState("auth-signed-in") !== authState) {
+    trigger("auth:loginStatus")
+    initialAuthCheck = true
+  }
+}
+
 const querySignedInUser = async () => {
-  let signedIn = await getLoginStatus()
-  console.log(signedIn)
+  const signedIn = await getLoginStatus()
+  setLoginStatus(signedIn === 1)
+
+  const authData = JSON.parse(localStorage.getItem("auth")) || {}
+  return authData
 }
 
 const updateAuthProfile = async (userId, body) => {
