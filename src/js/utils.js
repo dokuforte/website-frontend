@@ -267,3 +267,11 @@ export const photoRes = (size, photoId) => {
   const encoded = btoa(JSON.stringify(imageRequest))
   return `${siteConfig.PHOTO_SOURCE}/${encoded}`
 }
+
+export const formDataToJson = (formData) => {
+  const object = {}
+  formData.forEach((value, key) => {
+    object[key] = value
+  })
+  return JSON.stringify(object)
+}

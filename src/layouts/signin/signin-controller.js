@@ -37,7 +37,7 @@ export default class extends Controller {
     const errorMessages = {
       "Username or password is incorrect": await lang("user_signin_error"),
     }
-    return errorMessages[text.replace(/\n/g, "<br/>")]
+    return errorMessages[text]
   }
 
   async error(respMessage) {

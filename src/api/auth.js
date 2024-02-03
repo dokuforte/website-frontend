@@ -1,4 +1,4 @@
-import { trigger } from "../js/utils"
+import { trigger, formDataToJson } from "../js/utils"
 import config from "../data/siteConfig"
 import { appState, setAppState, removeAppState } from "../js/app"
 
@@ -55,15 +55,22 @@ const signup = async (body) => {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
-    body: JSON.stringify(body),
+    body: formDataToJson(body),
   })
 
-  if (resp.status === 204) {
-    return resp
-  }
+  if (resp.statusText === "OK" && resp.redirected === true) {
+    trigger("auth:signedUp")
+  } else {
+    // Handle non-JSON data (error message, etc.)
+    const htmlData = await resp.text()
+    const parser = new DOMParser()
+    const data = parser.parseFromString(htmlData, "text/html")
+    const error = data.querySelector(".message.error").textContent
 
-  const respData = await resp.json()
-  throw new Error(respData.errors[0].message)
+    console.log("error", error)
+    console.log("htmlData", htmlData)
+    throw error
+  }
 }
 
 const getLoginStatus = async () => {

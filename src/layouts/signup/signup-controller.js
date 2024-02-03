@@ -38,11 +38,16 @@ export default class extends Controller {
     }
 
     if (!isValid) {
-      trigger("snackbar:show", { message: await lang("signup_must_filled"), status: "error", autoHide: true })
+      trigger("snackbar:show", { message: await lang("user_signup_must_filled"), status: "error", autoHide: true })
     }
 
     if (this.passwordTarget.value !== this.passwordConfirmTarget.value) {
-      trigger("snackbar:show", { message: await lang("passwords_must_match"), status: "error", autoHide: true })
+      isValid = false
+      trigger("snackbar:show", {
+        message: await lang("user_signup_passwords_must_match"),
+        status: "error",
+        autoHide: true,
+      })
     }
 
     return isValid
@@ -52,28 +57,31 @@ export default class extends Controller {
     e.preventDefault()
 
     if (await this.formIsValid()) {
-      this.credentials = {}
+      this.credentials = new FormData()
 
-      this.credentials.username = this.userNameTarget.value
-      this.credentials.first_name = this.firstNameTarget.value
-      this.credentials.last_name = this.lastNameTarget.value
-      this.credentials.email = this.emailTarget.value
-      this.credentials.phone = this.phoneTarget.value
-      this.credentials.password = this.passwordTarget.value
-      this.credentials.password_confirm = this.passwordConfirmTarget.value
-      this.credentials.newsletter = this.checkboxNewsletterTarget.checked
-      this.credentials.tos = this.checkboxReadTarget.checked
+      this.credentials.append("username", this.userNameTarget.value)
+      this.credentials.append("first_name", this.firstNameTarget.value)
+      this.credentials.append("last_name", this.lastNameTarget.value)
+      this.credentials.append("email", this.emailTarget.value)
+      this.credentials.append("phone", this.phoneTarget.value)
+      this.credentials.append("password", this.passwordTarget.value)
+      this.credentials.append("password_confirm", this.passwordConfirmTarget.value)
+      this.credentials.append("newsletter", this.checkboxNewsletterTarget.checked)
+      this.credentials.append("tos", this.checkboxReadTarget.checked)
 
       trigger("loader:show", { id: "loaderBase" })
       this.element.classList.add("is-disabled")
 
-      const resp = await auth.signup(this.credentials).catch((err) => {
-        this.error(err.message)
-      })
-
-      if (resp.status === 200) {
-        this.success()
-      }
+      await auth
+        .signup(this.credentials)
+        .then(() => {
+          console.log("signup success")
+          this.success()
+        })
+        .catch((err) => {
+          console.log("signup error")
+          this.error(err)
+        })
     }
   }
 
@@ -85,11 +93,19 @@ export default class extends Controller {
     }
   }
 
-  error(statusText) {
+  async errorMessageHandler(text) {
+    const errorMessages = {
+      "The user could not be saved": await lang("user_signup_username_taken"),
+      "Username or password is incorrect": await lang("user_signin_error"),
+    }
+    return errorMessages[text]
+  }
+
+  async error(statusText) {
     trigger("loader:hide", { id: "loaderBase" })
     this.element.classList.remove("is-disabled")
 
-    trigger("snackbar:show", { message: statusText, status: "error", autoHide: true })
+    trigger("snackbar:show", { message: await this.errorMessageHandler(statusText), status: "error", autoHide: true })
   }
 
   async success() {
@@ -100,6 +116,7 @@ export default class extends Controller {
 
     // sign in and redirect to profile
     setTimeout(() => {
+      this.credentials.append("remember_me", "1")
       auth
         .signin(this.credentials)
         .then(() => {
