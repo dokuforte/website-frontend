@@ -11,22 +11,30 @@ layout: auth/auth.liquid
     </div>
 
     <form class="signup__form" data-signup-target="form">
-      {% include 'input/input.liquid'
+    {% include 'input/input.liquid'
+        type:"text"
+        name:"uesername"
+        placeholder: lang[locale].username
+        required: true
+        label: lang[locale].username
+        stimulus_target:'data-signup-target="userName"'
+    %}  
+    {% include 'input/input.liquid'
                   type:"text"
                   name:"first_name"
                   placeholder: lang[locale].first_name_placeholder
                   required: true
                   label: lang[locale].first_name
                   stimulus_target:'data-signup-target="firstName"'
-      %}
-      {% include 'input/input.liquid' 
+    %}
+    {% include 'input/input.liquid' 
                   type:"text"
                   name:"last_name"
                   placeholder: lang[locale].last_name_placeholder
                   required: true
                   label: lang[locale].last_name
                   stimulus_target:'data-signup-target="lastName"'
-      %}
+    %}
       {% include 'input/input.liquid'
                   type:"email"
                   name:"email"
@@ -34,7 +42,7 @@ layout: auth/auth.liquid
                   required: true
                   label: lang[locale].email 
                   stimulus_target:'data-signup-target="email"'
-      %}
+    %}
       {% include 'input/input.liquid'
         type:"tel"
         name:"phone"
@@ -52,13 +60,21 @@ layout: auth/auth.liquid
         label: lang[locale].password
         stimulus_target:'data-signup-target="password"'
       %}
+      {% include 'input/input.liquid' 
+        type:"password"
+        name:"password_confirm"
+        required: true
+        placeholder: lang[locale].password_confirm
+        label: lang[locale].password_confirm
+        stimulus_target:'data-signup-target="passwordConfirm"'
+      %}
       <div class="signup__checkboxes">
         <div class="checkbox-wrapper">
-          <input class="checkbox-wrapper__checkbox" type="checkbox" name="age" id="signup-confirm-age" data-signup-target="checkboxAge" data-action="change->signup#enable">
+          <input class="checkbox-wrapper__checkbox" type="checkbox" required name="age" id="signup-confirm-age" data-signup-target="checkboxAge" data-action="change->signup#enable">
           <label for="signup-confirm-age" class="checkbox-wrapper__label">{{ lang[locale].signup_confirm_age }}</label>
         </div>
         <div class="checkbox-wrapper">
-          <input class="checkbox-wrapper__checkbox" type="checkbox" name="read" id="signup-confirm-read" data-signup-target="checkboxRead" data-action="change->signup#enable">
+          <input class="checkbox-wrapper__checkbox" type="checkbox" required name="tos" id="signup-confirm-read" data-signup-target="checkboxRead" data-action="change->signup#enable">
           <label for="signup-confirm-read" class="checkbox-wrapper__label styled-links">{{ lang[locale].signup_read }}</label>
         </div>
         <div class="checkbox-wrapper">

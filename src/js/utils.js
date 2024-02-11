@@ -1,27 +1,9 @@
 import siteConfig from "../data/siteConfig"
+import langData from "../data/lang.json"
 
-export const getLocale = () => {
-  return document.querySelector("body").dataset.lang
-}
+export const getLocale = () => document.querySelector("body").dataset.lang || undefined
 
-let langData = null
-export const lang = async key => {
-  if (!langData) {
-    await fetch(`${siteConfig.API_HOST}/items/dictionary/?limit=500`)
-      .then(res => res.json())
-      .then(json => {
-        langData = {}
-        const responseData = json.data
-        responseData.forEach(item => {
-          Object.keys(item).forEach(itemKey => {
-            if (siteConfig.LOCALES[itemKey]) {
-              if (!langData[itemKey]) langData[itemKey] = {}
-              langData[itemKey][item.key] = item[itemKey]
-            }
-          })
-        })
-      })
-  }
+export const lang = (key) => {
   const l = langData[getLocale()]
   const val = l[key] ? l[key] : key
   return val.replace(/(?:\r\n|\r|\n)/g, "<br/>")
@@ -46,6 +28,13 @@ export const getURLParams = () => {
   return Object.fromEntries(new URLSearchParams(window.location.search.substring(1)))
 }
 
+export const getPrettyURLValues = (path) => {
+  const values = (path || window.location.pathname).split("/")
+  while (values[0] === "") values.shift()
+  while (values[values.length - 1] === "") values.pop()
+  return values
+}
+
 export const removeClassByPrefix = (el, prefix) => {
   const regx = new RegExp(`\\b${prefix}(.[^\\s]*)?\\b`, "g")
   // eslint-disable-next-line no-param-reassign
@@ -53,11 +42,11 @@ export const removeClassByPrefix = (el, prefix) => {
   return el
 }
 
-export const numberWithCommas = x => {
+export const numberWithCommas = (x) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
-export const stripTags = str => {
+export const stripTags = (str) => {
   const element = document.createElement("div")
   element.innerHTML = str
   return element.innerText
@@ -90,7 +79,7 @@ export const slugify = (str, removeSpaces) => {
 
   s = s.toLowerCase()
 
-  Object.keys(map).forEach(pattern => {
+  Object.keys(map).forEach((pattern) => {
     s = s.replace(new RegExp(map[pattern], "g"), pattern)
   })
 
@@ -117,6 +106,22 @@ export const setPageMeta = (title, description, imgSrc) => {
     document.querySelector('meta[property="twitter:image:src"]').setAttribute("content", imgSrc)
     document.querySelector('meta[property="og:image"]').setAttribute("content", imgSrc)
   }
+}
+
+export const getImgAltText = (data) => {
+  return [
+    data.country,
+    data.place,
+    data.city,
+    data.description,
+    data.year,
+    data.donor,
+    data.author,
+    (data.tags || []).join(", "),
+    data.mid ? `Dokuforte #${data.mid}` : false,
+  ]
+    .filter(Boolean)
+    .join(", ")
 }
 
 export const onClassChange = (node, callback) => {
@@ -157,7 +162,7 @@ export const copyToClipboard = async (textToCopy, type) => {
   return res
 }
 
-export const isElementInViewport = el => {
+export const isElementInViewport = (el) => {
   if (el) {
     const top = document.querySelector(".header") ? document.querySelector(".header").offsetHeight : 0
     const bounds = el.getBoundingClientRect()
@@ -179,7 +184,7 @@ export const setCookie = (name, value, days) => {
   document.cookie = `${name}=${value || ""}${expires}; path=/`
 }
 
-export const getCookie = name => {
+export const getCookie = (name) => {
   const nameEQ = `${name}=`
   const ca = document.cookie.split(";")
   for (let i = 0; i < ca.length; i += 1) {
@@ -210,23 +215,63 @@ export const setStorageParam = (paramName, paramValue, isLocal = false) => {
   trigger("storage:changed", triggerDetail)
 }
 
-export const eraseCookie = name => {
+export const eraseCookie = (name) => {
   document.cookie = `${name}=; Max-Age=-99999999;`
 }
 
-export const validateEmail = email => {
+export const validateEmail = (email) => {
   const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+.([A-Za-z]{2,4})$/
   return reg.test(email)
 }
 
-export const redirectTo = href => {
+export const redirectTo = (href) => {
   let redirectToHref = localStorage.getItem("redirectAfterSignin")
   localStorage.removeItem("redirectAfterSignin")
   if (!redirectToHref) redirectToHref = href
   document.location.href = redirectToHref
 }
 
-export const comeBackAfterSignIn = targetURL => {
+export const comeBackAfterSignIn = (targetURL) => {
   localStorage.setItem("redirectAfterSignin", targetURL || document.location.href)
   document.location.href = `/${getLocale()}/signin/`
+}
+
+export const escapeHTML = (unsafe) => {
+  return unsafe
+    ? unsafe.replace(/[\u00A0-\u9999<>&]/g, (i) => {
+        return `&#${i.charCodeAt(0)};`
+      })
+    : ""
+}
+
+export const photoRes = (size, photoId) => {
+  const imageRequest = {
+    bucket: siteConfig.PHOTO_BUCKET,
+    key: photoId,
+    edits: {
+      toFormat: "jpeg",
+      resize: {},
+    },
+  }
+
+  if (size === "large") {
+    imageRequest.edits.resize.width = `${window.innerWidth > 1600 ? 2560 : 1600}`
+  }
+  if (size === 240) {
+    imageRequest.edits.resize.width = 240
+  }
+  if (size === 480) {
+    imageRequest.edits.resize.width = 480
+  }
+  // console.log('imageRequest: ', imageRequest)
+  const encoded = btoa(JSON.stringify(imageRequest))
+  return `${siteConfig.PHOTO_SOURCE}/${encoded}`
+}
+
+export const formDataToJson = (formData) => {
+  const object = {}
+  formData.forEach((value, key) => {
+    object[key] = value
+  })
+  return JSON.stringify(object)
 }

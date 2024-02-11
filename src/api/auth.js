@@ -1,97 +1,94 @@
-import { trigger } from "../js/utils"
+import { trigger, formDataToJson } from "../js/utils"
 import config from "../data/siteConfig"
-import { setAppState, removeAppState } from "../js/app"
+import { appState, setAppState, removeAppState } from "../js/app"
 
-const setLoginStatus = isUserSignedIn => {
-  if (isUserSignedIn) {
-    setAppState("auth-signed-in")
-  } else {
-    removeAppState("auth-signed-in")
-    localStorage.removeItem("auth")
-  }
-}
+let initialAuthCheck = false
 
-const signin = async body => {
-  const resp = await fetch(`${config.API_HOST}/auth/login`, {
+const signin = async (formData) => {
+  const resp = await fetch(`${config.API_HOST}/login?format=json`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
+      Accept: "application/vnd.api+json",
     },
-    body: body ? JSON.stringify(body) : null,
+    credentials: "include",
+    mode: "cors",
+    body: formData,
   })
 
-  const respData = await resp.json()
-  if (resp.status === 200) {
-    localStorage.setItem("auth", JSON.stringify(respData.data))
-    trigger("auth:signedIn")
+  const contentType = resp.headers.get("Content-Type")
+  if (contentType && contentType.includes("application/json")) {
+    // Handle JSON data
+    const jsonData = await resp.json()
+    if (resp.status === 200 && jsonData) {
+      localStorage.setItem("auth", JSON.stringify(jsonData))
+      trigger("auth:signedIn")
+    }
   } else {
-    throw respData
+    // Handle non-JSON data (error message, etc.)
+    const htmlData = await resp.text()
+    const parser = new DOMParser()
+    const data = parser.parseFromString(htmlData, "text/html")
+    const error = data.querySelector(".message.error").textContent
+    throw error
   }
 }
 
 const signout = async () => {
-  const authData = JSON.parse(localStorage.getItem("auth")) || {}
-  const url = `${config.API_HOST}/auth/logout`
-
-  const body = { refresh_token: authData.refresh_token }
-  const resp = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(body),
-  })
-
-  if (resp.status === 204) {
-    trigger("auth:signedOut")
-    setLoginStatus(false)
-  }
-}
-
-const signup = async body => {
-  const url = `${config.API_HOST}/users`
+  const url = `${config.API_HOST}/users/logout`
 
   const resp = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(body),
+    method: "GET",
+    mode: "cors",
+    credentials: "include",
   })
 
-  if (resp.status === 204) {
-    return resp
-  }
-
-  const respData = await resp.json()
-  throw new Error(respData.errors[0].message)
-}
-
-const refreshToken = async () => {
-  const authData = JSON.parse(localStorage.getItem("auth")) || {}
-  const url = `${config.API_HOST}/auth/refresh`
-
-  const body = { refresh_token: authData.refresh_token }
-  const resp = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(body),
-  })
-
-  const respData = await resp.json()
   if (resp.status === 200) {
-    localStorage.setItem("auth", JSON.stringify(respData.data))
-    trigger("auth:refresh")
-  } else {
-    throw respData
+    trigger("auth:signedOut")
   }
-
-  return respData.data
 }
 
-const forgot = async email => {
+const signup = async (body) => {
+  const url = `${config.API_HOST}/users/register`
+
+  const resp = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: formDataToJson(body),
+  })
+
+  if (resp.statusText === "OK" && resp.redirected === true) {
+    trigger("auth:signedUp")
+  } else {
+    // Handle non-JSON data (error message, etc.)
+    const htmlData = await resp.text()
+    const parser = new DOMParser()
+    const data = parser.parseFromString(htmlData, "text/html")
+    const error = data.querySelector(".message.error").textContent
+
+    console.log("error", error)
+    console.log("htmlData", htmlData)
+    throw error
+  }
+}
+
+const getLoginStatus = async () => {
+  const url = `${config.API_HOST}/api/users/login-status?_format=json`
+  const resp = await fetch(url, {
+    method: "POST",
+    mode: "cors",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+  })
+
+  const respData = await resp.json()
+  return respData
+}
+
+const forgot = async (email) => {
   const body = {
     email,
   }
@@ -110,7 +107,7 @@ const forgot = async email => {
   return respData
 }
 
-const resetPassword = async pass => {
+const resetPassword = async (pass) => {
   const body = {
     token: "",
     password: pass,
@@ -132,29 +129,31 @@ const resetPassword = async pass => {
   throw Error(respData.message)
 }
 
+const setLoginStatus = (isUserSignedIn) => {
+  const authState = appState("auth-signed-in")
+
+  if (isUserSignedIn) {
+    setAppState("auth-signed-in")
+  } else {
+    removeAppState("auth-signed-in")
+    localStorage.removeItem("auth")
+  }
+
+  // trigger a custom event:
+  // - on the very first check regardless of the status
+  // - or when the status has changed
+  if (!initialAuthCheck || appState("auth-signed-in") !== authState) {
+    trigger("auth:loginStatus")
+    initialAuthCheck = true
+  }
+}
+
 const querySignedInUser = async () => {
-  let signedIn = false
-  let resp = null
+  const signedIn = await getLoginStatus()
+  setLoginStatus(signedIn === 1)
+
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
-  if (authData.access_token) {
-    resp = await fetch(`${config.API_HOST}/mydata/getprofile`, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        Authorization: `Bearer ${authData.access_token}`,
-      },
-    })
-    signedIn = resp.status === 200
-  }
-
-  setLoginStatus(signedIn)
-
-  if (signedIn) {
-    const respData = await resp.json()
-    return respData.data[0]
-  }
-
-  return resp
+  return authData
 }
 
 const updateAuthProfile = async (userId, body) => {
@@ -193,7 +192,7 @@ export default {
   signin,
   signout,
   signup,
-  refreshToken,
+  getLoginStatus,
   forgot,
   resetPassword,
   querySignedInUser,

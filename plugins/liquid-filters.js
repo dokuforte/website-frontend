@@ -4,20 +4,20 @@ const markdownItAttrs = require("markdown-it-attrs")
 const markdownItAnchor = require("markdown-it-anchor")
 
 exports.findItem = (scope, key, value) => {
-  return scope.find(item => {
+  return scope.find((item) => {
     return item[key] === value
   })
 }
 
-exports.trim = string => {
+exports.trim = (string) => {
   return String(string).trim()
 }
 
-exports.unescape = string => {
+exports.unescape = (string) => {
   return decodeURIComponent(String(string))
 }
 
-exports.size = obj => {
+exports.size = (obj) => {
   if (typeof obj === "string" || "array") return obj.length
   if (typeof obj === "object") return Object.keys(obj).length
   return null
@@ -28,7 +28,7 @@ exports.split = (str, separator) => {
 }
 
 exports.join = (str, separator, ...args) => {
-  const arr = [str, ...args].filter(function(el) {
+  const arr = [str, ...args].filter(function (el) {
     return el != null && el !== ""
   })
   return arr.join(separator)
@@ -45,24 +45,36 @@ exports.date = (timestamp, locale) => {
   return dateFormat.format(new Date(parseInt(timestamp, 10)))
 }
 
-exports.toTimestamp = date => {
+exports.toTimestamp = (date) => {
   return dayjs(date).format("x")
+}
+
+exports.transformName = (arr) => {
+  arr.forEach((item) => {
+    const fullName = item.name.split(" ")
+    const firstName = fullName[0]
+    const lastName = fullName.slice(1).join(" ")
+
+    item.name_transformed = `${lastName}, ${firstName}`
+  })
+
+  return arr.sort((a, b) => a.name_transformed.localeCompare(b.name_transformed))
 }
 
 exports.sort = (arr, sortBy, order = "asc") => {
   const arrSorted = arr.sort((a, b) => {
-    if (String(a[sortBy]) < String(b[sortBy])) {
-      return order === "asc" ? -1 : 1
+    const comparison = String(a[sortBy]).localeCompare(String(b[sortBy]))
+
+    if (order === "asc") {
+      return comparison
     }
-    if (String(a[sortBy]) > String(b[sortBy])) {
-      return order === "asc" ? 1 : -1
-    }
-    return 0
+    return -comparison
   })
+
   return arrSorted
 }
 
-exports.markdownify = str => {
+exports.markdownify = (str) => {
   if (str) {
     md.use(markdownItAttrs).use(markdownItAnchor)
     return md.render(str)
@@ -97,7 +109,7 @@ exports.slugify = (str, removeSpaces = true) => {
 
   s = s.toLowerCase()
 
-  Object.keys(map).forEach(pattern => {
+  Object.keys(map).forEach((pattern) => {
     s = s.replace(new RegExp(map[pattern], "g"), pattern)
   })
 
@@ -111,7 +123,7 @@ exports.slugify = (str, removeSpaces = true) => {
   return s
 }
 
-exports.lowcase = s => s.toLowerCase()
+exports.lowcase = (s) => s.toLowerCase()
 
 exports.slice = (s, start, end) => {
   if (!s || s.length === 0) return null

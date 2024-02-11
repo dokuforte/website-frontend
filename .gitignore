@@ -25,3 +25,8 @@ src/static/autocomplete-hu.json
 # Eclipse related
 .project
 
+# devcert-cli related
+dev.dokuforte.co.il.cert
+dev.dokuforte.co.il.key
+
+.cache

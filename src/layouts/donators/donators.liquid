@@ -2,41 +2,15 @@
 layout: article/article.liquid
 ---
 
-{% assign donators_data = donators-en %}
-{% if locale == "he" %}
-{% assign donators_data = donators-he %}
-{% endif %}
+{% if locale == "en" %} {% assign donators = donators-en %} {% endif %}
+{% if locale == "he" %} {% assign donators = donators-he %} {% endif %}
+{% assign donators_data = donators | transform_name  %}
+
 
 <h1 class="donors__title">{{ lang[locale].donators }}</h1>
-<div class="donors">
-  {% assign group_num = 0 %}
+<div class="list">
   {% for donator in donators_data %}
     {% assign donator_name = donator.name_transformed %}
-    {% if prev_donator %}
-      {% assign prev_donator_name = prev_donator.name_transformed %}
-    {% endif %}
-
-    {% if prev_donator_name %}
-      {% assign prev_donator_first_letter = prev_donator_name | lowcase | slice: 0 %}
-    {%endif %}
-
-    {% assign donator_first_letter = donator_name | lowcase | slice: 0  %}
-    {% if prev_donator_first_letter != donator_first_letter %}
-      {% if group_num > 0 %}
-      </div>
-      {% endif %}
-
-      <div class="donors__group">
-        <h3>{{ donator_name | slice: 0 }}</h3>
-      {% assign group_num = group_num | plus: 1 %}
-    {% endif %}
-    {% if donator_name != prev_donator_name %}
-    <a class="donors__donor" href="/{{ locale }}/photos/?donatedby={{ donator.name | url_encode }}"><span class="donors__donor__name">{{ donator_name }}</span></a>
-    {% assign prev_donator = donator %}
-    {% endif %}
+    <a class="list__item" href="/{{ locale }}/photos/?donatedby={{ donator.name | url_encode }}">{{ donator_name }}</a>
   {% endfor %}
-  
-  {% if group_num > 0 %}
-  </div>
-  {% endif %}
 </div>

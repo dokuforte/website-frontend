@@ -2,27 +2,31 @@
 layout: base/base.liquid
 ---
 
-<div class="photos scrollview" 
-     data-controller="photos" 
-     data-action="scroll->photos#onScroll 
+<div class="photos scrollview"
+     data-controller="photos"
+     data-action="scroll->photos#onScroll
+                  resize@window->photos#onScroll
                   resize@window->photos#resizeThumbnails
                   popstate@window->photos#onPopState
                   photos:historyPushState@document->photos#historyPushState
-                  photos:showNextPhoto@document->photos#showNextPhotoInCarousel
-                  photos:showPrevPhoto@document->photos#showPrevPhotoInCarousel
                   photos:selectThumbnail@document->photos#selectThumbnail
-                  photosCarousel:hide@document->photos#scrollToSelectedThumbnail"
+                  photosCarousel:hide@document->photos#onCarouselClosed
+                  photoManager:nextSelected@document->photos#selectThumbnail
+                  photoManager:prevSelected@document->photos#selectThumbnail
+                  photoManager:load@document->photos#onPhotoDataLoaded
+                  photoManager:cacheCleared@document->photos#onPhotoCacheCleared
+                  photoManager:photoSelected@document->photos#selectThumbnail
+                  timeline:yearSelected@document->photos#onYearSelected
+                  thumbnail:loaded@document->photos#loadThumbnails"
 >
   {% include './title/title.liquid' %}
   <div class="photos__grid" data-photos-target="grid"></div>
-  <div class="photos__bottom-actions is-hidden" data-photos-target="bottomActions">
-    <div class="button button--secondary button--inline photos__load-more" data-action="photos#loadMorePhotos">{{ lang[locale].load_more }}</div>
-  </div>
 </div>
 
-{% include './thumbnail/thumbnail-template.liquid' %}
-{% include './carousel/carousel.liquid' %}
-{% include 'header-nav/header-nav.liquid' %}
-{% include 'timeline/timeline.liquid' %}
+{% include 'thumbnail/thumbnail-template.liquid' %}
+{% include 'age-restriction/age-restriction-template.liquid' %}
+{% include 'carousel/carousel.liquid' %}
+{% include 'header-nav/header-nav.liquid' hasTimeline:true %}
 {% include 'dialog/download/download.liquid' %}
 {% include 'dialog/share/share.liquid' %}
+{% include 'dialog/age-restriction/age-restriction.liquid' %}
