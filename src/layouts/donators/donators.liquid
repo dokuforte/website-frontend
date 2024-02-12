@@ -11,6 +11,6 @@ layout: article/article.liquid
 <div class="list">
   {% for donator in donators_data %}
     {% assign donator_name = donator.name_transformed %}
-    <a class="list__item" href="/{{ locale }}/photos/?donatedby={{ donator.name | url_encode }}">{{ donator_name }}</a>
+    <a class="list__item" href="/{{ locale }}/photos/?donor={{ donator.name | url_encode }}">{{ donator_name }}</a>
   {% endfor %}
 </div>
