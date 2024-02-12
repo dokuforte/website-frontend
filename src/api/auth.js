@@ -67,8 +67,6 @@ const signup = async (body) => {
     const data = parser.parseFromString(htmlData, "text/html")
     const error = data.querySelector(".message.error").textContent
 
-    console.log("error", error)
-    console.log("htmlData", htmlData)
     throw error
   }
 }
@@ -158,18 +156,13 @@ const querySignedInUser = async () => {
 
 const updateAuthProfile = async (userId, body) => {
   let resp = null
-  const authData = JSON.parse(localStorage.getItem("auth")) || {}
-  if (authData.access_token) {
-    const params = new URLSearchParams(body).toString()
-    resp = await fetch(`${config.API_HOST}/mydata/editprofile/?${params}`, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        Authorization: `Bearer ${authData.access_token}`,
-      },
-      // body: JSON.stringify(body),
-    })
-  }
+
+  resp = await fetch(`${config.API_HOST}/api/users/edit`, {
+    method: "POST",
+    mode: "cors",
+    credentials: "include",
+    body: JSON.stringify(body),
+  })
   return resp ? resp.json() : resp
 }
 
@@ -177,7 +170,7 @@ const deleteAccount = async () => {
   let resp = null
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
   if (authData.access_token) {
-    resp = await fetch(`${config.API_HOST}/mydata/deleteprofile`, {
+    resp = await fetch(`${config.API_HOST}/ap/users/delete`, {
       method: "GET",
       mode: "cors",
       headers: {

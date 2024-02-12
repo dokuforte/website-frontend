@@ -12,6 +12,10 @@ hide_search: true
     </div>
     {% include 'input/input.liquid' type:'email' name:'email' readonly:true label:lang[locale].email placeholder:lang[locale].email_placeholder stimulus_target:'data-profile-edit-target="personalField email"' stimulus_action:"keyup->profile-edit#onPersonalFieldChange" %}
     {% include 'input/input.liquid' type:'tel' name:'phone' label:lang[locale].phone_number placeholder:lang[locale].phone_number_placeholder hint:lang[locale].phone_number_hint stimulus_target:'data-profile-edit-target="personalField tel"' stimulus_action:"keyup->profile-edit#onPersonalFieldChange" %}
+    <div class="checkbox-wrapper">
+      <input class="checkbox-wrapper__checkbox" type="checkbox" name="newsletter" id="signup-newsletter" data-profile-edit-target="checkboxNewsletter" data-action="change->profile-edit#onPersonalFieldChange">
+      <label for="signup-confirm-newsletter" class="checkbox-wrapper__label styled-links">{{ lang[locale].signup_newsletter }}</label>
+    </div>
     <div class="profile-edit__actions">
       <button class="button button--primary" disabled data-profile-edit-target="savePersonalChanges" data-action="profile-edit#updateAuthProfile">Save changes</button>
     </div>

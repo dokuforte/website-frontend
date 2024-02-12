@@ -66,7 +66,7 @@ export default class extends Controller {
       this.credentials.append("phone", this.phoneTarget.value)
       this.credentials.append("password", this.passwordTarget.value)
       this.credentials.append("password_confirm", this.passwordConfirmTarget.value)
-      this.credentials.append("newsletter", this.checkboxNewsletterTarget.checked)
+      this.credentials.append("subscribe", this.checkboxNewsletterTarget.checked)
       this.credentials.append("tos", this.checkboxReadTarget.checked)
 
       trigger("loader:show", { id: "loaderBase" })
@@ -75,11 +75,9 @@ export default class extends Controller {
       await auth
         .signup(this.credentials)
         .then(() => {
-          console.log("signup success")
           this.success()
         })
         .catch((err) => {
-          console.log("signup error")
           this.error(err)
         })
     }

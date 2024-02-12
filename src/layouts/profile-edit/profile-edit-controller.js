@@ -4,11 +4,11 @@ import { trigger, getLocale, comeBackAfterSignIn, lang } from "../../js/utils"
 
 export default class extends Controller {
   static get targets() {
-    return ["personalField", "firstName", "lastName", "email", "tel", "savePersonalChanges"]
+    return ["personalField", "firstName", "lastName", "email", "tel", "checkboxNewsletter", "savePersonalChanges"]
   }
 
   connect() {
-    auth.querySignedInUser().then(data => {
+    auth.querySignedInUser().then((data) => {
       if (data) {
         this.userData = data
         this.initPersonalFields()
@@ -34,11 +34,15 @@ export default class extends Controller {
     this.telTarget.value = this.userData.phone ? this.userData.phone : ""
     this.telTarget.dataset.defaultValue = this.telTarget.value
     trigger("keyup", {}, this.telTarget)
+
+    this.checkboxNewsletterTarget.checked = this.userData.subscribed ? "checked" : null
+    this.checkboxNewsletterTarget.dataset.defaultValue = this.userData.subscribed
+    trigger("change", {}, this.checkboxNewsletterTarget)
   }
 
   onPersonalFieldChange(e) {
     this.changedProfileParams = {}
-    this.personalFieldTargets.forEach(field => {
+    this.personalFieldTargets.forEach((field) => {
       if (field.dataset.defaultValue !== field.value && field.value !== undefined) {
         this.changedProfileParams[field.name] = field.value
       }
@@ -58,7 +62,7 @@ export default class extends Controller {
   async updateAuthProfile() {
     if (!this.savePersonalChangesTarget.hasAttribute("disabled")) {
       this.savePersonalChangesTarget.setAttribute("disabled", "")
-      auth.updateAuthProfile(this.userData.id, this.changedProfileParams).then(async resp => {
+      auth.updateAuthProfile(this.userData.id, this.changedProfileParams).then(async (resp) => {
         if (resp.errors) {
           this.savePersonalChangesTarget.removeAttribute("disabled")
           trigger("snackbar:show", { message: resp.errors[0].message, status: "error" })
