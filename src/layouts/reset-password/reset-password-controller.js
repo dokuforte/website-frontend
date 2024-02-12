@@ -22,17 +22,17 @@ export default class extends Controller {
 
       auth
         .forgot(email)
-        .then(async () => {
+        .then(async (respData) => {
           trigger("loader:hide", { id: "loaderBase" })
           this.element.classList.remove("is-disabled")
           trigger("dialogResetPasswordRequest:hide")
           trigger("snackbar:show", {
-            message: await lang("password_forgot_success"),
+            message: respData,
             status: "success",
             autoHide: true,
           })
         })
-        .catch(statusText => {
+        .catch((statusText) => {
           trigger("loader:hide", { id: "loaderBase" })
           this.element.classList.remove("is-disabled")
           trigger("snackbar:show", { message: this.errorMessageHandler(statusText), status: "error", autoHide: true })

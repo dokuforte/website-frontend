@@ -11,8 +11,8 @@ export default class extends Controller {
     this.formTarget.submit = this.submit.bind(this)
 
     // check if user is already signed in
-    auth.querySignedInUser().then((userData) => {
-      if (userData && userData.count === 1) {
+    auth.querySignedInUser(true).then((userData) => {
+      if (userData && userData.email) {
         this.success()
       }
     })

@@ -1,15 +1,26 @@
 import { Controller } from "@hotwired/stimulus"
 import auth from "../../api/auth"
 import { trigger, getLocale, comeBackAfterSignIn, lang } from "../../js/utils"
+import _ from "lodash"
 
 export default class extends Controller {
   static get targets() {
-    return ["personalField", "firstName", "lastName", "email", "tel", "savePersonalChanges"]
+    return [
+      "personalField",
+      "firstName",
+      "lastName",
+      "email",
+      "tel",
+      "savePersonalChanges",
+      "password",
+      "newPassword",
+      "newPasswordConfirm",
+    ]
   }
 
   connect() {
-    auth.querySignedInUser().then(data => {
-      if (data) {
+    auth.querySignedInUser().then((data) => {
+      if (data && data.email) {
         this.userData = data
         this.initPersonalFields()
       } else {
@@ -38,7 +49,7 @@ export default class extends Controller {
 
   onPersonalFieldChange(e) {
     this.changedProfileParams = {}
-    this.personalFieldTargets.forEach(field => {
+    this.personalFieldTargets.forEach((field) => {
       if (field.dataset.defaultValue !== field.value && field.value !== undefined) {
         this.changedProfileParams[field.name] = field.value
       }
@@ -58,17 +69,37 @@ export default class extends Controller {
   async updateAuthProfile() {
     if (!this.savePersonalChangesTarget.hasAttribute("disabled")) {
       this.savePersonalChangesTarget.setAttribute("disabled", "")
-      auth.updateAuthProfile(this.userData.id, this.changedProfileParams).then(async resp => {
+      auth.updateAuthProfile(this.changedProfileParams).then(async (resp) => {
         if (resp.errors) {
           this.savePersonalChangesTarget.removeAttribute("disabled")
           trigger("snackbar:show", { message: resp.errors[0].message, status: "error" })
-        } else if (resp.data) {
-          // this.userData = resp.data
-          this.userData = await auth.querySignedInUser()
+        } else if (resp) {
+          this.userData = await auth.querySignedInUser(true)
           this.initPersonalFields()
           trigger("snackbar:show", { message: await lang("profile_updated") })
         }
       })
+    }
+  }
+
+  async changePassword() {
+    if (
+      this.newPasswordTarget.value.length > 0 &&
+      this.newPasswordTarget.value === this.newPasswordConfirmTarget.value
+    ) {
+      auth
+        .resetPassword(this.passwordTarget.value, this.newPasswordTarget.value)
+        .then(async (respMessage) => {
+          trigger("snackbar:show", { message: respMessage })
+          this.passwordTarget.value = ""
+          this.newPasswordTarget.value = ""
+          this.newPasswordConfirmTarget.value = ""
+        })
+        .catch((error) => {
+          trigger("snackbar:show", { message: error, status: "error" })
+        })
+    } else {
+      trigger("snackbar:show", { message: await lang("password_mismatch"), status: "error" })
     }
   }
 

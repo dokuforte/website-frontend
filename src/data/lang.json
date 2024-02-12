@@ -58,6 +58,7 @@
     "password_reset": "Reset password",
     "password_reset_error": "An error occurred, please try again later.",
     "password_reset_success": "Your new password was saved.",
+    "password_mismatch": "Passwords do not match.",
     "password_new": "New password",
     "password_save": "Save password",
     "password": "Password",

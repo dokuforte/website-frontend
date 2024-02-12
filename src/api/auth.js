@@ -1,4 +1,4 @@
-import { trigger, formDataToJson } from "../js/utils"
+import { trigger, formDataToJson, getLocale } from "../js/utils"
 import config from "../data/siteConfig"
 import { appState, setAppState, removeAppState } from "../js/app"
 
@@ -67,8 +67,6 @@ const signup = async (body) => {
     const data = parser.parseFromString(htmlData, "text/html")
     const error = data.querySelector(".message.error").textContent
 
-    console.log("error", error)
-    console.log("htmlData", htmlData)
     throw error
   }
 }
@@ -88,12 +86,13 @@ const getLoginStatus = async () => {
   return respData
 }
 
-const forgot = async (email) => {
+const forgot = async (email, lang = getLocale()) => {
   const body = {
     email,
+    lang,
   }
 
-  const url = `${config.API_HOST}/auth/password/request`
+  const url = `${config.API_HOST}/api/users/reset-password`
   const resp = await fetch(url, {
     method: "POST",
     headers: {
@@ -102,18 +101,21 @@ const forgot = async (email) => {
     body: JSON.stringify(body),
   })
 
-  const respData = resp.json()
-
-  return respData
-}
-
-const resetPassword = async (pass) => {
-  const body = {
-    token: "",
-    password: pass,
+  const respMessage = resp.text()
+  if (resp.status === 200) {
+    return respMessage
   }
 
-  const resp = await fetch(`${config.API_HOST}/auth/password/reset`, {
+  throw Error(respMessage)
+}
+
+const resetPassword = async (oldPassword, newPassword) => {
+  const body = {
+    old_password: oldPassword,
+    new_password: newPassword,
+  }
+
+  const resp = await fetch(`${config.API_HOST}/api/users/reset-password`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
@@ -121,12 +123,12 @@ const resetPassword = async (pass) => {
     body: JSON.stringify(body),
   })
 
-  const respData = resp.json()
-  if (respData && !respData.errors) {
-    return respData
+  const respMessage = resp.text()
+  if (resp.status === 200) {
+    return respMessage
   }
 
-  throw Error(respData.message)
+  throw Error(respMessage)
 }
 
 const setLoginStatus = (isUserSignedIn) => {
@@ -148,28 +150,37 @@ const setLoginStatus = (isUserSignedIn) => {
   }
 }
 
-const querySignedInUser = async () => {
+const querySignedInUser = async (remote = false) => {
   const signedIn = await getLoginStatus()
   setLoginStatus(signedIn === 1)
 
-  const authData = JSON.parse(localStorage.getItem("auth")) || {}
+  let authData = null
+  if (remote) {
+    const resp = await fetch(`${config.API_HOST}/api/users/userdata`, {
+      method: "GET",
+      mode: "cors",
+      credentials: "include",
+    })
+    authData = await resp.json()
+
+    localStorage.setItem("auth", JSON.stringify(authData))
+  } else {
+    authData = JSON.parse(localStorage.getItem("auth")) || {}
+  }
+
   return authData
 }
 
-const updateAuthProfile = async (userId, body) => {
-  let resp = null
-  const authData = JSON.parse(localStorage.getItem("auth")) || {}
-  if (authData.access_token) {
-    const params = new URLSearchParams(body).toString()
-    resp = await fetch(`${config.API_HOST}/mydata/editprofile/?${params}`, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        Authorization: `Bearer ${authData.access_token}`,
-      },
-      // body: JSON.stringify(body),
-    })
-  }
+const updateAuthProfile = async (body) => {
+  const resp = await fetch(`${config.API_HOST}/api/users/edit/`, {
+    method: "POST",
+    mode: "cors",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(body),
+  })
   return resp ? resp.json() : resp
 }
 
@@ -177,12 +188,10 @@ const deleteAccount = async () => {
   let resp = null
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
   if (authData.access_token) {
-    resp = await fetch(`${config.API_HOST}/mydata/deleteprofile`, {
+    resp = await fetch(`${config.API_HOST}/api/users/delete`, {
       method: "GET",
       mode: "cors",
-      headers: {
-        Authorization: `Bearer ${authData.access_token}`,
-      },
+      credentials: "include",
     })
   }
   return resp ? resp.json() : resp

@@ -17,16 +17,14 @@ hide_search: true
     </div>
   </div>
 
-  <div class="article__content__section">
+  <div class="article__content__section" >
     <h3>{{ lang[locale].password_change }}</h3>
-    <form>
-      {% include 'input/input.liquid' type:'password' name:'password' label:lang[locale].password stimulus_target:'data-profile-edit-target="passwordField password"' %}
-      {% include 'input/input.liquid' type:'password' name:'password_new' label:lang[locale].password_new stimulus_target:'data-profile-edit-target="passwordField newPassword"' %}
-      {% include 'input/input.liquid' type:'password' name:'password_new_confirm' label:lang[locale].password_new_confirm stimulus_target:'data-profile-edit-target="passwordField newPasswordConfirm"' %}
-      <div class="profile-edit__actions">
-        <button class="button button--primary" data-profile-edit-target="changePassword">{{ lang[locale].password_change }}</button>
-      </div>
-    </form>
+    {% include 'input/input.liquid' type:'password' name:'password' label:lang[locale].password stimulus_target:'data-profile-edit-target="passwordField password"' %}
+    {% include 'input/input.liquid' type:'password' name:'password_new' label:lang[locale].password_new stimulus_target:'data-profile-edit-target="passwordField newPassword"' %}
+    {% include 'input/input.liquid' type:'password' name:'password_new_confirm' label:lang[locale].password_new_confirm stimulus_target:'data-profile-edit-target="passwordField newPasswordConfirm"' %}
+    <div class="profile-edit__actions">
+      <button class="button button--primary" data-profile-edit-target="changePassword" data-action="profile-edit#changePassword">{{ lang[locale].password_change }}</button>
+    </div>
   </div>
 
   <div class="article__content__section">
