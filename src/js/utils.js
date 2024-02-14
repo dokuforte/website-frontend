@@ -278,7 +278,7 @@ export const formDataToJson = (formData) => {
 
 export const getApiUrl = () => {
   const { protocol, hostname } = window.location
-  const slice = hostname.contains(".com") || hostname.contains(".org") ? -2 : -3
+  const slice = hostname.indexOf(".com") !== -1 || hostname.indexOf(".org") !== -1 ? -2 : -3
   const domain = hostname.split(".").slice(slice).join(".")
   return `${protocol}//backend.${domain}`
 }
