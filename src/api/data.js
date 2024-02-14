@@ -1,4 +1,4 @@
-import config from "../data/siteConfig"
+import { getApiUrl } from "../js/utils"
 
 /**
  * Request specific user generated public data
@@ -6,9 +6,9 @@ import config from "../data/siteConfig"
  *
  * @returns		JSON specific response to the request with props
  */
-const getData = async prop => {
+const getData = async (prop) => {
   let resp = null
-  resp = await fetch(`${config.API_HOST}/getdata/${prop}`, {
+  resp = await fetch(`${getApiUrl()}/getdata/${prop}`, {
     method: "GET",
     mode: "cors",
   })

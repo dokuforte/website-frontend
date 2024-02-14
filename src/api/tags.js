@@ -1,4 +1,4 @@
-import config from "../data/siteConfig"
+import { getApiUrl } from "../js/utils"
 
 const addTags = async (tags, photoId) => {
   const data = {
@@ -6,7 +6,7 @@ const addTags = async (tags, photoId) => {
     image: photoId,
   }
 
-  const url = `${config.API_HOST}/fortepan/cimke`
+  const url = `${getApiUrl()}/api/tag`
   const resp = await fetch(url, {
     method: "POST",
     credentials: "include",
@@ -21,8 +21,8 @@ const addTags = async (tags, photoId) => {
   return respData
 }
 
-const getPendingTags = async photoId => {
-  const url = `${config.API_HOST}/fortepan/cimke/list/?${photoId}`
+const getPendingTags = async (photoId) => {
+  const url = `${getApiUrl()}/api/tags/list/?${photoId}`
   const resp = await fetch(url, {
     method: "GET",
     credentials: "include",

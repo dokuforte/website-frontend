@@ -1,4 +1,4 @@
-import { slugify, getLocale, getURLParams } from "../js/utils"
+import { slugify, getLocale, getURLParams, getApiUrl } from "../js/utils"
 import config from "../data/siteConfig"
 
 // simplify and localize the Elastic server response
@@ -45,7 +45,7 @@ const transformResults = (resp) => {
 
 // get the total number of published photos
 const totalRequest = async (data) => {
-  const url = `${config.API_HOST}/api/media/get-total`
+  const url = `${getApiUrl()}/api/media/get-total`
   const lang = { lang: getLocale() }
   const resp = await fetch(url, {
     method: "POST",
@@ -62,7 +62,7 @@ const totalRequest = async (data) => {
 
 // search request
 const searchRequest = async (data) => {
-  let url = `${config.API_HOST}/api/media/search`
+  let url = `${getApiUrl()}/api/media/search`
 
   const q = getURLParams()
   if (q.esurl && q.esauth) {
@@ -259,7 +259,7 @@ const getTotal = () => {
 // get an aggregated list of all donators
 const getDonators = () => {
   const lang = { lang: getLocale() }
-  return fetch(`${config.API_HOST}/api/donors/list`, {
+  return fetch(`${getApiUrl()}/api/donors/list`, {
     method: "POST",
     mode: "cors",
     headers: {

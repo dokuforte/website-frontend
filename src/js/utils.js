@@ -84,7 +84,7 @@ export const slugify = (str, removeSpaces) => {
   })
 
   if (removeSpaces) {
-    s = s.replace(new RegExp("·|/|_|,|:|;| ", "g"), "-")
+    s = s.replace(/·|\/|_|,|:|;| /g, "-")
   }
 
   return s
@@ -274,4 +274,10 @@ export const formDataToJson = (formData) => {
     object[key] = value
   })
   return JSON.stringify(object)
+}
+
+export const getApiUrl = () => {
+  const { protocol, hostname } = window.location
+  const domain = hostname.split(".").slice(-3).join(".")
+  return `${protocol}//backend.${domain}`
 }

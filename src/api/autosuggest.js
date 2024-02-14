@@ -1,5 +1,4 @@
-import config from "../data/siteConfig"
-import { slugify, getLocale } from "../js/utils"
+import { slugify, getLocale, getApiUrl } from "../js/utils"
 
 let autosuggestList = []
 let autosuggestListLoaded = false
@@ -8,7 +7,7 @@ let autosuggestListLoaded = false
 const autosuggestCache = {}
 
 const loadAutosuggestList = async (lang) => {
-  const respJson = await fetch(`${config.API_HOST}/api/search/list`)
+  const respJson = await fetch(`${getApiUrl()}/api/search/list`)
   const resp = await respJson.json()
 
   // filter items by language

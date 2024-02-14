@@ -1,4 +1,4 @@
-import config from "../data/siteConfig"
+import { getApiUrl } from "../js/utils"
 
 /**
  * Create empty album
@@ -10,7 +10,7 @@ const createAlbum = async () => {
   let resp = null
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
   if (authData.access_token) {
-    resp = await fetch(`${config.API_HOST}/mydata/createalbum`, {
+    resp = await fetch(`${getApiUrl()}/mydata/createalbum`, {
       method: "GET",
       mode: "cors",
       headers: {
@@ -26,12 +26,12 @@ const createAlbum = async () => {
  *
  * @returns		JSON album record
  */
-const getAlbum = async id => {
+const getAlbum = async (id) => {
   let resp = null
-  // console.log(`${config.API_HOST}/mydata/getalbum?albumid=${id}`)
+  // console.log(`${getApiUrl()}/mydata/getalbum?albumid=${id}`)
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
   if (authData.access_token) {
-    resp = await fetch(`${config.API_HOST}/mydata/getalbum?albumid=${id}`, {
+    resp = await fetch(`${getApiUrl()}/mydata/getalbum?albumid=${id}`, {
       method: "GET",
       mode: "cors",
       headers: {
@@ -49,11 +49,11 @@ const getAlbum = async id => {
  * @param formData	Form data object
  * @returns			JSON: Modified rows count, new upload_album record
  */
-const editAlbum = async formData => {
+const editAlbum = async (formData) => {
   let resp = null
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
   if (authData.access_token) {
-    resp = await fetch(`${config.API_HOST}/mydata/editalbum`, {
+    resp = await fetch(`${getApiUrl()}/mydata/editalbum`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -72,11 +72,11 @@ const editAlbum = async formData => {
  * @param albumID	Album ID
  * @returns			JSON: Modified rows count, new upload_album record
  */
-const submitAlbum = async albumId => {
+const submitAlbum = async (albumId) => {
   let resp = null
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
   if (authData.access_token) {
-    resp = await fetch(`${config.API_HOST}/mydata/submitalbum?albumid=${albumId}`, {
+    resp = await fetch(`${getApiUrl()}/mydata/submitalbum?albumid=${albumId}`, {
       method: "GET",
       mode: "cors",
       headers: {

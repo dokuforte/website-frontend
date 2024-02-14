@@ -1,11 +1,10 @@
-import { trigger, formDataToJson, getLocale } from "../js/utils"
-import config from "../data/siteConfig"
+import { trigger, formDataToJson, getLocale, getApiUrl } from "../js/utils"
 import { appState, setAppState, removeAppState } from "../js/app"
 
 let initialAuthCheck = false
 
 const signin = async (formData) => {
-  const resp = await fetch(`${config.API_HOST}/login?format=json`, {
+  const resp = await fetch(`${getApiUrl()}/login?format=json`, {
     method: "POST",
     headers: {
       Accept: "application/vnd.api+json",
@@ -34,7 +33,7 @@ const signin = async (formData) => {
 }
 
 const signout = async () => {
-  const url = `${config.API_HOST}/users/logout`
+  const url = `${getApiUrl()}/users/logout`
 
   const resp = await fetch(url, {
     method: "GET",
@@ -48,7 +47,7 @@ const signout = async () => {
 }
 
 const signup = async (body) => {
-  const url = `${config.API_HOST}/users/register`
+  const url = `${getApiUrl()}/users/register`
 
   const resp = await fetch(url, {
     method: "POST",
@@ -72,7 +71,7 @@ const signup = async (body) => {
 }
 
 const getLoginStatus = async () => {
-  const url = `${config.API_HOST}/api/users/login-status?_format=json`
+  const url = `${getApiUrl()}/api/users/login-status?_format=json`
   const resp = await fetch(url, {
     method: "POST",
     mode: "cors",
@@ -92,7 +91,7 @@ const forgot = async (email, lang = getLocale()) => {
     lang,
   }
 
-  const url = `${config.API_HOST}/api/users/reset-password`
+  const url = `${getApiUrl()}/api/users/reset-password`
   const resp = await fetch(url, {
     method: "POST",
     headers: {
@@ -115,7 +114,7 @@ const resetPassword = async (oldPassword, newPassword) => {
     new_password: newPassword,
   }
 
-  const resp = await fetch(`${config.API_HOST}/api/users/reset-password`, {
+  const resp = await fetch(`${getApiUrl()}/api/users/reset-password`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
@@ -156,7 +155,7 @@ const querySignedInUser = async (remote = false) => {
 
   let authData = null
   if (remote) {
-    const resp = await fetch(`${config.API_HOST}/api/users/userdata`, {
+    const resp = await fetch(`${getApiUrl()}/api/users/userdata`, {
       method: "GET",
       mode: "cors",
       credentials: "include",
@@ -172,7 +171,7 @@ const querySignedInUser = async (remote = false) => {
 }
 
 const updateAuthProfile = async (body) => {
-  const resp = await fetch(`${config.API_HOST}/api/users/edit/`, {
+  const resp = await fetch(`${getApiUrl()}/api/users/edit/`, {
     method: "POST",
     mode: "cors",
     credentials: "include",
@@ -188,7 +187,7 @@ const deleteAccount = async () => {
   let resp = null
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
   if (authData.access_token) {
-    resp = await fetch(`${config.API_HOST}/api/users/delete`, {
+    resp = await fetch(`${getApiUrl()}/api/users/delete`, {
       method: "GET",
       mode: "cors",
       credentials: "include",
