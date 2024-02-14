@@ -106,6 +106,13 @@ export const setPageMeta = (title, description, imgSrc) => {
     document.querySelector('meta[property="twitter:image:src"]').setAttribute("content", imgSrc)
     document.querySelector('meta[property="og:image"]').setAttribute("content", imgSrc)
   }
+
+  if (document.querySelector('meta[property="og:image"]').getAttribute("content").indexOf("http") === -1) {
+    const domain = `${window.location.protocol}//${window.location.host}`
+    const src = document.querySelector('meta[property="og:image"]').getAttribute("content")
+    document.querySelector('meta[property="og:image"]').setAttribute("content", `${domain}${src}`)
+    document.querySelector('meta[property="twitter:image:src"]').setAttribute("content", `${domain}${src}`)
+  }
 }
 
 export const getImgAltText = (data) => {

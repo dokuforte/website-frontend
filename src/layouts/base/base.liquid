@@ -12,25 +12,19 @@
     <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
     <meta content="!" name="fragment"/>
 
-    {% if process.env.ENV == 'production' %}
-      {% assign site_url = siteConfig.SITE %}
-    {% else %}
-      {% assign site_url = siteConfig.SITE_DEV %}
-    {% endif %}
-
-    <link rel="shortcut icon" href="{{ site_url }}/favicon.ico"/>
-    <link rel="apple-touch-icon" href="{{ site_url }}/images/icons/apple-touch-icon.png"/>
-    <link rel="mask-icon" href="{{ site_url }}/images/icons/dokuforte-logo.svg" color="#1C9FED"/>
-    <link rel="icon" type="image/x-icon" href="{{ site_url }}/favicon.ico"/>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png"/>
+    <link rel="mask-icon" href="/images/icons/dokuforte-logo.svg" color="#1C9FED"/>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
     <meta content="#1C9FED" name="theme-color"/>
 
-    <meta property="twitter:image:src" content="{{ site_url }}/images/social/dokuforte-twitter-1.jpg"/>
+    <meta property="twitter:image:src" content="/images/social/dokuforte-twitter-1.jpg"/>
     <meta content="@Dokuforte" property="twitter:site"/>
     <meta content="summary_large_image" property="twitter:card"/>
     <meta property="twitter:title" content="{{ title | default: lang[locale].page_head_title }}"/>
     <meta property="twitter:description" content="{{ lang[locale].page_head_description }}"/>
 
-    <meta property="og:image" content="{{ site_url }}/images/social/dokuforte-facebook-1.jpg"/>
+    <meta property="og:image" content="/images/social/dokuforte-facebook-1.jpg"/>
     <meta content="Dokuforte" property="og:site_name"/>
     <meta content="object" property="og:type"/>
     <meta property="og:title" content="{{ title | default: lang[locale].page_head_title }}"/>
