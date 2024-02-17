@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { iframeResizer } from "iframe-resizer"
 
 import authAPI from "../../api/auth"
-import { comeBackAfterSignIn, getLocale } from "../../js/utils"
+import { comeBackAfterSignIn, getLocale, getApiUrl } from "../../js/utils"
 
 export default class extends Controller {
   static get targets() {
@@ -11,13 +11,11 @@ export default class extends Controller {
 
   async connect() {
     const userData = await authAPI.querySignedInUser()
-    /* if (!userData) {
+    if (!userData) {
       comeBackAfterSignIn()
     } else {
       this.appendUploadForm()
-    } */
-
-    this.appendUploadForm()
+    }
   }
 
   appendUploadForm() {
@@ -26,7 +24,7 @@ export default class extends Controller {
     iframe.style.border = "none"
     iframe.style.overflowX = "hidden"
     iframe.id = "upload-form"
-    iframe.src = `https://backend.dokuforte.co.il/contribute?lang=${getLocale()}`
+    iframe.src = `${getApiUrl()}/contribute?lang=${getLocale()}`
     this.uploadFormTarget.appendChild(iframe)
 
     iframeResizer({ log: true }, "#upload-form")
