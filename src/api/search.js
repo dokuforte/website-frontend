@@ -32,7 +32,7 @@ const transformResults = (resp) => {
       item.donor = hit.donor.name
       item.author = hit.author
       item.tags = hit.tags
-      item.country = hit.countries[0].name
+      item.country = hit.countries && hit.countries.length > 0 ? hit.countries[0].name : null
       item.place = hit.locality ? hit.locality.name : null
       item.approximate = hit.approximate
 
