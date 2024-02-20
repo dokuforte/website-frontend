@@ -25,7 +25,7 @@ const transformResults = (resp) => {
 
       item.mid = hit.id
       item.year = hit.year
-      item.photoId = hit.photo
+      item.photoId = hit.photosource
       item.created = hit.created
       item.description = hit.description
       item.search_after = hit.sort
