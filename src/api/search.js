@@ -29,7 +29,7 @@ const transformResults = (resp) => {
       item.created = hit.created
       item.description = hit.description
       item.search_after = hit.sort
-      item.donor = hit.donor.name
+      item.donor = hit.donor ? hit.donor.name : null
       item.author = hit.author
       item.tags = hit.tags
       item.country = hit.countries && hit.countries.length > 0 ? hit.countries[0].name : null
