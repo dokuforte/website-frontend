@@ -114,20 +114,17 @@ const resetPassword = async (oldPassword, newPassword) => {
     new_password: newPassword,
   }
 
-  const resp = await fetch(`${getApiUrl()}/api/users/reset-password`, {
+  const resp = await fetch(`${getApiUrl()}/api/users/edit`, {
     method: "POST",
+    mode: "cors",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
     body: JSON.stringify(body),
   })
 
-  const respMessage = resp.text()
-  if (resp.status === 200) {
-    return respMessage
-  }
-
-  throw Error(respMessage)
+  return resp ? resp.json() : resp
 }
 
 const setLoginStatus = (isUserSignedIn) => {

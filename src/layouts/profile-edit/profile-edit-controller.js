@@ -1,7 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import auth from "../../api/auth"
 import { trigger, getLocale, comeBackAfterSignIn, lang } from "../../js/utils"
-import _ from "lodash"
 
 export default class extends Controller {
   static get targets() {
@@ -19,7 +18,7 @@ export default class extends Controller {
   }
 
   connect() {
-    auth.querySignedInUser().then((data) => {
+    auth.querySignedInUser(true).then((data) => {
       if (data && data.email) {
         this.userData = data
         this.initPersonalFields()
@@ -62,7 +61,7 @@ export default class extends Controller {
     }
 
     if (e.key === "Enter") {
-      this.updateAuthProfile()
+      this.updateAuthProfile(true)
     }
   }
 

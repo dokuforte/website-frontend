@@ -11,10 +11,10 @@ export default class extends Controller {
 
   async connect() {
     const userData = await authAPI.querySignedInUser()
-    if (!userData) {
-      comeBackAfterSignIn()
-    } else {
+    if (userData && userData.email) {
       this.appendUploadForm()
+    } else {
+      comeBackAfterSignIn()
     }
   }
 
