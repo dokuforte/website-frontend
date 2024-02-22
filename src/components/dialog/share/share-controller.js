@@ -15,14 +15,14 @@ export default class extends Controller {
 
   shareLink(e) {
     e.preventDefault()
-    const res = copyToClipboard(`${window.location.origin + window.location.pathname}?id=${this.imageData.id}`, "link")
+    const res = copyToClipboard(`${window.location.origin + window.location.pathname}?id=${this.imageData.mid}`, "link")
     if (res) trigger("dialogShare:close")
   }
 
   shareOnFacebook(e) {
     e.preventDefault()
     const url = `https://www.facebook.com/dialog/share?app_id=${config.FACEBOOK_APP_ID}&href=${encodeURIComponent(
-      `${window.location.origin + window.location.pathname}?id=${this.imageData.id}`
+      `${window.location.origin + window.location.pathname}?id=${this.imageData.mid}`
     )}`
     window.open(url, "_blank")
   }
@@ -31,7 +31,7 @@ export default class extends Controller {
     e.preventDefault()
     const url = `https://twitter.com/share?text=${encodeURIComponent(
       document.querySelector("meta[name=description]").getAttribute("content")
-    )}&url=${encodeURIComponent(`${window.location.origin + window.location.pathname}?id=${this.imageData.id}`)}`
+    )}&url=${encodeURIComponent(`${window.location.origin + window.location.pathname}?id=${this.imageData.mid}`)}`
     window.open(url, "_blank")
   }
 
@@ -39,7 +39,7 @@ export default class extends Controller {
     e.preventDefault()
     const url = `mailto:?subject=${document.title}&body=${encodeURIComponent(
       document.querySelector("meta[name=description]").getAttribute("content")
-    )} ${encodeURIComponent(`${window.location.origin + window.location.pathname}?id=${this.imageData.id}`)}`
+    )} ${encodeURIComponent(`${window.location.origin + window.location.pathname}?id=${this.imageData.mid}`)}`
     window.location.href = url
   }
 }
