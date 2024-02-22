@@ -1,12 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 import { copyToClipboard, trigger } from "../../../js/utils"
-import { selectedThumbnail } from "../../../js/app"
 import config from "../../../data/siteConfig"
+import photoManager from "../../../js/photo-manager"
 
 export default class extends Controller {
   show() {
     this.element.classList.add("is-visible")
-    this.imageData = selectedThumbnail.itemData
+    this.imageData = photoManager.getSelectedPhotoData()
   }
 
   hide() {
@@ -15,7 +15,6 @@ export default class extends Controller {
 
   shareLink(e) {
     e.preventDefault()
-
     const res = copyToClipboard(`${window.location.origin + window.location.pathname}?id=${this.imageData.id}`, "link")
     if (res) trigger("dialogShare:close")
   }
