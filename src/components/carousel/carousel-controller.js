@@ -214,7 +214,7 @@ export default class extends Controller {
       photoId = listManager.selectNextPhoto().id
       index = listManager.getSelectedPhotoIndex()
     } else {
-      // select the next photo in the current context (or load more if neccessary)
+      // select the next photo in the current context (or load more if necessary)
       await photoManager.selectNextPhoto()
       photoId = photoManager.getSelectedPhotoId()
       index = photoManager.getSelectedPhotoIndex()
@@ -259,7 +259,7 @@ export default class extends Controller {
   }
 
   hideAllPhotos() {
-    this.photoTargets.forEach(photo => {
+    this.photoTargets.forEach((photo) => {
       photo.classList.remove("is-active")
     })
   }
@@ -347,7 +347,7 @@ export default class extends Controller {
       let overlap = false
 
       // check if mouse is over _any_ of the targets
-      targets.forEach(item => {
+      targets.forEach((item) => {
         if (!overlap) {
           const bounds = item.getBoundingClientRect()
           if (page.x >= bounds.left && page.x <= bounds.right && page.y >= bounds.top && page.y <= bounds.bottom) {
@@ -437,7 +437,7 @@ export default class extends Controller {
     removeAppState("carousel-photo-zoomed-in")
     removeAppState("disable--selection")
 
-    this.photoTargets.forEach(photo => {
+    this.photoTargets.forEach((photo) => {
       photo.classList.remove("is-zoomed-in")
       if (photo.largePhoto) {
         photo.largePhoto.removeAttribute("style")
@@ -611,7 +611,7 @@ export default class extends Controller {
   }
 
   removeAgeRestriction(e) {
-    this.photoTargets.forEach(photo => {
+    this.photoTargets.forEach((photo) => {
       if (photo.noImage && photo.ageRestricted && e?.detail?.mid === photo.mid) {
         delete photo.noImage
         delete photo.ageRestricted

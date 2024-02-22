@@ -28,21 +28,22 @@ export default class extends Controller {
       // populate page content for the first time
       this.onPopState()
     } else {
-      // select a random id (that will open the carousel)
-      searchAPI.getRandom().then(result => {
+      this.onPopState()
+      // select a random id (that will open the carousel
+      /* searchAPI.getRandom().then((result) => {
         if (result && result.items && result.items.length > 0 && result.items[0].mid) {
           trigger("photos:historyPushState", { url: `?id=${result.items[0].mid}` })
         } else {
           // fallback if the above doesn't work for some reason
           this.onPopState()
         }
-      })
+      }) */
     }
   }
 
   // resize thumbnails when window gets resized
   resizeThumbnails() {
-    this.element.querySelectorAll(".photos-thumbnail").forEach(thumbnail => {
+    this.element.querySelectorAll(".photos-thumbnail").forEach((thumbnail) => {
       thumbnail.photosThumbnail.resize()
     })
   }
@@ -73,7 +74,7 @@ export default class extends Controller {
   }
 
   loadThumbnails() {
-    this.element.querySelectorAll(".photos-thumbnail:not(.is-loaded)").forEach(thumbnail => {
+    this.element.querySelectorAll(".photos-thumbnail:not(.is-loaded)").forEach((thumbnail) => {
       thumbnail.photosThumbnail.loadThumbnailImage()
     })
   }
@@ -113,7 +114,7 @@ export default class extends Controller {
         year = thumbnails[thumbnails.length - 1].year
       } else {
         // if we are in-between the top and the bottom
-        thumbnails.forEach(item => {
+        thumbnails.forEach((item) => {
           if (item.offsetTop > this.element.scrollTop + viewportOffsetTop && year === -1) {
             year = item.year
           }
@@ -148,7 +149,7 @@ export default class extends Controller {
       insertBefore && insertBeforeTarget ? this.element.scrollTop - insertBeforeTarget.offsetTop : 0
     const scrollH = this.element.scrollHeight
 
-    data.items.forEach(item => {
+    data.items.forEach((item) => {
       // count results
       this.thumbnailsCount += 1
 
@@ -278,7 +279,7 @@ export default class extends Controller {
       trigger("timeline:yearSelected", { year: e.detail.jumpToYearAfter })
     } else {
       // load photos then...
-      this.loadPhotos().then(respData => {
+      this.loadPhotos().then((respData) => {
         // hook for the special case when the query is a photo id, open the carousel
         if (respData.items.length === 1 && getURLParams().q === respData.items[0].mid) {
           trigger("photos:historyPushState", { url: `?id=${respData.items[0].mid}`, resetPhotosGrid: true })
