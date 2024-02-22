@@ -189,11 +189,9 @@ const search = (params) => {
     }
 
     if (params && params.reverseOrder && params.search_after) {
-      console.log("search before:", params.search_after)
       query.where.push({ "Media.year <=": `${params.search_after[0]}` })
       query.where.push({ "Media.id <": `${params.search_after[2]}` })
     } else if (params.search_after) {
-      console.log("search after:", params.search_after)
       query.where.push({ "Media.year >=": `${params.search_after[0]}` })
       query.where.push({ "Media.id >": `${params.search_after[2]}` })
     } else {

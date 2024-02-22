@@ -11,8 +11,6 @@ export default class extends Controller {
     const photosCount = e.detail.count
     const q = getURLParams()
 
-    console.log(q)
-
     this.titleLinkTarget.classList.remove("is-visible")
 
     // set main title
