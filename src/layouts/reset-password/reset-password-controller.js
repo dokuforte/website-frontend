@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { trigger, lang } from "../../js/utils"
+import { trigger, lang, redirectTo, getLocale } from "../../js/utils"
 import auth from "../../api/auth"
 
 export default class extends Controller {
@@ -31,6 +31,9 @@ export default class extends Controller {
             status: "success",
             autoHide: true,
           })
+          setTimeout(() => {
+            redirectTo(`/${getLocale()}/signin`)
+          }, 2000)
         })
         .catch((statusText) => {
           trigger("loader:hide", { id: "loaderBase" })
