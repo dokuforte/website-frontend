@@ -31,7 +31,7 @@ const loadPhotoData = async (params, silent, lockContext) => {
   if (photoData.result.items) {
     if (params && params.reverseOrder) {
       // prepend the results one by one as they are in reverse order
-      resp.items.forEach(item => {
+      resp.items.forEach((item) => {
         photoData.result.items.unshift(item)
       })
       // then reverse the order back to store later as a normal set
@@ -98,17 +98,17 @@ const getData = () => {
   return photoData
 }
 
-const getPhotoDataByID = mid => {
+const getPhotoDataByID = (mid) => {
   let data = null
   if (photoData.result && photoData.result.items && photoData.result.items.length) {
-    data = photoData.result.items.find(item => item.mid === mid)
+    data = photoData.result.items.find((item) => item.mid === mid)
   }
   return data
 }
 
-const getPhotoIndexByID = mid => {
+const getPhotoIndexByID = (mid) => {
   if (photoData.result && photoData.result.items && photoData.result.items.length) {
-    return photoData.result.items.findIndex(item => item.mid === mid)
+    return photoData.result.items.findIndex((item) => item.mid === mid)
   }
   return -1
 }
@@ -125,21 +125,12 @@ const getSelectedPhotoIndex = () => {
   return photoData.selectedIndex
 }
 
-const selectPhotoById = mid => {
+const selectPhotoById = (mid) => {
   photoData.selectedId = mid
   photoData.selectedItem = getPhotoDataByID(mid)
   photoData.selectedIndex = getPhotoIndexByID(mid)
 
   const result = { mid: photoData.selectedId, data: photoData.selectedItem, index: photoData.selectedIndex }
-
-  // set html page meta for social sharing
-  setPageMeta(
-    `#${result.mid}`,
-    `${result.data.description ? `${result.data.description} — ` : ""}${lang("donor")}: ${result.data.donor} (${
-      result.data.year
-    })`,
-    `${photoRes("large", result.data.photoId)}`
-  )
 
   trigger("photoManager:photoSelected", result)
 
@@ -186,12 +177,12 @@ const getLastPhotoDataInContext = () => {
   if (hasData()) {
     const lastYear =
       photoData.context && photoData.context.year > 0
-        ? photoData.result.years.find(item => parseInt(item.year, 10) === parseInt(photoData.context.year, 10))
+        ? photoData.result.years.find((item) => parseInt(item.year, 10) === parseInt(photoData.context.year, 10))
         : photoData.result.years[photoData.result.years.length - 1]
 
     // check if we have the data of the absolute last picture of the current search context
     // look for the photo data of the last year
-    const end = photoData.result.items.filter(item => parseInt(item.year, 10) === parseInt(lastYear.year, 10))
+    const end = photoData.result.items.filter((item) => parseInt(item.year, 10) === parseInt(lastYear.year, 10))
 
     if (end && end.length === lastYear.count) {
       return { id: end[end.length - 1].mid, data: end[end.length - 1] }
@@ -250,12 +241,12 @@ const getFirstPhotoDataInContext = () => {
   if (hasData()) {
     const firstYear =
       photoData.context && photoData.context.year > 0
-        ? photoData.result.years.find(item => parseInt(item.year, 10) === parseInt(photoData.context.year, 10))
+        ? photoData.result.years.find((item) => parseInt(item.year, 10) === parseInt(photoData.context.year, 10))
         : photoData.result.years[0]
 
     // check if we have the data of the absolute first picture of the current search context
     // look for the photo data of the first year
-    const start = photoData.result.items.filter(item => parseInt(item.year, 10) === parseInt(firstYear.year, 10))
+    const start = photoData.result.items.filter((item) => parseInt(item.year, 10) === parseInt(firstYear.year, 10))
 
     if (
       (photoData.context && photoData.context.year && start && start.length) ||
@@ -431,12 +422,12 @@ const hasPhotoDataOfYear = (y, matchAll = false) => {
     photoData.result &&
     photoData.result.items &&
     photoData.result.items.length &&
-    photoData.result.items.find(item => parseInt(item.year, 10) === parseInt(y, 10)) &&
+    photoData.result.items.find((item) => parseInt(item.year, 10) === parseInt(y, 10)) &&
     // strict check: should we have all of the year's data?
     (!matchAll ||
       (matchAll &&
-        photoData.result.items.filter(item => parseInt(item.year, 10) === parseInt(y, 10)).length ===
-          photoData.result.years.find(item => parseInt(item.year, 10) === parseInt(y, 10)).count))
+        photoData.result.items.filter((item) => parseInt(item.year, 10) === parseInt(y, 10)).length ===
+          photoData.result.years.find((item) => parseInt(item.year, 10) === parseInt(y, 10)).count))
   ) {
     return true
   }
@@ -446,7 +437,7 @@ const hasPhotoDataOfYear = (y, matchAll = false) => {
 const getFirstPhotoOfYear = async (y, selectAfterLoad = true) => {
   if (hasPhotoDataOfYear(y)) {
     // check if we have the photo data loaded for the given year
-    const data = photoData.result.items.find(item => parseInt(item.year, 10) === parseInt(y, 10))
+    const data = photoData.result.items.find((item) => parseInt(item.year, 10) === parseInt(y, 10))
 
     // if we have the photo data
     selectPhotoById(data.mid)
