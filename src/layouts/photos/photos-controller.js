@@ -2,9 +2,8 @@ import { Controller } from "@hotwired/stimulus"
 
 import throttle from "lodash/throttle"
 import config from "../../data/siteConfig"
-import { lang, trigger, getURLParams, isElementInViewport } from "../../js/utils"
+import { lang, trigger, getURLParams, isElementInViewport, setPageMeta, photoRes } from "../../js/utils"
 import photoManager from "../../js/photo-manager"
-import searchAPI from "../../api/search"
 
 export default class extends Controller {
   static get targets() {
@@ -344,6 +343,24 @@ export default class extends Controller {
     }
   }
 
+  onPhotoSelected(result) {
+    // set html page meta for social sharing
+
+    const photoData = result.detail ? result.detail : result
+
+    setPageMeta(
+      `#${photoData.mid}`,
+      `${photoData.data.description ? `${photoData.data.description} — ` : ""}${lang("donor")}: ${photoData.data.donor} (${
+        photoData.data.year
+      })`,
+      `${photoRes("large", photoData.data.photoId)}`
+    )
+
+    // history api
+    const url = `${window.location.origin + window.location.pathname}?id=${photoData.mid}`
+    window.history.replaceState(null, `Dokuforte — #${photoData.mid}`, url)
+  }
+
   // event listener to photoManager:cacheCleared
   onPhotoCacheCleared() {
     this.resetPhotosGrid()
@@ -351,6 +368,8 @@ export default class extends Controller {
 
   // event listener to photoCarousel:closed
   onCarouselClosed() {
+    window.history.replaceState(null, "", window.location.pathname)
+
     if (this.selectedThumbnail) {
       this.scrollToSelectedThumbnail()
     }
