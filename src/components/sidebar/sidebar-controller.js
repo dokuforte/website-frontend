@@ -32,13 +32,13 @@ export default class extends Controller {
 
     // create a string of anchors from array
 
-    const convertToHref = key => {
+    const convertToHref = (key) => {
       if (data[key]) {
         const resp = []
         if (typeof data[key] === "string") {
           resp.push(`<a href="${baseUrl}?${key}=${encodeURIComponent(data[key])}">${data[key]}</a>`)
         } else if (typeof data[key] === "object") {
-          data[key].forEach(item => {
+          data[key].forEach((item) => {
             resp.push(`<a href="${baseUrl}?${key}=${encodeURIComponent(item)}">${item}</a>`)
           })
         }
@@ -47,7 +47,7 @@ export default class extends Controller {
       return null
     }
 
-    const locationArray = ["country", "place"].map(val => convertToHref(val)).filter(Boolean)
+    const locationArray = ["country", "locality", "place"].map((val) => convertToHref(val)).filter(Boolean)
 
     this.locationTarget.innerHTML = ""
     if (locationArray.length > 0) {
@@ -65,7 +65,7 @@ export default class extends Controller {
 
     if (data.tags) {
       this.tagsTarget.innerHTML = data.tags
-        .map(tag => `<a href="${baseUrl}?tag=${encodeURIComponent(tag.name)}">${tag.name}</a>`)
+        .map((tag) => `<a href="${baseUrl}?tag=${encodeURIComponent(tag.name)}">${tag.name}</a>`)
         .join(", ")
     } else {
       this.tagsTarget.innerHTML = `<span class="carousel-sidebar__tags__empty">–</span>`
@@ -86,8 +86,8 @@ export default class extends Controller {
 
     if (!appState("is-lists")) {
       // bind history api calls to sidabar anchors
-      this.element.querySelectorAll(".carousel-sidebar a:not([class])").forEach(anchorNode => {
-        anchorNode.addEventListener("click", event => {
+      this.element.querySelectorAll(".carousel-sidebar a:not([class])").forEach((anchorNode) => {
+        anchorNode.addEventListener("click", (event) => {
           event.preventDefault()
           trigger("photos:historyPushState", { url: event.currentTarget.href, resetPhotosGrid: true })
         })

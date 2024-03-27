@@ -32,8 +32,9 @@ const transformResults = (resp) => {
       item.donor = hit.donor ? hit.donor.name : null
       item.author = hit.author
       item.tags = hit.tags
-      item.country = hit.countries && hit.countries.length > 0 ? hit.countries[0].name : null
-      item.place = hit.locality ? hit.locality.name : null
+      item.country = hit.countries && hit.countries.length > 0 ? hit.countries.map((country) => country.name) : null
+      item.place = hit.places && hit.places.length > 0 ? hit.places.map((place) => place.name) : null
+      item.locality = hit.locality ? hit.locality.name : null
       item.approximate = hit.approximate
 
       r.items.push(item)
@@ -145,15 +146,21 @@ const search = (params) => {
     }
 
     // if there's a city search attribute defined (advanced search)
-    if (params.place) {
-      const place = slugify(params.place)
-      query.matching.push({ model: "Localities", field: "name", value: `${place}` })
+    if (params.locality) {
+      const locality = slugify(params.locality)
+      query.matching.push({ model: "Localities", field: "name", value: `${locality}` })
     }
 
     // if there's a country search attribute defined (advanced search)
     if (params.country) {
       const country = slugify(params.country)
       query.matching.push({ model: "Countries", field: "name", value: `${country}` })
+    }
+
+    // if there's a place search attribute defined (advanced search)
+    if (params.place) {
+      const { place } = params
+      query.matching.push({ model: "Places", field: "name", value: `${place}` })
     }
 
     // if there's a donor search attribute defined (advanced search)

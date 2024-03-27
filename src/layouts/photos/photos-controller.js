@@ -16,6 +16,8 @@ export default class extends Controller {
     this.thumbnailsCount = 0
     this.thumbnailsLoading = false
 
+    this.currentSearchQuery = window.location.href
+
     // Throttle resize and scroll functions
     this.onScroll = throttle(this.onScroll, 200)
     this.resizeThumbnails = throttle(this.resizeThumbnails, 500)
@@ -247,6 +249,7 @@ export default class extends Controller {
   // Custom event to load content and update page meta tag
   historyPushState(e) {
     window.history.pushState(null, lang("search"), e.detail.url)
+    this.currentSearchQuery = e.detail.url
     this.onPopState(e)
   }
 
@@ -260,6 +263,7 @@ export default class extends Controller {
 
     this.element.scrollTop = 0
     this.thumbnailsCount = 0
+    this.lastSearchQuery = null
   }
 
   // Load new photos when address bar url changes
@@ -358,6 +362,7 @@ export default class extends Controller {
 
     // history api
     const url = `${window.location.origin + window.location.pathname}?id=${photoData.mid}`
+    if (!this.lastSearchQuery) this.lastSearchQuery = window.location.href
     window.history.replaceState(null, `Dokuforte — #${photoData.mid}`, url)
   }
 
@@ -368,7 +373,7 @@ export default class extends Controller {
 
   // event listener to photoCarousel:closed
   onCarouselClosed() {
-    window.history.replaceState(null, "", window.location.pathname)
+    window.history.replaceState(null, "", this.currentSearchQuery)
 
     if (this.selectedThumbnail) {
       this.scrollToSelectedThumbnail()

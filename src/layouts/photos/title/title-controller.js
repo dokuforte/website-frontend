@@ -68,6 +68,9 @@ export default class extends Controller {
     } else if (Object.keys(q).indexOf("place") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
       this.searchExpressionTarget.innerHTML = `${lang("place")}: <em>${q.place}</em>`
+    } else if (Object.keys(q).indexOf("locality") > -1) {
+      this.searchExpressionTarget.classList.add("is-visible")
+      this.searchExpressionTarget.innerHTML = `${lang("location")}: <em>${q.locality}</em>`
     } else if (Object.keys(q).indexOf("tag") > -1) {
       this.searchExpressionTarget.classList.add("is-visible")
       this.searchExpressionTarget.innerHTML = `${lang("tag")}: <em>${q.tag}</em>`
