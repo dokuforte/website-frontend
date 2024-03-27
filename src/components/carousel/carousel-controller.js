@@ -521,9 +521,11 @@ export default class extends Controller {
         if (!this.photosContainerTarget.classList.contains("hide-controls")) {
           if (!this.isFullscreen) {
             this.openFullscreen()
-          } else if (!this.isPhotoZoomedIn) {
-            this.showLargePhotoView()
           }
+
+          // else if (!this.isPhotoZoomedIn) {
+          // this.showLargePhotoView()
+          // }
         }
       }
     } else if (!this.isFullscreen) {

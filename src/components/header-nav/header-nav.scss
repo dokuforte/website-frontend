@@ -8,20 +8,31 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  transition: box-shadow 0.6s $ease-out-expo, background-color 0.4s $ease-out-expo, color 0.2s $ease-out-expo,
+  transition:
+    box-shadow 0.6s $ease-out-expo,
+    background-color 0.4s $ease-out-expo,
+    color 0.2s $ease-out-expo,
     transform 0.6s $ease-out-expo;
   user-select: none;
 
+  .play-carousel-slideshow &,
+  .carousel-fullscreen & {
+    transform: translateY(-8rem);
+  }
+
   @media screen and (max-width: ($breakpoint-desktop - 1px)) {
     padding: rem(8px);
+
+    .play-carousel-slideshow &,
+    .carousel-fullscreen & {
+      transform: translateY(-7rem);
+    }
   }
 
   &.has-shadow {
-    box-shadow: 0px 0px 20px rgba($dark-base, 0.16), 0px 0px 1px rgba($dark-base, 0.16);
-  }
-
-  .play-carousel-slideshow & {
-    transform: translateY(-100%);
+    box-shadow:
+      0px 0px 20px rgba($dark-base, 0.16),
+      0px 0px 1px rgba($dark-base, 0.16);
   }
 
   .theme--light & {
@@ -34,7 +45,9 @@
 }
 
 .header-nav--carousel-show {
-  box-shadow: 0px 0px 20px rgba($dark-base, 0.16), 0px 0px 1px rgba($dark-base, 0.16);
+  box-shadow:
+    0px 0px 20px rgba($dark-base, 0.16),
+    0px 0px 1px rgba($dark-base, 0.16);
 }
 
 .header-nav--transparent {
@@ -178,7 +191,9 @@
   opacity: 0;
   user-select: none;
   pointer-events: none;
-  transition: transform 0.3s $ease-out-expo, opacity 0.3s $ease-out-expo;
+  transition:
+    transform 0.3s $ease-out-expo,
+    opacity 0.3s $ease-out-expo;
   transform-origin: 50% 0;
   white-space: nowrap;
   min-width: rem(200px);
@@ -202,7 +217,9 @@
     opacity: 1;
     pointer-events: initial;
     transform: translate(-90%, 0px);
-    transition: transform 0.6s $ease-out-expo, opacity 0.6s $ease-out-expo;
+    transition:
+      transform 0.6s $ease-out-expo,
+      opacity 0.6s $ease-out-expo;
 
     @media screen and (max-width: ($breakpoint-phone-sm - 1px)) {
       transform: translate(0px, 0px);
@@ -212,13 +229,17 @@
   .theme--light & {
     background-color: $light-base;
     border-radius: rem(8px);
-    box-shadow: 0px 0px 0px 1px rgba($dark-base, 0.04), 0px 12px 36px rgba($dark-base, 0.12);
+    box-shadow:
+      0px 0px 0px 1px rgba($dark-base, 0.04),
+      0px 12px 36px rgba($dark-base, 0.12);
   }
 
   .theme--dark & {
     background-color: $dark-secondary;
     border-radius: rem(8px);
-    box-shadow: 0px 0px 0px 1px rgba($light-base, 0.04) inset, 0px 8px 24px rgba($dark-base, 0.12);
+    box-shadow:
+      0px 0px 0px 1px rgba($light-base, 0.04) inset,
+      0px 8px 24px rgba($dark-base, 0.12);
   }
 }
 
@@ -234,7 +255,9 @@
   text-decoration: none;
   line-height: rem(16px);
   padding: rem(8px) rem(24px);
-  transition: color 0.3s $ease-out-expo, background-color 0.3s $ease-out-expo;
+  transition:
+    color 0.3s $ease-out-expo,
+    background-color 0.3s $ease-out-expo;
 
   > * {
     display: block;
