@@ -20,7 +20,7 @@ export default class extends Controller {
     // add stimulus class reference to node
     this.element.photosThumbnail = this
 
-    this.linkTarget.addEventListener("click", e => {
+    this.linkTarget.addEventListener("click", (e) => {
       if (e) e.preventDefault()
     })
 
@@ -104,8 +104,7 @@ export default class extends Controller {
         ? `/${getLocale()}/lists/${listManager.getSelectedListId()}/photos/${this.element.mid}`
         : `/${getLocale()}/photos/?id=${this.element.mid}`
 
-    const locationArray = [data.year, data.city, data.place]
-    if (!data.city && !data.place && data.country) locationArray.push(data.country)
+    const locationArray = [data.year, data.country, data.locality, data.place]
     this.locationTarget.textContent = locationArray.filter(Boolean).join(" · ")
     this.descriptionTarget.innerHTML = data.description || ""
 
