@@ -521,6 +521,8 @@ export default class extends Controller {
         if (!this.photosContainerTarget.classList.contains("hide-controls")) {
           if (!this.isFullscreen) {
             this.openFullscreen()
+          } else {
+            this.closeFullscreen()
           }
 
           // else if (!this.isPhotoZoomedIn) {
