@@ -289,3 +289,7 @@ export const getApiUrl = () => {
   const domain = hostname.split(".").slice(slice).join(".")
   return `${protocol}//backend.${domain}`
 }
+
+export const getTheme = () => {
+  return getStorageParam("settings", true).theme || siteConfig.DEFAULT_THEME
+}
