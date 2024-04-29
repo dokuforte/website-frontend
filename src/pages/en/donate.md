@@ -1,4 +1,4 @@
 ---
 layout: donate/donate.liquid
-permalink: /en/donate-new/
+permalink: /en/donate/
 ---
