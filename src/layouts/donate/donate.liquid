@@ -1,0 +1,16 @@
+---
+layout: article/article.liquid
+---
+
+<h1 class="article__content__title" data-controller="page-title">{{ lang[locale].donate }}</h1>
+<div data-controller="donate" class="donate" data-action="load->donate#onPopState">
+	<h3>{{ lang[locale].donate_lead }}</h3>
+	  
+	<div class="article__content__section">
+		<div class="donate__iframe-wrapper" data-donate-target="donateIframeWrapper"></div>
+	</div>
+</div>
+
+
+
+       
