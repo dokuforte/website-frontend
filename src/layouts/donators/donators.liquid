@@ -7,7 +7,7 @@ layout: article/article.liquid
 {% assign donators_data = donators | transform_name  %}
 
 
-<h1 class="donors__title">{{ lang[locale].donators }}</h1>
+<h1 class="donors__title">{{ lang[locale].donors }}</h1>
 <div class="list">
   {% for donator in donators_data %}
     {% assign donator_name = donator.name_transformed %}
