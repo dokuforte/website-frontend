@@ -69,6 +69,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
 }
 
 .footer__icons__icon {
@@ -81,10 +82,6 @@
     color: $accent;
   }
 
-  & + & {
-    margin-left: 1rem;
-  }
-
   .theme--light & {
     color: $dark-base;
   }
@@ -92,4 +89,8 @@
   .theme--dark & {
     color: $light-base;
   }
+}
+
+.footer__icons__icon--barion {
+  padding-left: 1rem;
 }
