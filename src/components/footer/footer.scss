@@ -91,6 +91,11 @@
   }
 }
 
-.footer__icons__icon--barion {
-  padding-left: 1rem;
+.footer__barion {
+  margin-top: 1rem;
+
+  svg {
+    width: 100%;
+    max-width: 400px;
+  }
 }
