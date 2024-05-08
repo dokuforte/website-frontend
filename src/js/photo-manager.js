@@ -1,5 +1,5 @@
 import config from "../data/siteConfig"
-import { lang, trigger, setPageMeta, photoRes } from "./utils"
+import { trigger } from "./utils"
 import searchAPI from "../api/search"
 
 // creating a context object to store the latest request parameters and results
@@ -24,7 +24,6 @@ const loadPhotoData = async (params, silent, lockContext) => {
   if (photoData.result && photoData.result.items) {
     params.offset = photoData.result.items.length
   }
-  console.log(params.offset)
 
   const resp = await searchAPI.search(params)
 
