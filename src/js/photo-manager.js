@@ -21,6 +21,11 @@ const loadPhotoData = async (params, silent, lockContext) => {
     delete photoData.context.id
   }
 
+  if (photoData.result && photoData.result.items) {
+    params.offset = photoData.result.items.length
+  }
+  console.log(params.offset)
+
   const resp = await searchAPI.search(params)
 
   // storing the items so it can be accessed later

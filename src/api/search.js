@@ -196,11 +196,15 @@ const search = (params) => {
     }
 
     if (params && params.reverseOrder && params.search_after) {
-      query.where.push({ "Media.year <=": `${params.search_after[0]}` })
-      query.where.push({ "Media.id <": `${params.search_after[2]}` })
+      // query.where.push({ "Media.year <=": `${params.search_after[0]}` })
+      // query.where.push({ "Media.id <": `${params.search_after[2]}` })
+      body.offset = params.offset
+      query.sort.order = "desc"
     } else if (params.search_after) {
-      query.where.push({ "Media.year >=": `${params.search_after[0]}` })
-      query.where.push({ "Media.id >": `${params.search_after[2]}` })
+      body.offset = params.offset
+      query.sort.order = "asc"
+      // query.where.push({ "Media.year >=": `${params.search_after[0]}` })
+      // query.where.push({ "Media.id >": `${params.search_after[2]}` })
     } else {
       body.from = params.from || 0
     }
