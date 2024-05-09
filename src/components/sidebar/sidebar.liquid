@@ -32,31 +32,5 @@
             <h6 class="carousel-sidebar__tags-title">{{ lang[locale].tags }}</h6>
             <p class="carousel-sidebar__tags" data-sidebar-target="tags" data-add-tags-target="tags"></p>
         </div>
-        {% comment %}
-        <div class="carousel-add-tags"
-             data-controller="add-tags"
-             data-action="photosCarousel:hide@document->add-tags#hideForm
-             photosThumbnail:select@document->add-tags#getPendingTags
-             photos:selectThumbnail@document->add-tags#hideForm
-             auth:signedOut@document->add-tags#hideForm">
-            <h6 class="carousel-sidebar__tags-title">{{ lang[locale].tags }}</h6>
-            <p class="carousel-sidebar__tags" data-sidebar-target="tags" data-add-tags-target="tags"></p>
-            <div class="carousel-add-tags__add"
-               data-add-tags-target="addButton"
-               data-action="click->add-tags#showForm"
-            >{{ lang[locale].add_tag }}</div>
-            <form class="carousel-add-tags__form is-hidden" data-add-tags-target="form">
-                <h6>{{ lang[locale].add_tag }}</h6>
-                {% if locale == "hu" %}
-                <p class="carousel-add-tags__form__helper text-small">{{ lang[locale].add_tag_helper }}</p>
-                {% endif %}
-                {% include "selectize-control/selectize-control.liquid" class:'carousel-sidebar__tags__form__selectize' filter:'cimke_name' stimulus_target:'data-add-tags-target="input"' %}
-                <button class="button button--primary button--medium button--wide carousel-add-tags__save"
-                        data-add-tags-target="submitButton"
-                        data-action="click->add-tags#submit"
-                >{{ lang[locale].add_tag_action }}</button>
-            </form>
-        </div>
-        {% endcomment %}
     </div>
 </div>

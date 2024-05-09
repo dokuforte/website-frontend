@@ -3,8 +3,6 @@ import { Controller } from "@hotwired/stimulus"
 import throttle from "lodash/throttle"
 import { getLocale, trigger } from "../../js/utils"
 import { setAppState, removeAppState, toggleAppState, appState } from "../../js/app"
-import photoManager from "../../js/photo-manager"
-import listManager from "../../js/list-manager"
 
 export default class extends Controller {
   static get targets() {
@@ -18,13 +16,9 @@ export default class extends Controller {
     this.toggleOnResize = throttle(this.toggleOnResize.bind(this), 400)
   }
 
-  init() {
-    const data = appState("is-lists") ? listManager.getSelectedPhoto() : photoManager.getSelectedPhotoData()
+  init(e) {
+    const data = e.detail.photoData
 
-    if (appState("is-lists") && !data.isDataLoaded) {
-      this.element.classList.add("is-hidden")
-      return
-    }
     this.element.classList.remove("is-hidden")
 
     // fill template with data
@@ -84,15 +78,12 @@ export default class extends Controller {
       this.authorTarget.parentNode.style.display = "none"
     }
 
-    if (!appState("is-lists")) {
-      // bind history api calls to sidabar anchors
-      this.element.querySelectorAll(".carousel-sidebar a:not([class])").forEach((anchorNode) => {
-        anchorNode.addEventListener("click", (event) => {
-          event.preventDefault()
-          trigger("photos:historyPushState", { url: event.currentTarget.href, resetPhotosGrid: true })
-        })
+    this.element.querySelectorAll(".carousel-sidebar a:not([class])").forEach((anchorNode) => {
+      anchorNode.addEventListener("click", (event) => {
+        event.preventDefault()
+        trigger("photos:historyPushState", { url: event.currentTarget.href, resetPhotosGrid: true })
       })
-    }
+    })
   }
 
   show() {

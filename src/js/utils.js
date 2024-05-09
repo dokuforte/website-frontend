@@ -169,11 +169,13 @@ export const copyToClipboard = async (textToCopy, type) => {
   return res
 }
 
-export const isElementInViewport = (el) => {
+export const isElementInViewport = (el, full = true) => {
   if (el) {
-    const top = document.querySelector(".header") ? document.querySelector(".header").offsetHeight : 0
+    const top = 154
     const bounds = el.getBoundingClientRect()
-    return bounds.top >= top && bounds.bottom <= window.innerHeight
+    return full
+      ? bounds.top >= top && bounds.bottom <= window.innerHeight
+      : bounds.top < window.innerHeight && bounds.bottom >= top
   }
   return false
 }
@@ -270,7 +272,7 @@ export const photoRes = (size, photoId) => {
   if (size === 480) {
     imageRequest.edits.resize.width = 480
   }
-  // console.log('imageRequest: ', imageRequest)
+
   const encoded = btoa(JSON.stringify(imageRequest))
   return `${siteConfig.PHOTO_SOURCE}/${encoded}`
 }

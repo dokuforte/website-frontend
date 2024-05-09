@@ -1,7 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { getURLParams, trigger } from "../../js/utils"
 import { setAppState, removeAppState } from "../../js/app"
-import photoManager from "../../js/photo-manager"
 
 export default class extends Controller {
   static get targets() {
@@ -33,10 +32,11 @@ export default class extends Controller {
     this.timelineOver = false
 
     // init component
-    this.resetSlider(null, false)
+    this.enableSlider(null, false)
   }
 
-  enable() {
+  enable(e) {
+    this.setSlider(e)
     this.element.classList.remove("is-disabled")
     this.element.classList.add("is-visible")
   }
@@ -47,27 +47,25 @@ export default class extends Controller {
   }
 
   setSlider(e) {
-    if (photoManager.hasData()) {
-      this.yearStart = photoManager.getFirstYearInContext().year
-      this.yearEnd = photoManager.getLastYearInContext().year
-
-      if (e && e.type === "photos:yearChanged" && e.detail && e.detail.year) {
-        // when it is a listener for photos:yearChanged
-        // where the parameter year should be passed
-        this.year = parseInt(e.detail.year, 10)
-      } else if (photoManager.getSelectedPhotoId()) {
-        // if there is a selected photo (event listener for photoManager:photoSelected)
-        this.year = parseInt(photoManager.getSelectedPhotoData().year, 10)
-      } else {
-        // this function is called even if there isn't any photo selected (as part of the reset chain),
-        // in which case...
-        this.year = this.yearStart
-      }
-
-      this.setRange()
-      this.fixSlider()
-      this.setTimelineLabels()
+    const years = e?.detail?.years
+    if (years) {
+      this.years = years
+      this.yearStart = years[0].year
+      this.yearEnd = years[years.length - 1].year
     }
+
+    if (e && e.type === "photos:yearChanged" && e.detail && e.detail.year) {
+      // when it is a listener for photos:yearChanged
+      // where the parameter year should be passed
+      this.year = parseInt(e.detail.year, 10)
+    } else {
+      const selectedPhoto = document.querySelector(".photos-thumbnail.is-selected")
+      if (selectedPhoto) this.year = selectedPhoto ? selectedPhoto.photoData.year : this.yearStart
+    }
+
+    this.setRange()
+    this.fixSlider()
+    this.setTimelineLabels()
   }
 
   setRange() {
@@ -83,11 +81,9 @@ export default class extends Controller {
 
     // check if selected year (this.year) has photos at all (not already loaded)
     // and if not, grey out the slider
-    if (photoManager.getYearsInContext().find(item => item.year === this.year)) {
+    if (this.years && this.years.find((item) => item.year === this.year)) {
       this.sliderYearTarget.classList.remove("is-empty")
-      this.sliderYearCountTarget.textContent = photoManager
-        .getYearsInContext()
-        .find(item => item.year === this.year).count
+      this.sliderYearCountTarget.textContent = this.years.find((item) => item.year === this.year).count
     } else {
       this.sliderYearTarget.classList.add("is-empty")
       this.sliderYearCountTarget.textContent = 0
@@ -148,7 +144,7 @@ export default class extends Controller {
     }
   }
 
-  resetSlider(e, enable = true) {
+  enableSlider(e, enable = true) {
     this.setSlider()
     if (enable) this.enable()
   }
@@ -165,9 +161,9 @@ export default class extends Controller {
 
     // check if selected year (this.year) has photos at all (not already loaded)
     // and if not, jump to the closest year that has
-    if (!photoManager.getYearsInContext().find(item => item.year === this.year)) {
+    if (!this.years.find((item) => item.year === this.year)) {
       let closestMatch = -1
-      photoManager.getYearsInContext().forEach(item => {
+      this.years.forEach((item) => {
         if (Math.abs(this.year - item.year) < Math.abs(this.year - closestMatch)) {
           closestMatch = item.year
         }
@@ -210,7 +206,7 @@ export default class extends Controller {
 
   sliderStopDrag() {
     if (this.sliderDragged) {
-      this.sliderKnobTargets.forEach(knob => {
+      this.sliderKnobTargets.forEach((knob) => {
         knob.classList.remove("is-active", "is-empty")
       })
 
@@ -309,9 +305,9 @@ export default class extends Controller {
   }
 
   setIndicatorLabel(year) {
-    // check if selected year has photos at all (not already loaded)
+    // check if selected year has photos
     // and if not, grey out the slider
-    if (photoManager.getYearsInContext().find(item => item.year === year)) {
+    if (this.years.find((item) => item.year === year)) {
       this.yearIndicatorTarget.classList.remove("is-empty")
       this.yearIndicatorLabelTarget.innerHTML = `${year}`
     } else {

@@ -2,8 +2,8 @@
   data-controller="timeline"
   data-action="resize@window->timeline#onResize
                timeline:disable@document->timeline#disable
-               timeline:reset@document->timeline#resetSlider
-               photoManager:photoSelected@document->timeline#setSlider
+               timeline:enable@document->timeline#enable
+               photos:photoSelected@document->timeline#setSlider
                photos:yearChanged@document->timeline#setSlider
                photosThumbnail:select@document->timeline#toggleShadow
                photosCarousel:hide@document->timeline#toggleShadow"

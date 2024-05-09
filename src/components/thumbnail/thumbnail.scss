@@ -4,6 +4,8 @@
   margin: rem(16px) rem(8px);
   box-sizing: border-box;
 
+  scroll-margin-top: rem(154px);
+
   flex: 192 1 0%;
   min-width: rem(192px);
 
@@ -104,7 +106,9 @@
     object-position: center center;
 
     opacity: 0;
-    transition: filter 0.3s ease-out, opacity 0.8s $ease-out-expo;
+    transition:
+      filter 0.3s ease-out,
+      opacity 0.8s $ease-out-expo;
   }
 
   .img-fit-contain & {

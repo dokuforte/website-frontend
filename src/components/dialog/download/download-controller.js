@@ -1,6 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { lang } from "../../../js/utils"
-import { selectedThumbnail } from "../../../js/app"
+import { lang, photoRes } from "../../../js/utils"
 
 export default class extends Controller {
   static get targets() {
@@ -16,10 +15,12 @@ export default class extends Controller {
     this.element.classList.remove("is-visible")
   }
 
-  async downloadImage() {
-    const data = selectedThumbnail.itemData
+  init(e) {
+    this.photoData = e.detail.photoData
+  }
 
-    const donatedBy = data.donated_by.map(donator => donator.name).join(",")
+  async downloadImage() {
+    const donatedBy = this.photoData.donor
 
     this.element.classList.add("is-visible")
 
@@ -28,8 +29,9 @@ export default class extends Controller {
     this.contentTarget.innerHTML = dialogInnerContent.replace("$donor", `<br/><b>Dokuforte / ${donatedBy}</b>`)
 
     const a = document.createElement("a")
-    a.setAttribute("download", data.id)
-    a.href = `/download/${data.photo_url_full_path}`
+
+    a.setAttribute("download", this.photoData.mid)
+    a.href = photoRes("large", this.photoData.photoId)
     a.click()
   }
 }

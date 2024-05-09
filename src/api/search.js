@@ -28,7 +28,6 @@ const transformResults = (resp) => {
       item.photoId = hit.photosource
       item.created = hit.created
       item.description = hit.description
-      item.search_after = hit.sort
       item.donor = hit.donor ? hit.donor.name : null
       item.author = hit.author
       item.tags = hit.tags
@@ -36,6 +35,7 @@ const transformResults = (resp) => {
       item.place = hit.places && hit.places.length > 0 ? hit.places.map((place) => place.name) : null
       item.locality = hit.locality ? hit.locality.name : null
       item.approximate = hit.approximate
+      item.order = hit.order
 
       r.items.push(item)
     })
@@ -94,35 +94,17 @@ const search = (params) => {
     const query = {
       where: [],
       matching: [],
-      sort: [],
       multi: [],
     }
-
-    let sortOrder = "asc"
-    if (params && params.reverseOrder) {
-      sortOrder = "desc"
-    }
-
-    const sort = { field: "Media.year", order: `${sortOrder}` }
 
     // returns all records when query field is empty
     if (!params || (params && params.q === "")) {
       query.match_all = true
-      // Why need a filter if we are not filtering?
-      // query.bool.must.push({ match_all: {} })
     }
 
     // set a query for getting the recently added items
     if (params.latest === "") {
       query.where.push({ "latest IS": true })
-      // Why need?
-      // query.bool.must.push({
-      //   range: {
-      //     created: {
-      //       gt: Date.parse(window.latestDate) / 1000,
-      //     },
-      //   },
-      // })
     }
 
     // if query (search term) exists
@@ -186,30 +168,18 @@ const search = (params) => {
       if (params.year_from) query.where.push({ "year >=": `${params.from}` })
       if (params.year_to) query.where.push({ "year <=": `${params.year_to}` })
     }
-    // if there's a range set
 
     const body = {
       size: params.size || config.THUMBNAILS_QUERY_LIMIT,
-      sort,
+      offset: params.offset || 0,
+      sort: {
+        order: "asc",
+      },
       track_total_hits: true,
       query,
     }
 
-    if (params && params.reverseOrder && params.search_after) {
-      query.where.push({ "Media.year <=": `${params.search_after[0]}` })
-      // query.where.push({ "Media.id <": `${params.search_after[2]}` })
-      body.offset = params.offset
-      query.sort.order = "desc"
-    } else if (params.search_after) {
-      body.offset = params.offset
-      query.sort.order = "asc"
-      query.where.push({ "Media.year >=": `${params.search_after[0]}` })
-      // query.where.push({ "Media.id >": `${params.search_after[2]}` })
-    } else {
-      body.from = params.from || 0
-    }
-
-    if (params.from === 0) {
+    if (params.offset === 0 || params.offset === undefined) {
       body.aggs = {
         years: {
           terms: {

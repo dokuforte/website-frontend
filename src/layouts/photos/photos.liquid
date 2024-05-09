@@ -10,13 +10,9 @@ layout: base/base.liquid
                   popstate@window->photos#onPopState
                   photos:historyPushState@document->photos#historyPushState
                   photos:selectThumbnail@document->photos#selectThumbnail
+                  photos:selectNextThumbnail@document->photos#selectNextThumbnail
+                  photos:selectPreviousThumbnail@document->photos#selectPreviousThumbnail
                   photosCarousel:hide@document->photos#onCarouselClosed
-                  photoManager:nextSelected@document->photos#selectThumbnail
-                  photoManager:prevSelected@document->photos#selectThumbnail
-                  photoManager:load@document->photos#onPhotoDataLoaded
-                  photoManager:cacheCleared@document->photos#onPhotoCacheCleared
-                  photoManager:photoSelected@document->photos#selectThumbnail
-                  photoManager:photoSelected@document->photos#onPhotoSelected
                   timeline:yearSelected@document->photos#onYearSelected
                   thumbnail:loaded@document->photos#loadThumbnails"
 >

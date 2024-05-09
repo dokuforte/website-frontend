@@ -1,9 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 import config from "../../data/siteConfig"
-import { trigger, lang, isElementInViewport, getLocale, getImgAltText, photoRes } from "../../js/utils"
-import photoManager from "../../js/photo-manager"
-import listManager from "../../js/list-manager"
+import { trigger, isElementInViewport, getLocale, getImgAltText, photoRes } from "../../js/utils"
 import { appState } from "../../js/app"
 
 const THUMBNAIL_HEIGHT = 160
@@ -32,44 +30,16 @@ export default class extends Controller {
   }
 
   clicked(e) {
-    if (
-      e &&
-      e.target &&
-      this.role === "lists" &&
-      (e.target === this.element.querySelector(".context-menu") ||
-        this.element.querySelector(".context-menu").contains(e.target))
-    ) {
-      // if context menu is clicked do nothing
-      return
-    }
-
     if (this.element.classList.contains("age-restricted")) {
       // if age-restricted do nothing
       return
     }
 
-    let selectedPhotoData = this.element.photoData
-    let index
-
-    if (!selectedPhotoData) {
-      if (this.role === "lists") {
-        selectedPhotoData = listManager.selectPhotoById(listManager.getSelectedListId(), this.element.mid)
-        index = listManager.getSelectedPhotoIndex()
-
-        if (!selectedPhotoData.isDataLoaded) {
-          return
-        }
-      } else {
-        selectedPhotoData = photoManager.selectPhotoById(this.element.mid).data
-        index = photoManager.getSelectedPhotoIndex()
-      }
-    }
-
     // select thumbnail in photos list
-    trigger("photos:selectThumbnail", { index })
+    trigger("photos:selectThumbnail", { mid: this.element.mid })
 
     // Load photo in Carousel
-    trigger("photosThumbnail:select", { data: selectedPhotoData })
+    trigger("photosThumbnail:select", { photoData: this.element.photoData })
   }
 
   // resize thumbnail when the browser window gets resized
@@ -93,16 +63,7 @@ export default class extends Controller {
     // applying thumbnail meta data
     let data = this.element.photoData
 
-    if (!data)
-      data =
-        this.role === "lists"
-          ? listManager.getListPhotoById(listManager.getSelectedListId(), this.element.mid)
-          : photoManager.getPhotoDataByID(this.element.mid)
-
-    this.linkTarget.href =
-      this.role === "lists"
-        ? `/${getLocale()}/lists/${listManager.getSelectedListId()}/photos/${this.element.mid}`
-        : `/${getLocale()}/photos/?id=${this.element.mid}`
+    this.linkTarget.href = `/${getLocale()}/photos/?id=${this.element.mid}`
 
     const locationArray = [data.year, data.country, data.locality, data.place]
     this.locationTarget.textContent = locationArray.filter(Boolean).join(" · ")
@@ -114,18 +75,6 @@ export default class extends Controller {
     Promise.resolve(true).then(() => {
       this.element.classList.add("is-visible")
     })
-
-    // event listeners and handling image loading
-    if (this.role === "lists") {
-      const photoData = listManager.getListPhotoById(listManager.getSelectedListId(), this.element.mid)
-
-      if (!photoData.isDataLoaded) {
-        this.element.classList.remove("is-loading")
-        this.element.classList.add("is-loaded", "no-image")
-        this.containerTarget.textContent = lang("list_photo_removed")
-        return
-      }
-    }
 
     // age-restriction
     if (!data.ageRestrictionRemoved && data.tags && data.tags.indexOf(config.AGE_RESTRICTION_TAG) > -1) {

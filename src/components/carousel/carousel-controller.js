@@ -1,10 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
 import config from "../../data/siteConfig"
-import { trigger, lang, isTouchDevice, getImgAltText, getLocale, photoRes } from "../../js/utils"
+import { trigger, isTouchDevice, getImgAltText, getLocale, photoRes } from "../../js/utils"
 import { setAppState, removeAppState, appState } from "../../js/app"
-import photoManager from "../../js/photo-manager"
-import listManager from "../../js/list-manager"
 
 export default class extends Controller {
   static get targets() {
@@ -18,6 +16,8 @@ export default class extends Controller {
 
     this.slideshowTimeout = 0
     this.touchTimeout = 0
+
+    this.photoData = null
 
     this.prevPhotoId = null
     this.nextPhotoId = null
@@ -44,10 +44,6 @@ export default class extends Controller {
 
     // hide carousel
     this.element.classList.remove("is-visible")
-
-    if (!e || (e && e.detail && !e.detail.silent)) {
-      trigger("photosCarousel:hide")
-    }
   }
 
   stepSlideshow() {
@@ -60,16 +56,8 @@ export default class extends Controller {
     }
   }
 
-  setCarouselBackground(mid) {
-    if (!this.isPhotoAvailable()) {
-      this.backgroundTarget.classList.remove("fade-in")
-      return
-    }
-
-    const photoId =
-      this.role === "lists"
-        ? listManager.getListPhotoById(listManager.getSelectedListId(), mid).photoId
-        : photoManager.getPhotoDataByID(mid).photoId
+  setCarouselBackground() {
+    const photoId = this.photoData.photoId
 
     this.backgroundTarget.style.backgroundImage = photoRes(240, photoId)
     this.backgroundTarget.classList.remove("fade-in")
@@ -78,7 +66,10 @@ export default class extends Controller {
     }, 20)
   }
 
-  loadPhoto(mid) {
+  loadPhoto() {
+    const mid = this.photoData.mid
+    const photoId = this.photoData.photoId
+
     let photo = this.element.querySelector(`#Dokuforte-${mid}`)
 
     if (!photo) {
@@ -89,32 +80,14 @@ export default class extends Controller {
       photo.className = "image-loader carousel__photo"
       photo.id = `Dokuforte-${mid}`
       photo.mid = mid
-
-      const photoData =
-        this.role === "lists"
-          ? listManager.getListPhotoById(listManager.getSelectedListId(), mid)
-          : photoManager.getPhotoDataByID(mid)
-
-      photo.photoId = photoData.photoId
-
-      photo.altText = getImgAltText(photoData)
-
-      if (this.role === "lists" && !photoData.isDataLoaded) {
-        photo.noImage = true
-        photo.classList.add("image-loader--no-image", "is-active")
-        photo.textContent = lang("list_photo_removed")
-        this.photosTarget.appendChild(photo)
-
-        trigger("loader:hide", { id: "loaderCarousel" })
-        this.stepSlideshow()
-        return
-      }
+      photo.photoId = photoId
+      photo.altText = getImgAltText(this.photoData)
 
       // age-restriction
       if (
-        !photoData.ageRestrictionRemoved &&
-        photoData.tags &&
-        photoData.tags.indexOf(config.AGE_RESTRICTION_TAG) > -1
+        !this.photoData.ageRestrictionRemoved &&
+        this.photoData.tags &&
+        this.photoData.tags.indexOf(config.AGE_RESTRICTION_TAG) > -1
       ) {
         photo.noImage = true
         photo.ageRestricted = true
@@ -153,27 +126,23 @@ export default class extends Controller {
   }
 
   setPagers() {
-    this.pagerPrevTarget.href =
-      this.role === "lists"
-        ? `/${getLocale()}/lists/${listManager.getSelectedListId()}/photos/${this.prevPhotoId}`
-        : `/${getLocale()}/photos/?id=${this.prevPhotoId}`
+    // this.pagerPrevTarget.href = `/${getLocale()}/photos/?id=${this.prevPhotoId}`
+    // this.pagerNextTarget.href = `/${getLocale()}/photos/?id=${this.nextPhotoId}`
 
-    this.pagerNextTarget.href =
-      this.role === "lists"
-        ? `/${getLocale()}/lists/${listManager.getSelectedListId()}/photos/${this.nextPhotoId}`
-        : `/${getLocale()}/photos/?id=${this.nextPhotoId}`
-
-    const total =
-      this.role === "lists" ? listManager.getSelectedList().photos.length : photoManager.getTotalPhotoCountInContext()
-
-    this.pagerPrevTarget.classList.toggle("is-disabled", total === 1 || !this.prevPhotoId)
-    this.pagerNextTarget.classList.toggle("is-disabled", total === 1 || !this.nextPhotoId)
+    this.pagerPrevTarget.classList.remove("is-disabled")
+    this.pagerNextTarget.classList.remove("is-disabled")
+    // this.pagerPrevTarget.classList.toggle("is-disabled", !this.prevPhotoId)
+    // this.pagerNextTarget.classList.toggle("is-disabled", !this.nextPhotoId)
   }
 
-  async showPhoto(e, id) {
-    const mid = e && e.detail && e.detail.data ? e.detail.data.mid : id
+  async showPhoto(e, photoData) {
+    const data = (e && e.detail && e.detail.photoData) || photoData
 
-    if (mid) {
+    if (data) {
+      this.photoData = data
+
+      const mid = this.photoData.mid
+
       if (!this.element.classList.contains("is-visible")) this.show()
 
       this.hideAllPhotos()
@@ -184,78 +153,39 @@ export default class extends Controller {
       // get the next and previous photo id for SEO
       // in the case of photos this will also triggering the load the previous and the next 40 photo data if needed
       // and will cause to fill the photo list in the background too
-      this.prevPhotoId = this.role === "lists" ? listManager.getPrevPhotoId() : await photoManager.getPrevPhotoId()
-      this.nextPhotoId = this.role === "lists" ? listManager.getNextPhotoId() : await photoManager.getNextPhotoId()
+      // this.prevPhotoId = await getPrevPhotoId()
+      // this.nextPhotoId = await getNextPhotoId()
 
       trigger("loader:hide", { id: "loaderCarousel" })
 
-      this.setCarouselBackground(mid)
-      this.loadPhoto(mid)
+      this.setCarouselBackground()
+      this.loadPhoto()
       this.setPagers()
 
-      trigger("carouselSidebar:init")
-      trigger("dialogDownload:init")
-      trigger("dialogShare:init")
-
-      trigger("photosCarousel:photoSelected", { mid: mid })
+      trigger("carouselSidebar:init", { photoData: this.photoData })
+      trigger("dialogDownload:init", { photoData: this.photoData })
+      trigger("dialogShare:init", { mid: this.photoData.mid })
     }
   }
 
-  async showNextPhoto(e) {
+  showNextPhoto(e) {
     if (e) e.preventDefault()
 
     // hide dialogs
     trigger("dialogs:hide")
 
-    let photoId
-    let index
-
-    if (this.role === "lists") {
-      photoId = listManager.selectNextPhoto().id
-      index = listManager.getSelectedPhotoIndex()
-    } else {
-      // select the next photo in the current context (or load more if necessary)
-      await photoManager.selectNextPhoto()
-      photoId = photoManager.getSelectedPhotoId()
-      index = photoManager.getSelectedPhotoIndex()
-    }
-
-    this.showPhoto(null, photoId)
-    trigger("photos:selectThumbnail", { index })
+    // select the next thumbnail in the current context
+    trigger("photos:selectNextThumbnail")
   }
 
-  async showPrevPhoto(e) {
+  showPrevPhoto(e) {
     if (e) e.preventDefault()
 
     // hide dialogs
     trigger("dialogs:hide")
 
-    let photoId
-    let index
-
-    if (this.role === "lists") {
-      photoId = listManager.selectPrevPhoto().id
-      index = listManager.getSelectedPhotoIndex()
-    } else {
-      // select the next previous in the current context (or load more if neccessary)
-      await photoManager.selectPrevPhoto()
-      photoId = photoManager.getSelectedPhotoId()
-      index = photoManager.getSelectedPhotoIndex()
-    }
-
-    this.showPhoto(null, photoId)
-    trigger("photos:selectThumbnail", { index })
-  }
-
-  // event listener for timeline:yearSelected
-  onYearSelected(e) {
-    if (this.element.classList.contains("is-visible") && e && e.detail && e.detail.year) {
-      // select the first photo of a given year (or load them if neccessary)
-      photoManager.getFirstPhotoOfYear(e.detail.year).then(() => {
-        this.showPhoto(null, photoManager.getSelectedPhotoId())
-        trigger("photos:selectThumbnail", { index: photoManager.getSelectedPhotoIndex() })
-      })
-    }
+    // select the previous thumbnail in the current context
+    trigger("photos:selectPreviousThumbnail")
   }
 
   hideAllPhotos() {
@@ -577,11 +507,11 @@ export default class extends Controller {
   }
 
   isPhotoAvailable() {
-    const photoData = this.role === "lists" ? listManager.getSelectedPhoto() : photoManager.getSelectedPhotoData()
-
     if (
-      (this.role === "lists" && !photoData.isDataLoaded) ||
-      (!photoData.ageRestrictionRemoved && photoData.tags && photoData.tags.indexOf(config.AGE_RESTRICTION_TAG) > -1)
+      this.photoData &&
+      this.photoData.ageRestrictionRemoved &&
+      this.photoData.tags &&
+      this.photoData.tags.indexOf(config.AGE_RESTRICTION_TAG) > -1
     ) {
       return false
     }
@@ -603,15 +533,14 @@ export default class extends Controller {
 
   shareImage() {
     if (this.isPhotoAvailable()) {
-      trigger("dialogShare:show")
+      trigger("dialogShare:show", { mid: this.photoData.mid })
     }
   }
 
   showAgeRestrictionDialog(e) {
     if (e) e.preventDefault()
 
-    const photoData = this.role === "lists" ? listManager.getSelectedPhoto() : photoManager.getSelectedPhotoData()
-    trigger("dialogAgeRestriction:show", { mid: photoData.mid })
+    trigger("dialogAgeRestriction:show", { mid: this.photoData.mid })
   }
 
   removeAgeRestriction(e) {

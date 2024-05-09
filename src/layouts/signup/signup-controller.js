@@ -75,11 +75,9 @@ export default class extends Controller {
       await auth
         .signup(this.credentials)
         .then(() => {
-          console.log("signup success")
           this.success()
         })
         .catch((err) => {
-          console.log("signup error")
           this.error(err)
         })
     }
