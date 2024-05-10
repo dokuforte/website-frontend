@@ -18,8 +18,8 @@ export default class extends Controller {
     if (window.location.pathname.indexOf("/photos") === -1) {
       window.location = `/${getLocale()}/photos/?q=${q}`
     } else {
-      trigger("photos:historyPushState", {
-        url: `?q=${q}`,
+      trigger("photos:updateState", {
+        query: `?q=${q}`,
         resetPhotosGrid: true,
       })
 

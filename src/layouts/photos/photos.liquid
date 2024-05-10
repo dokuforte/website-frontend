@@ -7,8 +7,7 @@ layout: base/base.liquid
      data-action="scroll->photos#onScroll
                   resize@window->photos#onScroll
                   resize@window->photos#resizeThumbnails
-                  popstate@window->photos#onPopState
-                  photos:historyPushState@document->photos#historyPushState
+                  photos:updateState@document->photos#updateState
                   photos:selectThumbnail@document->photos#selectThumbnail
                   photos:selectNextThumbnail@document->photos#selectNextThumbnail
                   photos:selectPreviousThumbnail@document->photos#selectPreviousThumbnail

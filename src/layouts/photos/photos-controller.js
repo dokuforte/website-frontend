@@ -12,23 +12,18 @@ export default class extends Controller {
 
   connect() {
     // store selected thumbnail
-    this.selectedThumbnail = null
+    this.resetPhotosGrid()
 
-    this.thumbnailsLoading = false
-
+    // store query params and page title
     this.currentSearchQuery = window.location.search
     this.currentTitle = document.title
-
-    this.years = null
-    this.total = 0
-    this.scrollTop = 0
 
     // Throttle resize and scroll functions
     this.onScroll = throttle(this.onScroll, 200)
     this.resizeThumbnails = throttle(this.resizeThumbnails, 300)
 
     // trigger history push state event
-    this.onPopState()
+    this.updateState()
   }
 
   // add "in-viewport" class to thumbnails that are in the viewport
@@ -228,22 +223,18 @@ export default class extends Controller {
     return respData
   }
 
-  // Custom event to load content and update page meta tag
-  historyPushState(e) {
-    window.history.pushState(null, lang("search"), e.detail.url)
-    this.currentSearchQuery = e.detail.url
-    this.onPopState(e)
-  }
-
   resetPhotosGrid() {
-    this.selectedThumbnail = null
-
     // Empty photosNode and reset counters
     while (this.gridTarget.firstChild) {
       this.gridTarget.firstChild.remove()
     }
 
-    this.element.scrollTop = 0
+    this.selectedThumbnail = null
+    this.thumbnailsLoading = false
+
+    this.years = null
+    this.total = 0
+    this.scrollTop = 0
   }
 
   // Set a thumbnail's selected state
@@ -305,7 +296,7 @@ export default class extends Controller {
   onCarouselClosed() {
     // if an id page is open, reset the page to the last search query when the carousel is closed and load photos from the same year as the selected photo
     if (this.currentSearchQuery.indexOf("?id=") > -1) {
-      trigger("photos:historyPushState", { url: "?q=", resetPhotosGrid: true, jumpToYearAfter: this.yearInViewPort })
+      trigger("photos:updateState", { query: "?q=", resetPhotosGrid: true, jumpToYearAfter: this.yearInViewPort })
     } else {
       window.history.replaceState(null, this.currentTitle, this.currentSearchQuery)
     }
@@ -355,18 +346,23 @@ export default class extends Controller {
   }
 
   // Load new photos when address bar url changes
-  async onPopState(e) {
+  async updateState(e) {
     // Empty photosNode and reset counters when resetPhotosGrid parameter is set
     if ((e && e.detail && e.detail.resetPhotosGrid === true) || (e && e.type)) {
       this.resetPhotosGrid()
+    }
+
+    if (e && e.detail && e.detail.query) {
+      this.currentSearchQuery = e.detail.query
+      window.history.replaceState(null, this.currentTitle, this.currentSearchQuery)
     }
 
     // load photos
     const respData = await this.onScroll(null, true)
 
     // hook for the special case when the query is a photo id, open the carousel
-    if (respData && respData.items.length === 1 && getURLParams().q === respData.items[0].mid) {
-      trigger("photos:historyPushState", { url: `?id=${respData.items[0].mid}`, resetPhotosGrid: true })
+    if (respData && respData.items.length === 1 && getURLParams(this.currentSearchQuery).q === respData.items[0].mid) {
+      trigger("photos:updateState", { query: `?id=${respData.items[0].mid}`, resetPhotosGrid: true })
       return
     }
 

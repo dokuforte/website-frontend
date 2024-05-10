@@ -79,9 +79,10 @@ export default class extends Controller {
     }
 
     this.element.querySelectorAll(".carousel-sidebar a:not([class])").forEach((anchorNode) => {
-      anchorNode.addEventListener("click", (event) => {
-        event.preventDefault()
-        trigger("photos:historyPushState", { url: event.currentTarget.href, resetPhotosGrid: true })
+      anchorNode.addEventListener("click", (clickEvent) => {
+        clickEvent.preventDefault()
+        const url = new URL(clickEvent.currentTarget.href)
+        trigger("photos:updateState", { query: url.search, resetPhotosGrid: true })
       })
     })
   }
