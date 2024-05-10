@@ -65,7 +65,7 @@ export default class extends Controller {
       this.tagsTarget.innerHTML = `<span class="carousel-sidebar__tags__empty">–</span>`
     }
 
-    this.midTarget.innerHTML = `<a href="${baseUrl}?id=${data.mid}">${data.mid}</a>`
+    this.midTarget.innerHTML = `${data.mid}`
     this.yearTarget.innerHTML = `<a href="${baseUrl}?year=${data.year}">${data.year}</a>`
     this.donorTarget.innerHTML = `<a href="${baseUrl}?donor=${encodeURIComponent(data.donor)}">${data.donor}</a>`
 
