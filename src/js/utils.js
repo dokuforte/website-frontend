@@ -24,8 +24,8 @@ export const click = () => {
   return isTouchDevice() ? "touchstart" : "click"
 }
 
-export const getURLParams = () => {
-  return Object.fromEntries(new URLSearchParams(window.location.search.substring(1)))
+export const getURLParams = (address = window.location.search) => {
+  return Object.fromEntries(new URLSearchParams(address.substring(1)))
 }
 
 export const getPrettyURLValues = (path) => {

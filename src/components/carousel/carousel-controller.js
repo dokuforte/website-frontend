@@ -27,11 +27,6 @@ export default class extends Controller {
 
   show() {
     this.showControls(null, true)
-
-    if (window.innerWidth < 768)
-      setTimeout(() => {
-        trigger("carouselSidebar:hide")
-      }, 300)
     this.element.classList.add("is-visible")
   }
 
@@ -41,6 +36,7 @@ export default class extends Controller {
 
     // hide dialogs
     trigger("dialogs:hide")
+    trigger("photosCarousel:closed")
 
     // hide carousel
     this.element.classList.remove("is-visible")
