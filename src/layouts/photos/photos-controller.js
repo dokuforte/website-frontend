@@ -267,7 +267,9 @@ export default class extends Controller {
         // history api
         const url = `${window.location.origin + window.location.pathname}?id=${photoData.mid}`
         if (!this.lastSearchQuery) this.lastSearchQuery = window.location.href
-        window.history.replaceState(null, `Dokuforte — #${photoData.mid}`, url)
+        const title = `Dokuforte — #${photoData.mid}`
+        window.history.replaceState(null, title, url)
+        document.title = title
 
         trigger("photos:yearChanged", { year: this.selectedThumbnail.year })
       }
@@ -299,6 +301,7 @@ export default class extends Controller {
       trigger("photos:updateState", { query: "?q=", resetPhotosGrid: true, jumpToYearAfter: this.yearInViewPort })
     } else {
       window.history.replaceState(null, this.currentTitle, this.currentSearchQuery)
+      window.title = this.currentTitle
     }
   }
 
@@ -352,9 +355,10 @@ export default class extends Controller {
       this.resetPhotosGrid()
     }
 
-    if (e && e.detail && e.detail.query) {
+    if (e && e.detail && (e.detail.query || e.detail.query === "")) {
       this.currentSearchQuery = e.detail.query
       window.history.replaceState(null, this.currentTitle, this.currentSearchQuery)
+      document.title = this.currentTitle
     }
 
     // load photos
