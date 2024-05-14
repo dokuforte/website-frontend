@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { lang, photoRes } from "../../../js/utils"
+import config from "../../../data/siteConfig"
 
 export default class extends Controller {
   static get targets() {
@@ -29,9 +30,7 @@ export default class extends Controller {
     this.contentTarget.innerHTML = dialogInnerContent.replace("$donor", `<br/><b>Dokuforte / ${donatedBy}</b>`)
 
     const a = document.createElement("a")
-
-    a.setAttribute("download", this.photoData.mid)
-    a.href = photoRes("large", this.photoData.photoId)
+    a.href = `${config.API_HOST}/api/media/download-link/${this.photoData.photoId}`
     a.click()
   }
 }
