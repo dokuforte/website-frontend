@@ -10,7 +10,6 @@ const Barion = {
       // Insert a script tag on the top of the head to load bp.js
       const scriptElement = document.createElement("script")
       const firstScript = document.getElementsByTagName("script")[0]
-      scriptElement.async = true
       scriptElement.src = "https://pixel.barion.com/bp.js"
       firstScript.parentNode.insertBefore(scriptElement, firstScript)
       window.barion_pixel_id = "BP-crymXHTKfS-B3"
