@@ -13,7 +13,7 @@ export default class extends Controller {
   // Create a tag element and append before the input field of the main element
   addTagNode(val) {
     const tags = []
-    this.tagTargets.forEach(el => {
+    this.tagTargets.forEach((el) => {
       tags.push(el.textContent)
     })
     const v = val.trim()
@@ -27,7 +27,7 @@ export default class extends Controller {
       const close = document.createElement("a")
       close.className = "selectize-control__tag__close"
       close.tabIndex = -1
-      close.addEventListener("click", evt => {
+      close.addEventListener("click", (evt) => {
         evt.preventDefault()
         tagNode.parentNode.removeChild(tagNode)
         this.togglePlaceholder()
@@ -78,7 +78,7 @@ export default class extends Controller {
   keypress(e) {
     if (e.key === "Enter") {
       e.preventDefault()
-      if (this.inputTarget.value === "" && this.value.length > 0) {
+      if (this.inputTarget.value === "") {
         this.form.submit()
       }
     }
@@ -111,7 +111,7 @@ export default class extends Controller {
 
   // remove tags if reset method is fired
   reset() {
-    this.tagTargets.forEach(el => {
+    this.tagTargets.forEach((el) => {
       el.parentNode.removeChild(el)
     })
   }
@@ -119,7 +119,7 @@ export default class extends Controller {
   // return value of the element
   get value() {
     const tags = []
-    this.tagTargets.forEach(el => {
+    this.tagTargets.forEach((el) => {
       tags.push(el.textContent)
     })
     return tags
@@ -130,7 +130,7 @@ export default class extends Controller {
     this.reset()
     if (string.trim().length > 0) {
       const tags = string.split(",")
-      tags.forEach(tag => {
+      tags.forEach((tag) => {
         this.addTagNode(tag)
       })
     }
