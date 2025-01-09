@@ -112,19 +112,20 @@ export default class extends Controller {
 
     trigger("snackbar:show", { message: await lang("user_signup_success"), status: "success", autoHide: true })
 
+    // do not try to sign in, let them know that they need to verify their email
     // sign in and redirect to profile
-    setTimeout(() => {
-      this.credentials.append("remember_me", "1")
-      auth
-        .signin(this.credentials)
-        .then(() => {
-          // redirectTo(`/${getLocale()}/profile/my-photos/`)
-          redirectTo(`/${getLocale()}/profile/edit/`)
-        })
-        .catch((err) => {
-          this.error(err)
-        })
-    }, 2000)
+    // setTimeout(() => {
+    //   this.credentials.append("remember_me", "1")
+    //   auth
+    //     .signin(this.credentials)
+    //     .then(() => {
+    //       // redirectTo(`/${getLocale()}/profile/my-photos/`)
+    //       redirectTo(`/${getLocale()}/profile/edit/`)
+    //     })
+    //     .catch((err) => {
+    //       this.error(err)
+    //     })
+    // }, 2000)
   }
 
   hide() {
