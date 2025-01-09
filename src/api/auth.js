@@ -48,13 +48,13 @@ const signout = async () => {
 
 const signup = async (body) => {
   const url = `${getApiUrl()}/users/register`
-
+  const lang = { lang: getLocale() }
   const resp = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
-    body: formDataToJson(body),
+    body: formDataToJson(body, ...lang),
   })
 
   if (resp.statusText === "OK" && resp.redirected === true) {
