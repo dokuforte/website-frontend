@@ -66,7 +66,7 @@ export default class extends Controller {
       this.credentials.append("phone", this.phoneTarget.value)
       this.credentials.append("password", this.passwordTarget.value)
       this.credentials.append("password_confirm", this.passwordConfirmTarget.value)
-      this.credentials.append("newsletter", this.checkboxNewsletterTarget.checked)
+      this.credentials.append("subscribed", this.checkboxNewsletterTarget.checked)
       this.credentials.append("tos", this.checkboxReadTarget.checked)
 
       trigger("loader:show", { id: "loaderBase" })
