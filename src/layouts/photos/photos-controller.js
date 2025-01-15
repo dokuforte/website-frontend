@@ -96,7 +96,7 @@ export default class extends Controller {
     let year
 
     // get the first loaded thumbnail in the viewport
-    const thumbnails = this.element.querySelectorAll(".photos-thumbnail.is-loaded.is-visible.in-viewport")
+    const thumbnails = this.element.querySelectorAll(".photos-thumbnail.in-viewport")
 
     if (thumbnails.length > 0) {
       const scrollDirection = this.element.scrollTop > this.scrollTop ? "down" : "up"
@@ -108,9 +108,8 @@ export default class extends Controller {
       // if no thumbnail is in the viewport, get the first thumbnail in the grid
       year = this.element.querySelector(".photos-thumbnail").year
     }
-
     // dispatches a custom event if the year has changed and sets the yearInViewPort property
-    if (year !== this.yearInViewPort) {
+    if (year !== this.yearInViewPort && year !== undefined) {
       this.yearInViewPort = year
       trigger("photos:yearChanged", { year: this.yearInViewPort })
     }
@@ -232,7 +231,7 @@ export default class extends Controller {
     this.selectedThumbnail = null
     this.thumbnailsLoading = false
 
-    this.years = null
+    // this.years = null
     this.total = 0
     this.scrollTop = 0
   }
@@ -341,8 +340,11 @@ export default class extends Controller {
       this.loadPhotos(false, offset).then(() => {
         // select the first thumbnail of the loaded year
         const t = this.element.querySelector(`.photos-thumbnail`)
+
         if (t && this.isCarouselOpen()) {
           t.click()
+        } else {
+          // this.scrollToThumbnail(t, false)
         }
       })
     }
