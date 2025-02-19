@@ -50,8 +50,8 @@ export default class extends Controller {
     }
 
     this.descriptionTarget.innerHTML = ""
-    if (data.description) {
-      this.descriptionTarget.innerHTML = data.description
+    if (data.description || data.context) {
+      this.descriptionTarget.innerHTML = data.description + (data.context ? `<br><br>${data.context}` : "")
       this.descriptionTarget.parentNode.style.display = "block"
     } else if (locationArray.length === 0) {
       this.descriptionTarget.parentNode.style.display = "none"

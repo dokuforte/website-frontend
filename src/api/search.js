@@ -28,6 +28,7 @@ const transformResults = (resp) => {
       item.photoId = hit.photosource
       item.created = hit.created
       item.description = hit.description
+      item.context = hit.context
       item.donor = hit.donor ? hit.donor.name : null
       item.author = hit.author
       item.tags = hit.tags
