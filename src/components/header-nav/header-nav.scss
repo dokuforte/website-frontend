@@ -130,6 +130,20 @@
   }
 }
 
+.header-nav__link--red {
+  background-color: $red;
+  color: $light-base;
+  margin-left: 1rem;
+
+  .theme--light &:hover {
+    background-color: darken($red, 10%) !important;
+  }
+
+  .theme--dark &:hover {
+    background-color: darken($red, 10%) !important  ;
+  }
+}
+
 .header-nav__actions {
   height: rem(48px);
   position: relative;
