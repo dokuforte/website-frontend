@@ -5,6 +5,7 @@ module.exports = {
   API_HOST: "https://backend.dokuforte.co.il",
   PHOTO_SOURCE: "https://d1gpvpdw24w4jv.cloudfront.net/",
   PHOTO_BUCKET: "dokuforte",
+  AGE_RESTRICTION_TAG: "18+",
   FACEBOOK_APP_ID: "224763373980256",
   THUMBNAILS_QUERY_LIMIT: 40,
   BREAKPOINT_PHONE_XS: 360,
