@@ -1,34 +1,39 @@
-const fs = require("fs")
-const path = require("path")
+import fs from "fs"
+import path from "path"
 
-module.exports = liquidEngine => {
+export default () => {
   return {
-    parse: function(tagToken) {
+    parse(tagToken) {
       this.args = tagToken.args
     },
-    render: async function(ctx) {
-      // Resolve variables
-
-      const args = {}
+    async render(ctx) {
       const argsArray = this.args.split(" ")
-      for (const arg of argsArray) {
-        args[arg.split(":")[0]] = await this.liquid.evalValue(arg.split(":")[1], ctx)
-      }
+      const entries = await Promise.all(
+        argsArray.map(async (arg) => {
+          const [key, value] = arg.split(":")
+          const resolvedValue = await this.liquid.evalValue(value, ctx)
+          return [key, resolvedValue]
+        })
+      )
+      const args = Object.fromEntries(entries)
 
       if (path.extname(args.src) !== ".svg") {
         throw new Error("inlineSVG requires a filetype of svg")
       }
 
-      // read svg file content
-      const data = await fs.readFileSync(args.src)
+      // Resolve file path relative to project root
+      const filePath = path.resolve(process.cwd(), args.src)
 
-      // inject exta attributes
+      // read svg file content (using promises for async)
+      const data = await fs.promises.readFile(filePath, "utf8")
+
+      // inject extra attributes
       let attributes = ""
-      Object.keys(args).forEach(arg => {
+      Object.keys(args).forEach((arg) => {
         if (arg !== "src") attributes += `${arg}="${args[arg]}" `
       })
 
-      return data.toString("utf8").replace("<svg", `<svg ${attributes}`)
+      return data.replace("<svg", `<svg ${attributes}`)
     },
   }
 }

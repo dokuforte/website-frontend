@@ -1,11 +1,11 @@
-const liquidFilters = require("./plugins/liquid-filters")
-const inlineSVG = require("./plugins/inlineSVG")
-const htmlmin = require("html-minifier")
-const markdownIt = require("markdown-it")
-const markdownItAttrs = require("markdown-it-attrs")
-const markdownItAnchor = require("markdown-it-anchor")
+import inlineSVG from "./plugins/inlineSVG.js"
+import * as liquidFilters from "./plugins/liquid-filters.js"
+import htmlmin from "html-minifier"
+import markdownIt from "markdown-it"
+import markdownItAnchor from "markdown-it-anchor"
+import markdownItAttrs from "markdown-it-attrs"
 
-module.exports = (eleventyConfig) => {
+export default (eleventyConfig) => {
   // Disable .gitignore and use eleventy's own ignore file instead
   eleventyConfig.setUseGitIgnore(false)
 
@@ -20,7 +20,7 @@ module.exports = (eleventyConfig) => {
     return Date.now()
   })
   eleventyConfig.addLiquidShortcode("date", liquidFilters.date)
-  eleventyConfig.addLiquidFilter("imgix_url", liquidFilters.imgixUrl)
+  // Removed imgix_url filter - not defined in liquid-filters.js
   eleventyConfig.addLiquidFilter("find", liquidFilters.findItem)
   eleventyConfig.addLiquidFilter("trim", liquidFilters.trim)
   eleventyConfig.addLiquidFilter("size", liquidFilters.size)
@@ -31,7 +31,7 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addLiquidFilter("transform_name", liquidFilters.transformName)
   eleventyConfig.addLiquidFilter("markdownify", liquidFilters.markdownify)
   eleventyConfig.addLiquidFilter("slugify", liquidFilters.slugify)
-  eleventyConfig.addLiquidFilter("format_price", liquidFilters.formatPrice)
+  // Removed format_price filter - not defined in liquid-filters.js
   eleventyConfig.addLiquidFilter("to_timestamp", liquidFilters.toTimestamp)
   eleventyConfig.addLiquidFilter("lowcase", liquidFilters.lowcase)
 

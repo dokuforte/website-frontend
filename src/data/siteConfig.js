@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   SITE: "https://www.dokuforte.com",
   EMAIL: "dokuforte@dokuforte.com",
   SITE_DEV: "https://dev.dokuforte.co.il",

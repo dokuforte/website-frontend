@@ -1,6 +1,6 @@
-const path = require("path")
+import path from "path"
 
-module.exports = ctx => ({
+export default (ctx) => ({
   map: { inline: false },
   parser: "postcss-scss",
   plugins: {
@@ -16,7 +16,7 @@ module.exports = ctx => ({
       manifest: "src/data/manifest-css.json",
       name:
         process.env.ENV === "production"
-          ? ({ dir, name, hash, ext }) => path.join(dir, name + "." + hash + ext)
+          ? ({ dir, name, hash, ext }) => path.join(dir, `${name}.${hash}${ext}`)
           : ({ dir, name, ext }) => path.join(dir, name + ext),
     },
   },

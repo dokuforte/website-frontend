@@ -1,42 +1,44 @@
-const dayjs = require("dayjs")
-const md = require("markdown-it")()
-const markdownItAttrs = require("markdown-it-attrs")
-const markdownItAnchor = require("markdown-it-anchor")
+import dayjs from "dayjs"
+import markdownIt from "markdown-it"
+import markdownItAttrs from "markdown-it-attrs"
+import markdownItAnchor from "markdown-it-anchor"
 
-exports.findItem = (scope, key, value) => {
+const md = markdownIt()
+
+export const findItem = (scope, key, value) => {
   return scope.find((item) => {
     return item[key] === value
   })
 }
 
-exports.trim = (string) => {
+export const trim = (string) => {
   return String(string).trim()
 }
 
-exports.unescape = (string) => {
+export const unescape = (string) => {
   return decodeURIComponent(String(string))
 }
 
-exports.size = (obj) => {
-  if (typeof obj === "string" || "array") return obj.length
+export const size = (obj) => {
+  if (typeof obj === "string" || Array.isArray(obj)) return obj.length
   if (typeof obj === "object") return Object.keys(obj).length
   return null
 }
 
-exports.split = (str, separator) => {
+export const split = (str, separator) => {
   return String(str).split(separator)
 }
 
-exports.join = (str, separator, ...args) => {
-  const arr = [str, ...args].filter(function (el) {
+export const join = (str, separator, ...args) => {
+  const arr = [str, ...args].filter((el) => {
     return el != null && el !== ""
   })
   return arr.join(separator)
 }
 
-exports.push = (arr, item) => (typeof arr === "object" ? [item] : arr.push(item))
+export const push = (arr, item) => (typeof arr === "object" ? [item] : arr.push(item))
 
-exports.date = (timestamp, locale) => {
+export const date = (timestamp, locale) => {
   const dateFormat = new Intl.DateTimeFormat(locale, {
     month: "short",
     day: "2-digit",
@@ -45,11 +47,11 @@ exports.date = (timestamp, locale) => {
   return dateFormat.format(new Date(parseInt(timestamp, 10)))
 }
 
-exports.toTimestamp = (date) => {
-  return dayjs(date).format("x")
+export const toTimestamp = (dateString) => {
+  return dayjs(dateString).format("x")
 }
 
-exports.transformName = (arr) => {
+export const transformName = (arr) => {
   arr.forEach((item) => {
     const fullName = item.name.split(" ")
     const firstName = fullName[0]
@@ -61,7 +63,7 @@ exports.transformName = (arr) => {
   return arr.sort((a, b) => a.name_transformed.localeCompare(b.name_transformed))
 }
 
-exports.sort = (arr, sortBy, order = "asc") => {
+export const sort = (arr, sortBy, order = "asc") => {
   const arrSorted = arr.sort((a, b) => {
     const comparison = String(a[sortBy]).localeCompare(String(b[sortBy]))
 
@@ -74,7 +76,7 @@ exports.sort = (arr, sortBy, order = "asc") => {
   return arrSorted
 }
 
-exports.markdownify = (str) => {
+export const markdownify = (str) => {
   if (str) {
     md.use(markdownItAttrs).use(markdownItAnchor)
     return md.render(str)
@@ -82,7 +84,7 @@ exports.markdownify = (str) => {
   return str
 }
 
-exports.slugify = (str, removeSpaces = true) => {
+export const slugify = (str, removeSpaces = true) => {
   let s = String(str)
 
   const map = {
@@ -114,18 +116,18 @@ exports.slugify = (str, removeSpaces = true) => {
   })
 
   // remove special chars
-  s = s.replace(new RegExp("\\.|,|·|/|:|;|\\?|\\#|'|“|”|’|‘|«|»|\\+", "g"), "")
+  s = s.replace(/[.,·/:;?#'""''«»+]/g, "")
 
   if (removeSpaces) {
-    s = s.replace(new RegExp("_| ", "g"), "-")
+    s = s.replace(/_| /g, "-")
   }
 
   return s
 }
 
-exports.lowcase = (s) => s.toLowerCase()
+export const lowcase = (s) => s.toLowerCase()
 
-exports.slice = (s, start, end) => {
+export const slice = (s, start, end) => {
   if (!s || s.length === 0) return null
   return s.slice(start, end)
 }
