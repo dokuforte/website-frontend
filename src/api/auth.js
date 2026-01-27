@@ -1,5 +1,5 @@
-import { trigger, formDataToJson, getLocale, getApiUrl } from "../js/utils"
-import { appState, setAppState, removeAppState } from "../js/app"
+import { trigger, formDataToJson, getLocale, getApiUrl } from "../js/utils.js"
+import { appState, setAppState, removeAppState } from "../js/app.js"
 
 let initialAuthCheck = false
 

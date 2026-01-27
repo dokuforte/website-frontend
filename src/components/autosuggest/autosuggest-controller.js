@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import throttle from "lodash/throttle"
 
-import autoSuggest from "../../api/autosuggest"
+import autoSuggest from "../../api/autosuggest.js"
 
 const AUTOSUGGEST_ITEM_LIMIT = 9
 

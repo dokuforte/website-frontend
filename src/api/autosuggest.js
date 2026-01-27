@@ -1,4 +1,4 @@
-import { slugify, getLocale, getApiUrl } from "../js/utils"
+import { slugify, getLocale, getApiUrl } from "../js/utils.js"
 
 let autosuggestList = []
 let autosuggestListLoaded = false

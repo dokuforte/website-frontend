@@ -1,4 +1,4 @@
-import { getApiUrl } from "../js/utils"
+import { getApiUrl } from "../js/utils.js"
 
 /**
  * Request specific user generated public data

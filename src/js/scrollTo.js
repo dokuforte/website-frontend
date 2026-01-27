@@ -21,13 +21,13 @@ async function scrollTo(targetPosition, container, { direction = "vertical", dur
    * @param {*} d - distance to travel
    * @param {*} l - time limit
    */
-  const easeOutExpo = function(e, s, d, l) {
+  const easeOutExpo = (e, s, d, l) => {
     // Using >= instead of == as the last animation frame can happen beyond the time limit
     return e >= l ? s + d : d * (-(2 ** ((-10 * e) / l)) + 1) + s
   }
 
-  const makeStep = function(resolve) {
-    return function() {
+  const makeStep = (resolve) => {
+    return () => {
       const elapsed = new Date().getTime() - startTime
       const newPosition = easeOutExpo(elapsed, startPosition, distance, duration)
       container[directionProp] = newPosition
@@ -40,7 +40,9 @@ async function scrollTo(targetPosition, container, { direction = "vertical", dur
     }
   }
 
-  return new Promise(resolve => window.requestAnimationFrame(makeStep(resolve)))
+  return new Promise((resolve) => {
+    window.requestAnimationFrame(makeStep(resolve))
+  })
 }
 
 export default scrollTo

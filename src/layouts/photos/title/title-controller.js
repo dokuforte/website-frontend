@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
-import { lang, getURLParams, numberWithCommas, getLocale } from "../../../js/utils"
-import uploadsManager from "../../../js/photo-uploads-manager"
+import { lang, getURLParams, numberWithCommas, getLocale } from "../../../js/utils.js"
+import uploadsManager from "../../../js/photo-uploads-manager.js"
 
 export default class extends Controller {
   static get targets() {

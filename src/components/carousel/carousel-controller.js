@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
-import config from "../../data/siteConfig"
-import { trigger, isTouchDevice, getImgAltText, getLocale, photoRes } from "../../js/utils"
-import { setAppState, removeAppState, appState } from "../../js/app"
+import config from "../../data/siteConfig.js"
+import { trigger, isTouchDevice, getImgAltText, getLocale, photoRes } from "../../js/utils.js"
+import { setAppState, removeAppState, appState } from "../../js/app.js"
 
 export default class extends Controller {
   static get targets() {

@@ -1,5 +1,6 @@
 import { Application } from "@hotwired/stimulus"
 import { definitionsFromContext } from "@hotwired/stimulus-webpack-helpers"
+import { componentsContext, layoutsContext } from "./stimulus-context.cjs"
 
 /**
  * Automatically require():
@@ -7,10 +8,8 @@ import { definitionsFromContext } from "@hotwired/stimulus-webpack-helpers"
  * 2. *{_-}controller.js files in layouts/
  */
 const application = Application.start()
-const definitions = [
-  ...definitionsFromContext(require.context("../components/", true, /[_-]controller\.js$/)),
-  ...definitionsFromContext(require.context("../layouts/", true, /[_-]controller\.js$/)),
-]
+
+const definitions = [...definitionsFromContext(componentsContext), ...definitionsFromContext(layoutsContext)]
 
 /**
  * When mapping controller files to identifiers, Stimulus replaces
@@ -20,7 +19,7 @@ const definitions = [
  * Instead, we want this in the /components and /layouts folders:
  *   dropdown/dropdown_controller.js -> dropdown
  */
-definitions.forEach(definition => {
+definitions.forEach((definition) => {
   const parts = definition.identifier.split("--")
   if (parts.length >= 2 && parts[parts.length - 1] === parts[parts.length - 2]) {
     definition.identifier = parts.slice(0, -1).join("--")

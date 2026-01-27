@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
-import { trigger, lang, redirectTo, getLocale } from "../../js/utils"
-import auth from "../../api/auth"
+import { trigger, lang, redirectTo, getLocale } from "../../js/utils.js"
+import auth from "../../api/auth.js"
 
 export default class extends Controller {
   static get targets() {

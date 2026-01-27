@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
-import config from "../../data/siteConfig"
-import { trigger, isElementInViewport, getLocale, getImgAltText, photoRes } from "../../js/utils"
-import { appState } from "../../js/app"
+import config from "../../data/siteConfig.js"
+import { trigger, isElementInViewport, getLocale, getImgAltText, photoRes } from "../../js/utils.js"
+import { appState } from "../../js/app.js"
 
 const THUMBNAIL_HEIGHT = 160
 export default class extends Controller {

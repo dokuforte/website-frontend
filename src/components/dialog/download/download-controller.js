@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
-import { lang, photoRes } from "../../../js/utils"
-import config from "../../../data/siteConfig"
+import { lang, photoRes } from "../../../js/utils.js"
+import config from "../../../data/siteConfig.js"
 
 export default class extends Controller {
   static get targets() {

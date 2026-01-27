@@ -23,7 +23,7 @@ const getCollections = async () => {
   return collectionData.data.uploads
 }
 
-const getCollection = async date => {
+const getCollection = async (date) => {
   if (date) {
     if (!collectionData.data || (collectionData.data && !collectionData.data.uploads)) {
       await loadCollectionData()
@@ -33,7 +33,7 @@ const getCollection = async date => {
     if (!dateInstance.getTime()) dateInstance = new Date(parseInt(date, 10))
 
     return collectionData.data.uploads.find(
-      collection => new Date(collection.date).getTime() === dateInstance.getTime()
+      (collection) => new Date(collection.date).getTime() === dateInstance.getTime()
     )
   }
 

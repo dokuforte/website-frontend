@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 import { iframeResizer } from "iframe-resizer"
 
-import authAPI from "../../api/auth"
-import { comeBackAfterSignIn, getLocale, getApiUrl, getTheme } from "../../js/utils"
+import authAPI from "../../api/auth.js"
+import { comeBackAfterSignIn, getLocale, getApiUrl, getTheme } from "../../js/utils.js"
 
 export default class extends Controller {
   static get targets() {

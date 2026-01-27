@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
-import config from "../../data/siteConfig"
-import { getStorageParam, setStorageParam } from "../../js/utils"
-import { setAppState, removeAppState } from "../../js/app"
+import config from "../../data/siteConfig.js"
+import { getStorageParam, setStorageParam } from "../../js/utils.js"
+import { setAppState, removeAppState } from "../../js/app.js"
 
 export default class extends Controller {
   connect() {

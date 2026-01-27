@@ -1,4 +1,4 @@
-import { getApiUrl } from "../js/utils"
+import { getApiUrl } from "../js/utils.js"
 
 const addTags = async (tags, photoId) => {
   const data = {

@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
-import { copyToClipboard, trigger } from "../../../js/utils"
-import config from "../../../data/siteConfig"
+import { copyToClipboard, trigger } from "../../../js/utils.js"
+import config from "../../../data/siteConfig.js"
 
 export default class extends Controller {
   show(e) {

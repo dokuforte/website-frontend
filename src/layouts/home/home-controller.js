@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
-import searchAPI from "../../api/search"
-import { numberWithCommas, setPageMeta } from "../../js/utils"
+import searchAPI from "../../api/search.js"
+import { numberWithCommas, setPageMeta } from "../../js/utils.js"
 
 export default class extends Controller {
   static get targets() {

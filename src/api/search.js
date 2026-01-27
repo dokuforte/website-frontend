@@ -1,5 +1,5 @@
-import { slugify, getLocale, getURLParams, getApiUrl } from "../js/utils"
-import config from "../data/siteConfig"
+import { slugify, getLocale, getURLParams, getApiUrl } from "../js/utils.js"
+import config from "../data/siteConfig.js"
 
 // simplify and localize the Elastic server response
 const transformResults = (resp) => {

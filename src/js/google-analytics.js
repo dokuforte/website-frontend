@@ -61,7 +61,7 @@ document.addEventListener("analytics:trackEvent", GA.trackEvent)
 document.addEventListener("analytics:trackPageView", GA.trackPageView)
 
 /** GA tracking is only allowed when users approve it with the cookie consent */
-document.addEventListener("storage:changed", e => {
+document.addEventListener("storage:changed", (e) => {
   if (e.detail) {
     const { privacySettings } = e.detail
 

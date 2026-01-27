@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { trigger, getStorageParam, setStorageParam } from "../../js/utils"
+import { trigger, getStorageParam, setStorageParam } from "../../js/utils.js"
 
 export default class extends Controller {
   static get targets() {
@@ -13,7 +13,7 @@ export default class extends Controller {
     this.settings = getStorageParam("settings", true)
 
     // Toggle privacy setting states based on storage values
-    document.addEventListener("storage:changed", e => {
+    document.addEventListener("storage:changed", (e) => {
       if (e.detail) {
         const { privacySettings, settings } = e.detail
         if (privacySettings) {

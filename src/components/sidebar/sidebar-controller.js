@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
 import throttle from "lodash/throttle"
-import { getLocale, trigger } from "../../js/utils"
-import { setAppState, removeAppState, toggleAppState, appState } from "../../js/app"
+import { getLocale, trigger } from "../../js/utils.js"
+import { setAppState, removeAppState, toggleAppState, appState } from "../../js/app.js"
 
 export default class extends Controller {
   static get targets() {

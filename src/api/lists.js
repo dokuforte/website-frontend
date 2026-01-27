@@ -1,5 +1,5 @@
-import config from "../data/siteConfig"
-import { appState } from "../js/app"
+import config from "../data/siteConfig.js"
+import { appState } from "../js/app.js"
 
 const createList = async (name, description, isPrivate = false) => {
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
@@ -67,7 +67,7 @@ const editList = async (uuid, name, description, isPrivate = false) => {
   return respData
 }
 
-const deleteList = async uuid => {
+const deleteList = async (uuid) => {
   const authData = JSON.parse(localStorage.getItem("auth")) || {}
 
   const url = `${
@@ -139,7 +139,7 @@ const getLists = async () => {
   return respData
 }
 
-const getListPhotos = async id => {
+const getListPhotos = async (id) => {
   const url = `${appState("is-dev") ? config().DRUPAL_HOST_DEV : config().DRUPAL_HOST}/fortepan/flags/${id}/created/asc`
   const resp = await fetch(url, {
     method: "GET",
@@ -155,7 +155,7 @@ const getListPhotos = async id => {
 }
 
 // return all the lists of the current logged in user that contains a given image
-const getContainingLists = async photoId => {
+const getContainingLists = async (photoId) => {
   const url = `${
     appState("is-dev") ? config().DRUPAL_HOST_DEV : config().DRUPAL_HOST
   }/fortepan/lists/created/desc/${photoId}`
@@ -175,7 +175,7 @@ const getContainingLists = async photoId => {
 
 // ElasticSearch related api calls
 
-const listsElasticRequest = async data => {
+const listsElasticRequest = async (data) => {
   const url = appState("is-dev")
     ? `${config().ELASTIC_HOST_DEV}/elasticsearch_index_fortepandrupaldevelop_cwoou_lists/_search?pretty`
     : `${config().ELASTIC_HOST}/elasticsearch_index_fortepandrupalmain_hd64t_lists/_search?pretty`
@@ -192,7 +192,7 @@ const listsElasticRequest = async data => {
   return resp.json()
 }
 
-const listsContentElasticRequest = async data => {
+const listsContentElasticRequest = async (data) => {
   const url = appState("is-dev")
     ? `${config().ELASTIC_HOST_DEV}/elasticsearch_index_fortepandrupaldevelop_cwoou_list_content/_search?pretty`
     : `${config().ELASTIC_HOST}/elasticsearch_index_fortepandrupalmain_hd64t_list_content/_search?pretty`
@@ -209,7 +209,7 @@ const listsContentElasticRequest = async data => {
   return resp.json()
 }
 
-const loadPublicListDataById = async id => {
+const loadPublicListDataById = async (id) => {
   return new Promise((resolve, reject) => {
     const body = {
       size: 1,
@@ -223,16 +223,16 @@ const loadPublicListDataById = async id => {
     }
 
     listsElasticRequest(body)
-      .then(resp => {
+      .then((resp) => {
         resolve(resp)
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err)
       })
   })
 }
 
-const loadPublicListContentById = async id => {
+const loadPublicListContentById = async (id) => {
   return new Promise((resolve, reject) => {
     const body = {
       size: 10000,
@@ -251,10 +251,10 @@ const loadPublicListContentById = async id => {
     }
 
     listsContentElasticRequest(body)
-      .then(resp => {
+      .then((resp) => {
         resolve(resp)
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err)
       })
   })

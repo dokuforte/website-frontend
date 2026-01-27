@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
-import { getURLParams, trigger } from "../../js/utils"
-import { setAppState, removeAppState } from "../../js/app"
+import { getURLParams, trigger } from "../../js/utils.js"
+import { setAppState, removeAppState } from "../../js/app.js"
 
 export default class extends Controller {
   static get targets() {

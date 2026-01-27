@@ -1,9 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
 import throttle from "lodash/throttle"
-import config from "../../data/siteConfig"
-import { lang, trigger, getURLParams, isElementInViewport, setPageMeta, photoRes } from "../../js/utils"
-import searchAPI from "../../api/search"
+import config from "../../data/siteConfig.js"
+import { lang, trigger, getURLParams, isElementInViewport, setPageMeta, photoRes } from "../../js/utils.js"
+import searchAPI from "../../api/search.js"
 
 export default class extends Controller {
   static get targets() {

@@ -1,5 +1,5 @@
-import siteConfig from "../data/siteConfig"
-import langData from "../data/lang.json"
+import siteConfig from "../data/siteConfig.js"
+import langData from "../data/lang.json" // JSON imports don't need .js extension
 
 export const getLocale = () => document.querySelector("body").dataset.lang || undefined
 

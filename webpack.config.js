@@ -18,6 +18,19 @@ export default {
     filename: process.env.ENV === "production" ? "[name].[contenthash].js" : "[name].js",
   },
   devtool: "source-map",
+  resolve: {
+    fullySpecified: false,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+    ],
+  },
   optimization: {
     minimizer:
       process.env.ENV === "production"

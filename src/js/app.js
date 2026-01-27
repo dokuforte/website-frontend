@@ -1,21 +1,19 @@
-module.exports = {
-  get selectedThumbnail() {
-    return document.querySelector(".photos-thumbnail.is-selected")
-  },
+export const selectedThumbnail = () => {
+  return document.querySelector(".photos-thumbnail.is-selected")
+}
 
-  appState: state => {
-    return document.querySelector("body").classList.contains(state)
-  },
+export const appState = (state) => {
+  return document.querySelector("body").classList.contains(state)
+}
 
-  setAppState: state => {
-    document.querySelector("body").classList.add(state)
-  },
+export const setAppState = (state) => {
+  document.querySelector("body").classList.add(state)
+}
 
-  removeAppState: state => {
-    document.querySelector("body").classList.remove(state)
-  },
+export const removeAppState = (state) => {
+  document.querySelector("body").classList.remove(state)
+}
 
-  toggleAppState: state => {
-    document.querySelector("body").classList.toggle(state)
-  },
+export const toggleAppState = (state) => {
+  document.querySelector("body").classList.toggle(state)
 }

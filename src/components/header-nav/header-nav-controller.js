@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 import throttle from "lodash/throttle"
-import auth from "../../api/auth"
-import siteConfig from "../../data/siteConfig"
-import { redirectTo, trigger, getLocale } from "../../js/utils"
+import auth from "../../api/auth.js"
+import siteConfig from "../../data/siteConfig.js"
+import { redirectTo, trigger, getLocale } from "../../js/utils.js"
 
 export default class extends Controller {
   static get targets() {
