@@ -41,7 +41,7 @@
     "eslint-plugin-prettier": "latest",
     "html-minifier": "latest",
     "latest-version": "latest",
-    "netlify-cli": "^23.13.1",
+    "netlify-cli": "^23.13.5",
     "npm-run-all": "latest",
     "pm": "^2.2.6",
     "postcss": "latest",
