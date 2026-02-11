@@ -53,6 +53,8 @@
         {% inlineSVG src:"src/static/images/icons/24/icon-menu.svg" class:"button-circular__icon" %}
         <div class="button-circular__label">{{ lang[locale].menu }}</div>
       </a>
+
+      {% if notificationsAllowed %}
       <a
         href="#"
         class="button-circular header-nav__notification-icon"
@@ -63,6 +65,7 @@
         {% inlineSVG src:"src/static/images/icons/24/icon-notification.svg" class:"button-circular__icon" %}
         <div class="button-circular__label">{{ lang[locale].notifications }}</div>
       </a>
+      {% endif %}
 
       <div class="header-nav__profile-icon">
         <a
@@ -149,6 +152,7 @@
     {% endfor %}
   </div>
 
+  {% if notificationsAllowed %}
   <div class="header-nav__popup header-nav__notifications" data-header-nav-target="popup notifications">
     <h3 class="header-nav__popup__heading">{{ lang[locale].notifications }}</h3>
     <!-- prettier-ignore -->
@@ -175,6 +179,7 @@
       {% endif %}
     </ul>
   </div>
+  {% endif %}
 
   {% if hasTimeline %}
   {% include "timeline/timeline.liquid" %}
