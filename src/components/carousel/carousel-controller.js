@@ -88,7 +88,7 @@ export default class extends Controller {
       if (
         !this.photoData.ageRestrictionRemoved &&
         this.photoData.tags &&
-        this.photoData.tags.indexOf(config.AGE_RESTRICTION_TAG) > -1
+        this.photoData.tags.map((tag) => tag.name).indexOf(config.AGE_RESTRICTION_TAG) > -1
       ) {
         console.log("age-restriction", this.photoData)
         photo.noImage = true
