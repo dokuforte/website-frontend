@@ -15,7 +15,7 @@ export default class extends Controller {
       this.toggleTheme()
     })
 
-    document.addEventListener("storage:changed", e => {
+    document.addEventListener("storage:changed", (e) => {
       if (e.detail) {
         const { settings, privacySettings } = e.detail
         if (settings) {

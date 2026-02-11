@@ -99,3 +99,19 @@
     max-width: 400px;
   }
 }
+
+.footer__barion__light {
+  display: block;
+}
+
+.footer__barion__dark {
+  display: block;
+}
+
+.theme--dark .footer__barion__light {
+  display: none;
+}
+
+.theme--light .footer__barion__dark {
+  display: none;
+}
