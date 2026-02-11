@@ -56,6 +56,10 @@
   gap: 0.5rem;
 }
 
+.profile-upload-login.is-hidden {
+  display: none;
+}
+
 .profile-upload-login .button {
   cursor: pointer;
 }
