@@ -85,6 +85,7 @@ export default class extends Controller {
         this.photoData.tags &&
         this.photoData.tags.indexOf(config.AGE_RESTRICTION_TAG) > -1
       ) {
+        console.log("age-restriction", this.photoData)
         photo.noImage = true
         photo.ageRestricted = true
         photo.classList.add("image-loader--no-image", "image-loader--age-restricted")
