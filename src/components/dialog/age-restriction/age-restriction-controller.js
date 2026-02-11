@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { trigger } from "../../../js/utils"
+import { trigger } from "../../../js/utils.js"
 
 export default class extends Controller {
   static get targets() {
