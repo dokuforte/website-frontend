@@ -80,6 +80,9 @@ export default class extends Controller {
       photo.altText = getImgAltText(this.photoData)
 
       console.log("photoData", this.photoData)
+      console.log("ageRestrictionRemoved", this.photoData.ageRestrictionRemoved)
+      console.log("tags", this.photoData.tags)
+      console.log("ageRestrictionTag", config.AGE_RESTRICTION_TAG)
 
       // age-restriction
       if (
