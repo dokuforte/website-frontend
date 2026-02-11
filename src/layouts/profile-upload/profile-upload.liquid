@@ -2,10 +2,11 @@
 layout: article/article.liquid
 ---
 
+{% if locale == "en" %} {% assign pages = pages-en %} {% endif %}
+{% if locale == "he" %} {% assign pages = pages-he %} {% endif %}
 <h1 class="article__content__title" data-controller="page-title">{{ lang[locale].upload }}</h1>
 <div data-controller="profile-upload" class="profile-upload" data-action="load->profile-upload#onPopState">
-	{{ pages-en[3].content }}
-	  
+	{{ pages[3].content }}
 	<div class="article__content__section" data-profile-upload-target="formWrapper">
 		<div class="profile-upload__form" data-profile-upload-target="uploadForm"></div>
 </div>
