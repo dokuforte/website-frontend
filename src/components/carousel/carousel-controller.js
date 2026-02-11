@@ -79,18 +79,12 @@ export default class extends Controller {
       photo.photoId = photoId
       photo.altText = getImgAltText(this.photoData)
 
-      console.log("photoData", this.photoData)
-      console.log("ageRestrictionRemoved", this.photoData.ageRestrictionRemoved)
-      console.log("tags", this.photoData.tags)
-      console.log("ageRestrictionTag", config.AGE_RESTRICTION_TAG)
-
       // age-restriction
       if (
         !this.photoData.ageRestrictionRemoved &&
         this.photoData.tags &&
         this.photoData.tags.map((tag) => tag.name).indexOf(config.AGE_RESTRICTION_TAG) > -1
       ) {
-        console.log("age-restriction", this.photoData)
         photo.noImage = true
         photo.ageRestricted = true
         photo.classList.add("image-loader--no-image", "image-loader--age-restricted")

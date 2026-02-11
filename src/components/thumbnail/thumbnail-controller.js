@@ -77,7 +77,11 @@ export default class extends Controller {
     })
 
     // age-restriction
-    if (!data.ageRestrictionRemoved && data.tags && data.tags.indexOf(config.AGE_RESTRICTION_TAG) > -1) {
+    if (
+      !data.ageRestrictionRemoved &&
+      data.tags &&
+      data.tags.map((tag) => tag.name).indexOf(config.AGE_RESTRICTION_TAG) > -1
+    ) {
       this.element.classList.remove("is-loading")
       this.element.classList.add("is-loaded", "no-image", "age-restricted")
       const el = document.getElementById("age-restriction-template").content.firstElementChild.cloneNode(true)
