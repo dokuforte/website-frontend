@@ -7,8 +7,14 @@ layout: article/article.liquid
 <h1 class="article__content__title" data-controller="page-title">{{ lang[locale].upload }}</h1>
 <div data-controller="profile-upload" class="profile-upload" data-action="load->profile-upload#onPopState">
 	{{ pages[3].content }}
+
+	<div class="profile-upload-login is-hidden" data-profile-upload-target="login">
+		<p>{{lang[locale].upload_start}}</p>
+		<a class="button button--primary" data-profile-upload-target="loginButton">Sign in</a>
+	</div>
 	<div class="article__content__section" data-profile-upload-target="formWrapper">
 		<div class="profile-upload__form" data-profile-upload-target="uploadForm"></div>
+	</div>
 </div>
 
 

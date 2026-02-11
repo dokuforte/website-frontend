@@ -6,16 +6,28 @@ import { comeBackAfterSignIn, getLocale, getApiUrl, getTheme } from "../../js/ut
 
 export default class extends Controller {
   static get targets() {
-    return ["lead", "uploadForm"]
+    return ["lead", "uploadForm", "login", "loginButton"]
   }
 
   async connect() {
-    const userData = await authAPI.querySignedInUser()
-    if (userData && userData.email) {
-      this.appendUploadForm()
-    } else {
-      comeBackAfterSignIn()
+    try {
+      const userData = await authAPI.querySignedInUser()
+      if (userData && userData.email) {
+        this.appendUploadForm()
+      } else {
+        console.log("login")
+        this.showLogin()
+      }
+    } catch (error) {
+      this.showLogin()
     }
+  }
+
+  showLogin() {
+    this.loginTarget.classList.remove("is-hidden")
+    this.loginButtonTarget.addEventListener("click", () => {
+      comeBackAfterSignIn(`/${getLocale()}/profile/upload`)
+    })
   }
 
   appendUploadForm() {
