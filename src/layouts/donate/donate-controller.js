@@ -236,7 +236,7 @@ export default class extends Controller {
     this.submitButtonTarget.classList.add("donate__submit--loading")
 
     try {
-      const url = `${getApiUrl()}/api/donations/get-payment-url?amount=${this.selectedAmount}&currency=${this.selectedCurrency}&frequency=${this.selectedFrequency}`
+      const url = `${getApiUrl()}/api/donations/get-payment-url?amount=${this.selectedAmount}&currency=${this.selectedCurrency}&frequency=${this.selectedFrequency}&lang=${getLocale()}`
       const response = await fetch(url)
       const data = await response.json()
 
