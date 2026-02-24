@@ -3,14 +3,79 @@ layout: article/article.liquid
 ---
 
 <h1 class="article__content__title" data-controller="page-title">{{ lang[locale].support_our_work }}</h1>
-<div data-controller="donate" class="donate" data-action="load->donate#onPopState">
+<div data-controller="donate" class="donate">
 	<h3>{{ lang[locale].donate_lead }}</h3>
-	  
+	{% comment %} <img src="/images/barion-smart-banner-light.svg" alt="Barion" class="donate__banner"> {% endcomment %}
 	<div class="article__content__section">
-		<div class="donate__iframe-wrapper" data-donate-target="donateIframeWrapper"></div>
+		<!-- Payment status section (shown when paymentId is present) -->
+		<div class="donate__status" data-donate-target="statusSection" style="display: none;">
+			<div class="donate__status-box" data-donate-target="statusBox">
+				<div class="donate__status-icon" data-donate-target="statusIcon"></div>
+				<div class="donate__status-message" data-donate-target="statusMessage">
+					{{ lang[locale].donate_payment_pending }}
+				</div>
+			</div>
+		</div>
+
+		<!-- Donation form section (shown when no paymentId) -->
+		<div class="donate__form" data-donate-target="formSection">
+			<!-- Error message -->
+			<div class="donate__error" data-donate-target="errorMessage" style="display: none;"></div>
+
+			<!-- Step 1: Currency selection -->
+			<div class="donate__step" data-donate-target="currencyStep">
+				<h4>{{ lang[locale].donate_select_currency }}</h4>
+				<div class="donate__options" data-donate-target="currencyOptions"></div>
+			</div>
+
+			<!-- Step 2: Amount selection -->
+			<div class="donate__step" data-donate-target="amountStep" style="display: none;">
+				<h4>{{ lang[locale].donate_select_amount }}</h4>
+				<div class="donate__options" data-donate-target="amountOptions"></div>
+				<div class="donate__other-amount input-wrapper" data-donate-target="otherAmountSection" style="display: none;">
+					<label for="donate-other-amount" class="donate__other-amount-label">{{ lang[locale].donate_other_amount }}</label>
+					<input
+						id="donate-other-amount"
+						type="number"
+						min="1"
+						step="1"
+						class="input input-wrapper__input"
+						data-donate-target="otherAmountInput"
+						data-action="input->donate#onOtherAmountInput"
+						placeholder="{{ lang[locale].donate_other_amount_placeholder }}"
+					>
+				</div>
+			</div>
+
+			<!-- Step 3: Frequency selection -->
+			<div class="donate__step" data-donate-target="frequencyStep" style="display: none;">
+				<h4>{{ lang[locale].donate_select_frequency }}</h4>
+				<div class="donate__options donate__options--frequency">
+					<button class="button" data-action="click->donate#selectFrequency" data-frequency="onetime">
+						{{ lang[locale].donate_frequency_onetime }}
+					</button>
+					<button class="button" data-action="click->donate#selectFrequency" data-frequency="monthly">
+						{{ lang[locale].donate_frequency_monthly }}
+					</button>
+					<button class="button" data-action="click->donate#selectFrequency" data-frequency="yearly">
+						{{ lang[locale].donate_frequency_yearly }}
+					</button>
+				</div>
+			</div>
+
+			<!-- Step 4: Terms and submit -->
+			<div class="donate__step donate__step--final" data-donate-target="finalStep" style="display: none;">
+				<div class="donate__terms">
+					<label class="donate__checkbox-label">
+						<input type="checkbox" data-donate-target="termsCheckbox" data-action="change->donate#onTermsChange">
+						<span>{{ lang[locale].donate_terms_accept }}</span>
+					</label>
+				</div>
+				<button class="donate__submit button button--primary" data-donate-target="submitButton" data-action="click->donate#submitDonation" disabled>
+					<span data-donate-target="submitText"></span>
+				</button>
+			</div>
+		</div>
 	</div>
 </div>
 
-
-
-       
