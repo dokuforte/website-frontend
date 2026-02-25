@@ -3,9 +3,12 @@
   lang="{{ locale }}"
 >
   <head>
+    {% assign resolvedMetaTitle = title | default: lang[locale][metaTitleKey] | default: lang[locale].page_head_title %}
+    {% assign resolvedMetaDescription = lang[locale][metaDescriptionKey] | default: lang[locale].page_head_description %}
+    {% assign resolvedMetaImage = metaImage | default: "/images/social/dokuforte-facebook-1.jpg" %}
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
-    <meta name="description" content="{{ lang[locale].page_head_description }}"/>
+    <meta name="description" content="{{ resolvedMetaDescription }}"/>
     <meta content="Dokuforte" name="apple-mobile-web-app-title"/>
     <meta content="yes" name="apple-mobile-web-app-capable"/>
     <meta content="yes" name="mobile-web-app-capable"/>
@@ -18,19 +21,19 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
     <meta content="#1C9FED" name="theme-color"/>
 
-    <meta property="twitter:image:src" content="/images/social/dokuforte-twitter-1.jpg"/>
+    <meta property="twitter:image:src" content="{{ resolvedMetaImage }}"/>
     <meta content="@Dokuforte" property="twitter:site"/>
     <meta content="summary_large_image" property="twitter:card"/>
-    <meta property="twitter:title" content="{{ title | default: lang[locale].page_head_title }}"/>
-    <meta property="twitter:description" content="{{ lang[locale].page_head_description }}"/>
+    <meta property="twitter:title" content="{{ resolvedMetaTitle }}"/>
+    <meta property="twitter:description" content="{{ resolvedMetaDescription }}"/>
 
-    <meta property="og:image" content="/images/social/dokuforte-facebook-1.jpg"/>
+    <meta property="og:image" content="{{ resolvedMetaImage }}"/>
     <meta content="Dokuforte" property="og:site_name"/>
     <meta content="object" property="og:type"/>
-    <meta property="og:title" content="{{ title | default: lang[locale].page_head_title }}"/>
-    <meta property="og:description" content="{{ lang[locale].page_head_description }}"/>
+    <meta property="og:title" content="{{ resolvedMetaTitle }}"/>
+    <meta property="og:description" content="{{ resolvedMetaDescription }}"/>
 
-    <title>{{ title | default: lang[locale].page_head_title }}</title>
+    <title>{{ resolvedMetaTitle }}</title>
 
     <link href="https://use.typekit.net/shi7abw.css" rel="stylesheet"/>
 
