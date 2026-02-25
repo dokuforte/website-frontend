@@ -2,9 +2,8 @@
 layout: article/article.liquid
 ---
 
-<h1 class="article__content__title" data-controller="page-title">{{ lang[locale].support_our_work }}</h1>
+<h1 class="article__content__title" data-controller="page-title">{{ lang[locale].donate_lead }}</h1>
 <div data-controller="donate" class="donate">
-	<h3>{{ lang[locale].donate_lead }}</h3>
 	{% comment %} <img src="/images/barion-smart-banner-light.svg" alt="Barion" class="donate__banner"> {% endcomment %}
 	<div class="article__content__section">
 		<!-- Payment status section (shown when paymentId is present) -->
@@ -51,13 +50,13 @@ layout: article/article.liquid
 			<div class="donate__step" data-donate-target="frequencyStep" style="display: none;">
 				<h4>{{ lang[locale].donate_select_frequency }}</h4>
 				<div class="donate__options donate__options--frequency">
-					<button class="button" data-action="click->donate#selectFrequency" data-frequency="onetime">
+					<button class="button button--primary" data-action="click->donate#selectFrequency" data-frequency="onetime">
 						{{ lang[locale].donate_frequency_onetime }}
 					</button>
-					<button class="button" data-action="click->donate#selectFrequency" data-frequency="monthly">
+					<button class="button button--primary" data-action="click->donate#selectFrequency" data-frequency="monthly">
 						{{ lang[locale].donate_frequency_monthly }}
 					</button>
-					<button class="button" data-action="click->donate#selectFrequency" data-frequency="yearly">
+					<button class="button button--primary" data-action="click->donate#selectFrequency" data-frequency="yearly">
 						{{ lang[locale].donate_frequency_yearly }}
 					</button>
 				</div>
@@ -77,5 +76,10 @@ layout: article/article.liquid
 			</div>
 		</div>
 	</div>
+	{% if content and content != "" %}
+		<div class="article__content__section">
+			{{ content }}
+		</div>
+	{% endif %}
 </div>
 

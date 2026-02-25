@@ -84,7 +84,7 @@ export default class extends Controller {
     this.currencyOptionsTarget.innerHTML = currencies
       .map(
         (currency) => `
-        <button class="button" data-action="click->donate#selectCurrency" data-currency="${currency}">
+        <button class="button button--primary" data-action="click->donate#selectCurrency" data-currency="${currency}">
           ${currency}
         </button>
       `
@@ -98,9 +98,9 @@ export default class extends Controller {
 
     // Update active state
     this.currencyOptionsTarget.querySelectorAll(".button").forEach((btn) => {
-      btn.classList.remove("button--primary")
+      btn.classList.remove("button--selected")
     })
-    event.currentTarget.classList.add("button--primary")
+    event.currentTarget.classList.add("button--selected")
 
     // Show amount step
     this.renderAmountOptions(currency)
@@ -120,7 +120,7 @@ export default class extends Controller {
     this.amountOptionsTarget.innerHTML = amounts
       .map(
         (amount) => `
-        <button class="button" data-action="click->donate#selectAmount" data-amount="${amount}">
+        <button class="button button--primary" data-action="click->donate#selectAmount" data-amount="${amount}">
           ${currency} ${amount}
         </button>
       `
@@ -128,7 +128,7 @@ export default class extends Controller {
       .join("")
 
     this.amountOptionsTarget.innerHTML += `
-      <button class="button" data-action="click->donate#showOtherAmount" data-amount="other">
+      <button class="button button--primary" data-action="click->donate#showOtherAmount" data-amount="other">
         ${lang("donate_other_amount")}
       </button>
     `
@@ -140,9 +140,9 @@ export default class extends Controller {
 
     // Update active state
     this.amountOptionsTarget.querySelectorAll(".button").forEach((btn) => {
-      btn.classList.remove("button--primary")
+      btn.classList.remove("button--selected")
     })
-    event.currentTarget.classList.add("button--primary")
+    event.currentTarget.classList.add("button--selected")
 
     this.otherAmountSectionTarget.style.display = "none"
     this.otherAmountInputTarget.value = ""
@@ -191,9 +191,9 @@ export default class extends Controller {
 
     // Update active state
     this.frequencyStepTarget.querySelectorAll(".button").forEach((btn) => {
-      btn.classList.remove("button--primary")
+      btn.classList.remove("button--selected")
     })
-    event.currentTarget.classList.add("button--primary")
+    event.currentTarget.classList.add("button--selected")
 
     // Show final step
     this.finalStepTarget.style.display = "block"
@@ -206,9 +206,20 @@ export default class extends Controller {
   }
 
   updateSubmitButtonText() {
-    const isRecurring = this.selectedFrequency !== "onetime"
-    const textKey = isRecurring ? "donate_proceed_regular" : "donate_proceed_payment"
-    const text = lang(textKey)
+    const frequencyTextKeys = {
+      onetime: "proceed_onetime",
+      monthly: "proceed_monthly",
+      yearly: "proceed_yearly",
+    }
+    const textKey = frequencyTextKeys[this.selectedFrequency] || "proceed_onetime"
+
+    let text = lang(textKey)
+    if (text === textKey) {
+      const fallbackKey = this.selectedFrequency === "onetime" ? "donate_proceed_payment" : "donate_proceed_regular"
+      text = lang(fallbackKey)
+    }
+
+    text = text
       .replace("{currency}", this.selectedCurrency)
       .replace("{amount}", this.selectedAmount)
     this.submitTextTarget.textContent = text

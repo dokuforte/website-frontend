@@ -3,6 +3,12 @@
   margin-top: 3rem;
 }
 
+.button--selected {
+  // background-color: var(--color-primary);
+  color: black;
+  // border-color: var(--color-primary);
+}
+
 // Donation form styles
 .donate__form {
   max-width: 600px;
