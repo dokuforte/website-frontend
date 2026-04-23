@@ -9,6 +9,18 @@
   // border-color: var(--color-primary);
 }
 
+.donate__paypal {
+  margin-top: 2rem;
+  text-align: center;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
 // Donation form styles
 .donate__form {
   max-width: 600px;

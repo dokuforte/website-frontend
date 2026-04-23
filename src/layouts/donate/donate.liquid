@@ -24,6 +24,32 @@ metaImage: /donate.webp
 			<!-- Error message -->
 			<div class="donate__error" data-donate-target="errorMessage" style="display: none;"></div>
 
+			<!-- Step 0: Payment method selection -->
+			<div class="donate__step" data-donate-target="methodStep">
+				<h4>{{ lang[locale].donate_select_method }}</h4>
+				<div class="donate__options">
+					<button class="button button--primary" data-action="click->donate#selectMethod" data-method="barion">
+						Barion
+					</button>
+					<button class="button button--primary" data-action="click->donate#selectMethod" data-method="paypal">
+						PayPal
+					</button>
+				</div>
+			</div>
+
+			<!-- PayPal form (shown when PayPal is selected) -->
+			<div class="donate__paypal" data-donate-target="paypalSection" style="display: none; text-align: center;">
+				<h5>{{ lang[locale].click_the_donate_button_to_donate }}</h5>
+				<form action="https://www.paypal.com/donate" method="post" target="_top">
+					<input type="hidden" name="hosted_button_id" value="J8Z6S9S62NVL8" />
+					<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+					<img alt="" border="0" src="https://www.paypal.com/en_HU/i/scr/pixel.gif" width="1" height="1" />
+				</form>
+			</div>
+
+			<!-- Barion flow (shown when Barion is selected) -->
+			<div data-donate-target="barionSection" style="display: none;">
+
 			<!-- Step 1: Currency selection -->
 			<div class="donate__step" data-donate-target="currencyStep">
 				<h4>{{ lang[locale].donate_select_currency }}</h4>
@@ -77,6 +103,8 @@ metaImage: /donate.webp
 					<span data-donate-target="submitText"></span>
 				</button>
 			</div>
+
+			</div><!-- end barionSection -->
 		</div>
 	</div>
 	{% if content and content != "" %}

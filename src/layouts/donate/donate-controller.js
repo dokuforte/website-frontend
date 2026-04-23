@@ -10,6 +10,9 @@ export default class extends Controller {
       "statusMessage",
       "formSection",
       "errorMessage",
+      "methodStep",
+      "paypalSection",
+      "barionSection",
       "currencyStep",
       "currencyOptions",
       "amountStep",
@@ -28,6 +31,7 @@ export default class extends Controller {
     this.selectedCurrency = null
     this.selectedAmount = null
     this.selectedFrequency = "onetime"
+    this.selectedMethod = null
     this.donationData = null
     this.pollingInterval = null
 
@@ -51,8 +55,8 @@ export default class extends Controller {
       // Phase 2: Show payment status
       this.showPaymentStatus(urlParams.paymentId)
     } else {
-      // Phase 1: Show donation form
-      this.loadDonationOptions()
+      // Phase 1: Show method selection
+      // Nothing extra needed — methodStep is visible by default
     }
   }
 
@@ -63,7 +67,31 @@ export default class extends Controller {
     }
   }
 
+  selectMethod(event) {
+    const method = event.currentTarget.dataset.method
+    this.selectedMethod = method
+
+    // Update active state
+    this.methodStepTarget.querySelectorAll(".button").forEach((btn) => {
+      btn.classList.remove("button--selected")
+    })
+    event.currentTarget.classList.add("button--selected")
+
+    if (method === "paypal") {
+      this.paypalSectionTarget.style.display = "block"
+      this.barionSectionTarget.style.display = "none"
+    } else {
+      this.paypalSectionTarget.style.display = "none"
+      this.barionSectionTarget.style.display = "block"
+      this.loadDonationOptions()
+    }
+  }
+
   async loadDonationOptions() {
+    if (this.donationData) {
+      this.renderCurrencyOptions()
+      return
+    }
     try {
       const response = await fetch(`${getApiUrl()}/api/donations/amounts`)
       
