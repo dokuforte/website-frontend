@@ -63,7 +63,7 @@
     "webpack-manifest-plugin": "latest"
   },
   "dependencies": {
-    "@11ty/eleventy-fetch": "^4.0.0",
+    "@11ty/eleventy-fetch": "^5.1.1",
     "@hotwired/stimulus": "latest",
     "@hotwired/stimulus-webpack-helpers": "latest",
     "@netlify/plugin-lighthouse": "^6.0.4",
